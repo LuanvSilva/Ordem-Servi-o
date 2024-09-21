@@ -3,17 +3,18 @@ import Constantes from '../util/Constantes.js'
 
 class Routes {
     constructor(app, path, __dirname) {
+        this.express = app
         this.app = app.Router()
         this.path = path
         this.__dirname = __dirname
     }
 
-    RoutesMain() {
+    async RoutesMain(jwtCheck) {
 
-        this.app.get('/', (req, res) => this.sendFile(res, 'home.html'))
-        this.app.get('/login', (req, res) => this.sendFile(res, 'login.html'))
+        this.app.get('/login', (req, res) =>{
+            this.sendFile(res, '/login/login.html')
+        })
         this.LoginRoutes()
-        this.ClientRoutes()
 
         return this.app
     }
@@ -25,10 +26,11 @@ class Routes {
     LoginRoutes() {
 
         this.app.post('/api/vi/auth/logar', (req, res) => {
-            const { email, password } = req.body
+            const { login, senha } = req.body
     
-            axios.post(Constantes.URL_API_LOGIN.LOGAR, { email, password })
+            axios.post(Constantes.URL_API_LOGIN.LOGAR, { login, senha })
                 .then(response => {
+                    req.session.user = response.data
                     res.json(response.data)
                 })
                 .catch(error => {
@@ -40,7 +42,12 @@ class Routes {
     }
 
     ClientRoutes() {
-        this.app.get('/cliente', (req, res) => res.send('Cliente'))
+
+        this.app.get('/clientes/cliente',(req, res) => {
+            this.sendFile(res, 'clientes.html')
+        })
+
+        return this.app
     }
 }
 

@@ -3,6 +3,7 @@ import { Footer } from "../../components/html/footer/footer.js"
 import { Noty } from "../../components/html/noty/noty.js"
 import { Constantes } from "../../resources/util/constantes.js"
 import { Bootstrap } from "../../components/html/bootstrap/bootstrap.js"
+import { Util } from "../../resources/util/util.js"
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 
 class LoginPage extends HTML{
@@ -10,6 +11,7 @@ class LoginPage extends HTML{
         super()
         this.noty = new Noty()  
         this.campos = new WeakMap()
+        this.util = new Util()
         this.campos_cadastro = new WeakMap()
         this.input_loader = new ComponentLoader()
     }
@@ -91,33 +93,28 @@ class LoginPage extends HTML{
     Logar(){
             
         let self = this
-        let email = this.campos["email"].Val()
+        let login = this.campos["email"].Val()
         let senha = this.campos["password"].Val()
 
         if(email == "" || senha == ""){
             self.noty.Noty("warning","Preencha todos os campos")
             return
         }
-       
-        
-        let status = Constantes.STATUS_SOLICITACAO.PENDENTE
-
-        console.log(status)
 
         fetch(Constantes.URL_API_AUTH, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, senha})
+            body: JSON.stringify({login, senha})
         })
         .then(response => response.json())
         .then(data => {
 
-            if(data.status == "error"){
+            if(data.error == ""){
 
                 console.error("Erro ao efetuar login", data.message)
-               // self.noty.Noty('danger',"Erro ao efetuar login")
+                self.noty.Noty('danger',"Erro ao efetuar login")
                 return
             }
 
@@ -125,7 +122,7 @@ class LoginPage extends HTML{
 
         }).catch(error => {
             console.error("Erro ao efetuar login", error)
-            //self.noty.Noty('danger',"Erro ao efetuar login")
+            self.noty.Noty('danger',"Erro ao efetuar login")
         })
     }
 

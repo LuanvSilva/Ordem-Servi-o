@@ -7,9 +7,9 @@ class JwtCheck {
     this.secret = secret
   }
 
-  Check(req, res, next) {
+  check = (req, res, next) => {
 
-    const token = req.headers['authorization']
+    const token = req.session.token || req.headers['authorization']?.split(' ')[1]
 
     if (!token) {
       return res.status(403).send({ auth: false, message: 'No token provided.' })
@@ -26,6 +26,8 @@ class JwtCheck {
 
     })
   }
+
+
 }
 
-export default JwtCheck 
+export default JwtCheck

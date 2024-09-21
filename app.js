@@ -2,6 +2,8 @@ import express from 'express'
 import http from 'http'
 import Router from './routes/Routes.js'
 import path from 'path'
+import JwtCheck from './middleware/jwtcheck.js'
+import session from 'express-session'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -16,19 +18,30 @@ class App {
   }
 
   Middlewares() {
-    this.express.use(express.json());
+
+    this.express.use(express.json())
     this.express.use(express.urlencoded({ extended: false }))
     this.express.use(express.static(path.join(__dirname, 'public')))
+    this.express.use(session({
+      secret: process.env.SECRET || 'secret_key', 
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false } 
+    }))
   }
 
   async Routes() {
+    
     const routes = new Router(express, path, __dirname)
-    this.express.use('/', await routes.RoutesMain())
+    const jwtcheck = new JwtCheck(process.env.SECRET || 'secret_key')
+
+    this.express.use('/pages/login', await routes.RoutesMain())
+    this.express.use("/pages", jwtcheck.check, await routes.ClientRoutes())
   }
 
   async startServer() {
     const server = http.createServer(this.express)
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 3000
     server.listen(port, () => console.log(`Servidor rodando na porta ${port}`))
   }
 }
