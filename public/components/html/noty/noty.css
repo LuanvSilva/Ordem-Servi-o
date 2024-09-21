@@ -1,0 +1,100 @@
+:root {
+    
+    --alert-success-bg: #28a745; /* Cor de fundo do alerta de sucesso */
+    --alert-danger-bg: #dc3545; /* Cor de fundo do alerta de erro */
+    --alert-warning-bg: #ffc107; /* Cor de fundo do alerta de aviso */
+    --alert-bar-success-bg: #034701; /* Cor da barra de progresso do alerta de sucesso */
+    --alert-bar-danger-bg: #8a0000; /* Cor da barra de progresso do alerta de erro */
+    --alert-bar-warning-bg: #8a6d00; /* Cor da barra de progresso do alerta de aviso */
+}
+
+
+.alert {
+    position: relative;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    color: #fff;
+    z-index: 1050;
+    transition: opacity 0.5s ease-out;
+    width: auto; /* Ajusta a largura para o conteúdo */
+    max-width: 300px; /* Define a largura máxima da mensagem de alerta */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#alert {
+    position: fixed;
+    z-index: 1050;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    max-width: 300px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.alert-success {
+    background-color: var(--alert-success-bg)  /* Verde */
+}
+
+.alert-danger {
+    background-color: var(--alert-danger-bg); /* Vermelho */
+}
+
+.alert-warning {
+    background-color: var(--alert-warning-bg); /* Amarelo */
+}
+
+.alert-top-left {
+    top: 1rem;
+    left: 1rem;
+}
+
+.alert-top-right {
+    top: 1rem;
+    right: 1rem;
+}
+
+.alert-bottom-left {
+    bottom: 1rem;
+    left: 1rem;
+}
+
+.alert-bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.alert-bar-success {
+    height: 4px;
+    background-color: var(--alert-bar-success-bg); /* Verde escuro */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%; /* Inicialmente escondido */
+    transition: width 0.5s ease-out;
+}
+
+.alert-bar-danger {
+    height: 4px;
+    background-color: var(--alert-bar-danger-bg); /* Vermelho escuro */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%; /* Inicialmente escondido */
+    transition: width 0.5s ease-out;
+}
+
+.alert-bar-warning {
+    height: 4px;
+    background-color: var(--alert-bar-warning-bg); /* Amarelo escuro */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%; /* Inicialmente escondido */
+    transition: width 0.5s ease-out;
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}

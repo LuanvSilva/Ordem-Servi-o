@@ -1,0 +1,29 @@
+:root {
+    --secondary-color: #d3a6e1; /* Lilás */
+    --modal-color: #444444; /* Cor de fundo ao passar o mouse na tabela */
+}
+.modal-header-dark .modal-title {
+    color: var(--secondary-color); /* Cor do título claro */
+    background-color: var( --modal-color);
+}
+
+.modal-header-dark .btn-close {
+    color: var(--secondary-color); /* Cor do botão de fechar claro */
+}
+
+.modal-header-dark {
+    background-color: var( --modal-color); /* Cor do cabeçalho claro */
+    border-bottom: 1px solid var(--secondary-color) !important;  /* Cor da borda inferior */
+}
+
+.modal-body-dark {
+    background-color: var( --modal-color); /* Cor do texto claro */
+}
+
+.modal-footer-dark {
+    background-color: var( --modal-color); /* Cor do rodapé claro */
+}
+
+.modal-footer {
+    border-top: 1px solid var(--secondary-color) !important; /* Cor da borda superior */
+}

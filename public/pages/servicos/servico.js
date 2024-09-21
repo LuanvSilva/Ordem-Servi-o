@@ -1,0 +1,128 @@
+import { HTML } from '../../components/html/html.js'
+import { Text } from '../../components/html/input/text/text.js'
+import { Table } from '../../components/html/table/table.js'
+import { Modal } from '../../components/html/modal/modal.js'
+import { Noty } from '../../components/html/noty/noty.js'
+import { Button } from '../../components/html/input/button/button.js'
+import { Zoom } from '../../components/html/input/zoom/zoom.js'
+
+class ServicoPage extends HTML{
+    constructor(){
+        super()
+        this.title = 'Serviços'
+        this.noty = new Noty()
+    }
+
+     async Open(){
+
+        this.AddHeader()
+        await this.AddMain()
+        this.AddFooter()
+    }
+
+    AddHeader(){
+
+        this.Find("#header").innerHTML += this.title
+    }
+
+    async AddMain(){
+
+        let self = this
+        await this.Filtros()
+
+        this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
+            await self.MontaModalServico(false)
+            await self.modal.Show()
+        })
+        this.button_cadastrar.Load()
+        this.Find("#botao_add").appendChild(this.button_cadastrar.html)
+        
+        this.table = new Table()
+        this.table.Load()
+        this.table.AddRowClickListener(async (params) => {
+
+            await self.MontaModalServico(true)
+            await self.modal.Show()
+            await self.SetValCampos(params)
+        })
+
+        this.Find("#table").appendChild(this.table.html)
+    }
+
+    async Filtros(){
+
+        let self = this
+        const nome = new Text('Descrição', 'Digite a Descrição do Serviço', 'col-md-3')
+        nome.Load()
+        nome.Id('nome_filtros')
+        nome.Name('nome_filtros')
+        this.Find("#filtros").appendChild(nome.div.html)
+
+        const button_serach = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
+            await self.BuscarServicos()
+        })
+        button_serach.Load()
+        this.Find("#botao_search").appendChild(button_serach.html)
+
+        // this.zoom = new Zoom("clientes", "clientes", "col-md-1", false, true)
+        // this.zoom.Load()
+        // this.zoom.SetRetorno({
+        //     id: { data: 'id', placeholder:"id" ,visible: false, readonly: false},
+        //     descricao: {data: 'descricao', placeholder:"descricao" ,visible: true, obrigatorio: true, readonly: false},
+        // })
+
+       // this.Find("#filtros").appendChild(this.zoom.html)
+    }
+
+    async MontaModalServico(button_excluir){
+
+        let self = this
+        this.modal = new Modal('large', 'Serviço')
+        this.modal.Load()
+        let campos = await this.MontaCamposHTML()
+
+        for (const campo of campos) {
+
+            await this.modal.LoadBody(campo)
+        }
+
+        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
+            self.modal.Hide()
+        })
+
+        if(button_excluir){
+
+            this.modal.AddButton('Excluir', 'danger ', 'col-md-2', async () => {
+                self.modal.Hide()
+            // await self.ExcluirServico()
+                await self.noty.Noty('success', 'Serviço excluido com sucesso!')
+            })
+        }
+
+        this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
+            self.modal.Hide()
+            self.table.ReloadTable()
+            await self.noty.Noty('success', 'Serviço salvo com sucesso!')
+            self.SalvarServico()
+        })
+
+        const existingModal = document.querySelector('.modal')
+
+        if (existingModal) {
+            existingModal.remove()
+        }
+        
+       document.querySelector("body").append(this.modal.html)
+    }
+
+    async SetValCampos(params){
+
+    
+    }
+
+    AddFooter(){
+       // this.Find("#footer").innerHTML = "Footer"
+    }
+}
+
+export { ServicoPage }

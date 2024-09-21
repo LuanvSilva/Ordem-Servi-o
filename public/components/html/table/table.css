@@ -1,0 +1,106 @@
+:root {
+    --table-header-bg: #333333; /* Cor de fundo do cabeçalho da tabela */
+    --table-row-even-bg: #1e1e1e; /* Cor de fundo para linhas pares da tabela */
+    --table-row-hover-bg: #444444; /* Cor de fundo ao passar o mouse na tabela */
+    --pagination-bg: #333333; /* Cor de fundo dos botões de paginação */
+    --pagination-hover-bg: #555555; /* Cor de fundo ao passar o mouse nos botões de paginação */
+    --pagination-active-bg: #6f42c1; /* Cor de fundo do botão de paginação ativo */
+    --pagination-active-border-color: #6f42c1; /* Cor da borda do botão de paginação ativo */
+    --pagination-border-color: #333333; /* Cor da borda dos botões de paginação */
+}
+
+
+.table {
+    border-radius: 10px !important;
+    max-width: 100%;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #444;
+    text-align: left;
+}
+
+.table th {
+    background-color: var(--table-header-bg);
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+    background-color: var(--table-row-even-bg);
+}
+
+.table tr:hover {
+    background-color: var(--table-row-hover-bg);
+    cursor: pointer;
+}
+
+/* Estilização da lista de paginação */
+.pagination {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 1em 0 !important;
+    list-style-type: none !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* Estilização dos itens de paginação */
+.page-item {
+    margin: 0 !important;
+}
+
+/* Estilização dos links de paginação */
+.page-link {
+    padding: 10px 15px !important;
+    border: 1px solid var(--pagination-border-color) !important;
+    background-color: var(--pagination-bg) !important;
+    cursor: pointer !important;
+    font-size: 1em !important;
+    color: var(--text-color) !important;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+
+/* Efeito de hover nos links de paginação */
+.page-link:hover {
+    background-color: var(--pagination-hover-bg) !important;
+    color: var(--text-hover-color) !important;
+}
+
+/* Estilização do item de página ativo */
+.page-item.active .page-link {
+    background-color: var(--pagination-active-bg) !important;
+    color: var(--text-active-color) !important;
+    font-weight: bold !important;
+    cursor: default !important;
+    border-color: var(--pagination-active-border-color) !important;
+}
+
+/* Estilização do item de página desativado (Previous/Next) */
+.page-item.disabled .page-link {
+    background-color: var(--pagination-bg) !important;
+    color: var(--disabled-text-color) !important;
+    cursor: not-allowed !important;
+    border-color: var(--pagination-border-color) !important;
+}
+
+/* Remoção da borda entre os itens de paginação */
+.page-item:not(.active) .page-link {
+    margin-left: -1px !important;
+}
+
+/* Bordas arredondadas para os primeiros e últimos itens */
+.page-item:first-child .page-link {
+    border-top-left-radius: 0.25rem !important;
+    border-bottom-left-radius: 0.25rem !important;
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
+}

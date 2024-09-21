@@ -1,0 +1,4 @@
+{
+    "id":       { "type": "number", "title": "ID", "visible": true },
+    "descricao":   { "type": "string", "title": "Descricao" }
+}

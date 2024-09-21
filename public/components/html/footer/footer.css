@@ -1,0 +1,14 @@
+:root {
+    --primary-color: #000000; /* Preto */
+    --text-color: #e0e0e0; /* Branco sujo para texto */
+}
+
+footer {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
