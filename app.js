@@ -35,8 +35,9 @@ class App {
     const routes = new Router(express, path, __dirname)
     const jwtcheck = new JwtCheck(process.env.SECRET || 'secret_key')
 
+    this.express.use('/', await routes.LoginRoutes())
     this.express.use('/pages/login', await routes.RoutesMain())
-    this.express.use("/pages", jwtcheck.check, await routes.ClientRoutes())
+    this.express.use("/pages", jwtcheck.check, await routes.PagesRoutes())
   }
 
   async startServer() {

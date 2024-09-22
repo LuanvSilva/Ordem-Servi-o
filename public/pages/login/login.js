@@ -111,14 +111,14 @@ class LoginPage extends HTML{
         .then(response => response.json())
         .then(data => {
 
-            if(data.error == ""){
+            if(data.success == false){
 
                 console.error("Erro ao efetuar login", data.message)
                 self.noty.Noty('danger',"Erro ao efetuar login")
                 return
             }
 
-            window.location.href = Constantes.URL_PAGES_CLIENTES
+           window.location.href = data.url
 
         }).catch(error => {
             console.error("Erro ao efetuar login", error)
