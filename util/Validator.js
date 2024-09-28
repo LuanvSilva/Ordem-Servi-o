@@ -1,35 +1,35 @@
-import Constantes from "./Constantes";
+import Constantes from "./Constantes"
 
 class Validator {
 
     static isEmail(email) {
         if (!email) return false
-        return email.test(Constantes.VALIDA.EMAIL)
+        return Constantes.VALIDA.EMAIL.test(email)
     }
 
     static isPassword(password) {
         if (!password) return false
-        return password.test(Constantes.VALIDA.PASSWORD)
+        return Constantes.VALIDA.PASSWORD.test(password)
     }
 
     static isCpf(cpf) {
         if (!cpf) return false
-        return cpf.test(Constantes.VALIDA.CPF)
+        return Constantes.VALIDA.CPF.test(cpf)
     }
 
     static isCnpj(cnpj) {
         if (!cnpj) return false
-        return cnpj.test(Constantes.VALIDA.CNPJ)
+        return Constantes.VALIDA.CNPJ.test(cnpj)
     }
 
     static isTelefone(telefone) {
         if (!telefone) return false
-        return telefone.test(Constantes.VALIDA.TELEFONE)
+        return Constantes.VALIDA.TELEFONE.test(telefone)
     }
 
     static isCep(cep) {
         if (!cep) return false
-        return cep.test(Constantes.VALIDA.CEP)
+        return Constantes.VALIDA.CEP.test(cep)
     }
 
     static isCamposArraPreenchidos(campos) {

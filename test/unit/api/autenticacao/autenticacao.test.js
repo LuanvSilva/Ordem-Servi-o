@@ -11,8 +11,9 @@ describe('POST /api/v1/auth/logar', () => {
 
     const response = await request(app)
       .post('/api/v1/auth/logar')
-      .send({ login: 'luan@teste.com', senha: '1234' })
+      .send({ login: 'luan@teste.com', senha: 'Luan2010@' })
 
+    console.log(response.body.message)
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty('success', true)
     expect(response.body.data).toHaveProperty('token')
@@ -26,10 +27,10 @@ describe('POST /api/v1/auth/logar', () => {
       .post('/api/v1/auth/logar')
       .send({ login: 'invalido@teste.com', senha: 'senhaerrada' })
 
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(400)
     expect(response.body).toHaveProperty('success', false)
     expect(response.body).toHaveProperty('message')
-    expect(response.body.message).toBe('Erro ao realizar login')
+    expect(response.body.message).toMatch(/Erro ao realizar login|Email inválido|Senha inválida\. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial\./)
     console.log(response.body.message)
 
   })
