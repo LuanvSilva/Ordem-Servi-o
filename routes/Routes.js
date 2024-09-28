@@ -66,7 +66,7 @@ class Routes {
     
             axios.post(Constantes.URL_API_LOGIN.LOGAR, { login, senha })
                 .then(response => {
-                    // req.session.user = response.data
+                   req.session.user = response.data
                     res.status(200).json(
                         this.SetResponse(response.data, true, 'Login realizado com sucesso', null, Constantes.URL_PAGES.HOME))
                 })

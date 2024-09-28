@@ -4,11 +4,12 @@ import { expect } from '@jest/globals'
 import Router from '../../../../routes/Routes.js'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import session from 'express-session'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-let routes;
+let routes
 
 // Função para inicializar a aplicação
 const createApp = async () => {
@@ -17,6 +18,12 @@ const createApp = async () => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(express.static(path.join(__dirname, 'public')))
+  app.use(session({
+    secret: process.env.SECRET || 'secret_key', 
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } 
+  }))
 
   routes = new Router(express, path, __dirname)
   app.use("/", await routes.RoutesMain())
