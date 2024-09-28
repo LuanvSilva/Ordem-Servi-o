@@ -14,6 +14,14 @@ class Constantes {
         }
     }
 
+    static get URL_API_CLIENTES() {
+        return {
+            CADASTRAR: `${this.URL_API}/api/v1/clientes/cadastrarCliente`,
+            ATUALIZAR: `${this.URL_API}/api/v1/clientes/atualizar`,
+            DELETAR: `${this.URL_API}/api/v1/clientes/deletar`,
+        }
+    }
+
     static get URL_PAGES() {
         return {
             HOME: `${this.URL_BASE}/pages/home/home`, 

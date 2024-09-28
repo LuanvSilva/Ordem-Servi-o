@@ -288,6 +288,7 @@ class Table extends HTML {
     HideColumns(columns) {
 
         for (const column of columns) {
+            
             this.hiddenColumns.add(column)
         }
     

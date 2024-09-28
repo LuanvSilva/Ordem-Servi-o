@@ -9,7 +9,14 @@ class Constantes {
     static get URL_API_AUTH() { return "/api/vi/auth/logar"}
     
     //rotas de clientes
-    static get URL_API_CLIENTES()   { return this.URL_BASE + "/api/v1/clientes" }
+    static get URL_API_POST_CLIENTES(){ 
+        return {
+           CADASTRAR: this.URL_BASE + "/api/v1/clientes/cadastrarCliente",
+           BUSCAR_BY_ID: this.URL_BASE + "/api/v1/clientes/buscarClienteById"
+        }
+    }
+
+
     static get URL_PAGES_CLIENTES() { return this.URL_BASE + "/pages/login/login.html" }
 
     static get STATUS_SOLICITACAO() { 

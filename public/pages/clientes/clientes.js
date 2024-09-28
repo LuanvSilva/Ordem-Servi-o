@@ -70,28 +70,28 @@ class ClientePage extends MetodosClientesPage {
 
         this.Find("#botao_search").appendChild(button_serach.html)
 
-        let bootstrapUtil = new Bootstrap()
+       // let bootstrapUtil = new Bootstrap()
 
-        // Criar um botão com Popover
-        const popoverButton = this.CreateElement('button', {
-            type: 'button',
-            class: 'btn btn-info col-md-3',
-            'data-bs-toggle': 'popover',
-            'data-bs-trigger': 'focus',
-            title: 'Título do Popover',
-            'data-bs-content': 'Conteúdo do popover.',
-            'data-bs-placement': 'right'
-        })
+        // // Criar um botão com Popover
+        // const popoverButton = this.CreateElement('button', {
+        //     type: 'button',
+        //     class: 'btn btn-info col-md-3',
+        //     'data-bs-toggle': 'popover',
+        //     'data-bs-trigger': 'focus',
+        //     title: 'Título do Popover',
+        //     'data-bs-content': 'Conteúdo do popover.',
+        //     'data-bs-placement': 'right'
+        // })
 
-        this.Text("Clique para ver o Popover", popoverButton) 
+        // this.Text("Clique para ver o Popover", popoverButton) 
 
-        this.Find("#filtros").appendChild(popoverButton)
+        // this.Find("#filtros").appendChild(popoverButton)
 
-        // Inicializar o Popover
-        bootstrapUtil.CreatePopover(popoverButton, {
-            trigger: 'hover',
-            placement: 'right'
-        })
+        // // Inicializar o Popover
+        // bootstrapUtil.CreatePopover(popoverButton, {
+        //     trigger: 'hover',
+        //     placement: 'right'
+        // })
 
     }
 
@@ -123,7 +123,7 @@ class ClientePage extends MetodosClientesPage {
         this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
             self.modal.Hide()
             await self.table.ReloadTable()
-            await self.SalvarCliente()
+             await self.SalvarCliente()
             self.noty.Noty('success', 'Cliente salvo com sucesso!')
            //await self.noty.Noty('danger', 'Cliente salvo com sucesso!')
            //await self.noty.Noty('warning', 'Cliente salvo com sucesso!')

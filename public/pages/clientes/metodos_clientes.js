@@ -1,5 +1,6 @@
 import { HTML } from "../../components/html/html.js"
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
+import { Constantes } from "../../resources/util/constantes.js"
 class MetodosClientesPage extends HTML {
 
     constructor() {
@@ -40,29 +41,31 @@ class MetodosClientesPage extends HTML {
     async SalvarCliente(){
 
         let self = this
-        let cliente = new Map()
+        let cliente = {}
 
        for (const campo in this.campos) {
 
-            cliente.set(campo, this.campos[campo].Val())
+            cliente[campo] = this.campos[campo].Val()
      
         }
 
-        // const response = await fetch('http://localhost:3000/clientes', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(cliente),
-        // })
-        // if (!response.ok) {
-
-        //     throw new Error('Erro ao salvar cliente!' + response.status)
-        // }
-
-        // const data = await response.json()
-
-        console.log(cliente)
+        await fetch(Constantes.URL_API_POST_CLIENTES.CADASTRAR, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cliente),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success === true){
+                self.noty.Noty("success", "Cliente cadastrado com sucesso")
+                console.log(data)
+            }
+        }).catch(error => {
+            self.noty.Noty("warning", `Erro ao cadastrar cliente ${error.message}`)
+        })
+        
     }
 
 }
