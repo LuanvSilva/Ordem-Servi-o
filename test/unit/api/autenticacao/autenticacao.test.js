@@ -16,6 +16,7 @@ describe('POST /api/v1/auth/logar', () => {
     expect(response.status).toBe(200)
     expect(response.body).toHaveProperty('success', true)
     expect(response.body.data).toHaveProperty('token')
+    expect(response.body.message).toBe('Login realizado com sucesso')
 
   })
 
@@ -28,6 +29,7 @@ describe('POST /api/v1/auth/logar', () => {
     expect(response.status).toBe(500)
     expect(response.body).toHaveProperty('success', false)
     expect(response.body).toHaveProperty('message')
+    expect(response.body.message).toBe('Erro ao realizar login')
     console.log(response.body.message)
 
   })
@@ -38,9 +40,10 @@ describe('POST /api/v1/auth/logar', () => {
       .post('/api/v1/auth/logar')
       .send({}) // Enviando um objeto vazio
 
-    expect(response.status).toBe(500) // ou outro status adequado
+    expect(response.status).toBe(400) // ou outro status adequado
     expect(response.body).toHaveProperty('success', false)
     expect(response.body).toHaveProperty('message')
+    expect(response.body.message).toMatch(/Erro ao realizar login|Email inválido|Senha inválida\. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial\./);
     console.log(response.body.message)
 
   })

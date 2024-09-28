@@ -23,7 +23,7 @@ class App {
     this.express.use(express.urlencoded({ extended: false }))
     this.express.use(express.static(path.join(__dirname, 'public')))
     this.express.use(session({
-      secret: process.env.SECRET || 'secret_key', 
+      secret: process.env.SECRET, 
       resave: false,
       saveUninitialized: true,
       cookie: { secure: false } 
@@ -33,7 +33,7 @@ class App {
   async Routes() {
     
     const routes = new Router(express, path, __dirname)
-    const jwtcheck = new JwtCheck(process.env.SECRET || 'secret_key')
+    const jwtcheck = new JwtCheck(process.env.SECRET)
 
     this.express.use('/', await routes.RoutesMain())
     this.express.use('/pages/login', await routes.RoutesLoginMain())
@@ -42,7 +42,7 @@ class App {
 
   async startServer() {
     const server = http.createServer(this.express)
-    const port = process.env.PORT || 3000
+    const port = process.env.PORT 
     server.listen(port, () => console.log(`Servidor rodando na porta ${port}`))
   }
 }
