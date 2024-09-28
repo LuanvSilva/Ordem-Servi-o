@@ -71,7 +71,6 @@ class Routes {
                         this.SetResponse(response.data, true, 'Login realizado com sucesso', null, Constantes.URL_PAGES.HOME))
                 })
                 .catch(error => {
-                    console.error(error)
                     res.status(500).json(
                         this.SetResponse({}, false, 'Erro ao realizar login', error.message, Constantes.URL_PAGES.LOGIN))
                 })
@@ -94,7 +93,6 @@ class Routes {
                         this.SetResponse(response.data, true, 'Cliente cadastrado com sucesso', null, null))
                 })
                 .catch(error => {
-                    console.error(error)
                     res.status(500).json(
                         this.SetResponse({}, false, 'Erro ao cadastrar cliente', error.message, null))
                 })

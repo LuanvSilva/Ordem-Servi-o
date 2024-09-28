@@ -1,42 +1,11 @@
-import express from 'express'
 import request from 'supertest'
 import { expect } from '@jest/globals'
-import Router from '../../../../routes/Routes.js'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import session from 'express-session'
+import App from '../../../../app.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-let routes
-
-// Função para inicializar a aplicação
-const createApp = async () => {
-
-  const app = express()
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: false }))
-  app.use(express.static(path.join(__dirname, 'public')))
-  app.use(session({
-    secret: process.env.SECRET || 'secret_key', 
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } 
-  }))
-
-  routes = new Router(express, path, __dirname)
-  app.use("/", await routes.RoutesMain())
-
-  return app
-}
+let app = new App().express
 
 describe('POST /api/v1/auth/logar', () => {
-  let app
 
-  beforeAll(async () => {
-    app = await createApp()
-  })
 
   it('deve realizar login com sucesso', async () => {
 
@@ -60,7 +29,6 @@ describe('POST /api/v1/auth/logar', () => {
     expect(response.body).toHaveProperty('success', false)
     expect(response.body).toHaveProperty('message')
     console.log(response.body.message)
-    expect(response.body.data).toHaveProperty('token')
 
   })
 
@@ -74,7 +42,6 @@ describe('POST /api/v1/auth/logar', () => {
     expect(response.body).toHaveProperty('success', false)
     expect(response.body).toHaveProperty('message')
     console.log(response.body.message)
-    expect(response.body.data).toHaveProperty('token')
 
   })
 })

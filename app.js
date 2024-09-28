@@ -47,4 +47,4 @@ class App {
   }
 }
 
-new App().startServer()
+export default App

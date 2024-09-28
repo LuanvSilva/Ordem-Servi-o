@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node --env-file=.env app.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "start": "node --env-file=.env index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:detect-open-handles": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
