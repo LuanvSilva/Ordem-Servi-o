@@ -8,7 +8,7 @@ class Routes {
         this.app = app.Router()
         this.path = path
         this.__dirname = __dirname
-        this.autenticacao = new Autenticacao()
+        this.rotas_autenticacao = new Autenticacao()
 
     }
 
@@ -29,7 +29,7 @@ class Routes {
 
     RoutesMain() {
 
-        this.app = Object.assign(this.app, this.autenticacao.Auth(this.app))
+        this.app = Object.assign(this.app, this.rotas_autenticacao.Auth(this.app))
         this.RoutesClientes()
 
         return this.app
@@ -60,48 +60,6 @@ class Routes {
         })
 
         return this.app
-    }
-
-    LoginAuthRoutes() {
-
-        // this.app.post('/api/v1/auth/logar', async (req, res) => {
-        //     const { email, senha } = req.body
-
-        //     if (!Validator.isEmail(email)) {
-        //         return res.status(400).json({
-        //             success: false,
-        //             message: Constantes.MENSAGEM.EMAIL_INVALIDO,
-        //             redirectUrl: Constantes.URL_PAGES.LOGIN,
-        //         })
-        //     }
-        
-        //     if (!Validator.isPassword(senha)) {
-        //         return res.status(400).json({
-        //             success: false,
-        //             message: Constantes.MENSAGEM.SENHA_INVALIDA,
-        //             redirectUrl: Constantes.URL_PAGES.LOGIN,
-        //         })
-        //     }
-        
-        //     try {
-           
-        //         const response = await axios.post(Constantes.URL_API_LOGIN.LOGAR, { email, senha })
-        //         req.session.user = response.data
-        
-        //         return res.status(200).json(
-        //             this.SetResponse(response.data, true, Constantes.MENSAGEM.LOGIN_SUCESSO, null, Constantes.URL_PAGES.HOME)
-        //         )
-        //     } catch (error) {
-        //         return res.status(500).json(
-        //             this.SetResponse({}, false, Constantes.MENSAGEM.ERRO_LOGIN, error.message, Constantes.URL_PAGES.LOGIN)
-        //         )
-        //     }
-        // })
-
-        // return this.app
-
-
-
     }
 
 

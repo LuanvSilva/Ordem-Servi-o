@@ -2,16 +2,17 @@ import request from 'supertest'
 import { expect } from '@jest/globals'
 import App from '../../../../app.js'
 
-let app = new App().express
+class AuthTests {
+  constructor() {
+    this.app = new App().express
+    
+  }
 
-describe('POST /api/v1/auth/logar', () => {
+  async loginSuccess() {
 
-
-  it('deve realizar login com sucesso', async () => {
-
-    const response = await request(app)
+    const response = await request(this.app)
       .post('/api/v1/auth/logar')
-      .send({ login: 'luan@teste.com', senha: 'Luan2010@' })
+      .send({ login: 'admin@teste.com', password: 'Admin2024@' })
 
     console.log(response.body.message)
     expect(response.status).toBe(200)
@@ -19,33 +20,52 @@ describe('POST /api/v1/auth/logar', () => {
     expect(response.body.data).toHaveProperty('token')
     expect(response.body.message).toBe('Login realizado com sucesso')
 
-  })
+  }
 
-  it('deve falhar com credenciais inválidas', async () => {
+  async loginFailureInvalidCredentials() {
 
-    const response = await request(app)
+    const response = await request(this.app)
       .post('/api/v1/auth/logar')
-      .send({ login: 'invalido@teste.com', senha: 'senhaerrada' })
+      .send({ login: 'invalido@teste.com', password: 'senhaerrada' })
 
     expect(response.status).toBe(400)
-    expect(response.body).toHaveProperty('success', false)
-    expect(response.body).toHaveProperty('message')
-    expect(response.body.message).toMatch(/Erro ao realizar login|Email inválido|Senha inválida\. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial\./)
-    console.log(response.body.message)
-
-  })
-
-  it('deve falhar se as credenciais estiverem faltando', async () => {
-
-    const response = await request(app)
-      .post('/api/v1/auth/logar')
-      .send({}) // Enviando um objeto vazio
-
-    expect(response.status).toBe(400) // ou outro status adequado
     expect(response.body).toHaveProperty('success', false)
     expect(response.body).toHaveProperty('message')
     expect(response.body.message).toMatch(/Erro ao realizar login|Email inválido|Senha inválida\. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial\./);
     console.log(response.body.message)
 
+  }
+
+  async loginFailureMissingCredentials() {
+
+    const response = await request(this.app)
+      .post('/api/v1/auth/logar')
+      .send({}) // Enviando um objeto vazio
+
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('success', false)
+    expect(response.body).toHaveProperty('message')
+    expect(response.body.message).toMatch(/Erro ao realizar login|Email inválido|Senha inválida\. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial\./);
+    console.log(response.body.message)
+
+  }
+}
+
+export default AuthTests
+
+describe('POST /api/v1/auth/logar', () => {
+
+  const authTests = new AuthTests()
+
+  it('deve realizar login com sucesso', async () => {
+    await authTests.loginSuccess()
+  })
+
+  it('deve falhar com credenciais inválidas', async () => {
+    await authTests.loginFailureInvalidCredentials()
+  })
+
+  it('deve falhar se as credenciais estiverem faltando', async () => {
+    await authTests.loginFailureMissingCredentials()
   })
 })

@@ -26,8 +26,8 @@ Esta rota é responsável por autenticar um usuário no sistema.
 
 ```json
 {
-  "email": "teste@gamil.com",
-  "senha": "minhaSenhaForte@"
+  "email": "teste@gamil.com", //E-mail padrão contendo @ e .com
+  "senha": "minha1SenhaForte@" // Senha: Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial. 
 }
 ```
 
