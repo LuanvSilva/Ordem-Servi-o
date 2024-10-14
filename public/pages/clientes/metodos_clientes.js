@@ -1,70 +1,94 @@
 import { HTML } from "../../components/html/html.js"
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 import { Constantes } from "../../resources/util/constantes.js"
+import { Noty } from "../../components/html/noty/noty.js"
 class MetodosClientesPage extends HTML {
+
+    #campos_preenchidos = new Object()
+    #campos = new Array()
 
     constructor() {
         super()
-        this.campos = new Array()
+        this.noty = new Noty()
         this.input_loader = new ComponentLoader()
     }
 
     async MontaCamposModalClientes() {
 
-        this.campos["nome"]     = await this.input_loader.GetComponent('Text',  "Nome", "Nome", "col-md-3", null, { id: "nome", name: "nome" })
-        this.campos["email"]    = await this.input_loader.GetComponent('Email', "Email","Email", "col-md-3", null, { id: "email", name: "email" })
-        this.campos["cep"]      = await this.input_loader.GetComponent('Cep',   "CEP", "CEP", "col-md-3", null, { id: "cep", name: "cep" })
-        this.campos["telefone"] = await this.input_loader.GetComponent('Text',  "Telefone", "Telefone", "col-md-3", null, { id: "telefone", name: "telefone" })
-        this.campos["cpf"]      = await this.input_loader.GetComponent('CpfCnpj', "CPF/CNPJ", "CPF", "col-md-3", null, { id: "cpf", name: "cpf" })
-
+        const campos = [
+            { key: "name", type: "Text", label: "Nome" },
+            { key: "email", type: "Email", label: "Email" },
+            { key: "telefone", type: "Text", label: "Telefone" },
+            { key: "cpfcnpj", type: "CpfCnpj", label: "CPF/CNPJ" },
+            { key: "endereco", type: "Cep", label: "CEP" },
+        ]
+    
+        for (const campo of campos) {
+            
+            this.#campos[campo.key] = await this.input_loader.GetComponent(
+                campo.type, campo.label, campo.label, "col-md-3 mt-3", null, { id: campo.key, name: campo.key }
+            )
+        }
     }
 
     async MontaCamposHTML(){
 
-        this.clientes = []
+        const campos_clientes = new Array()
         await this.MontaCamposModalClientes()
-        let div = this.CreateElement("div", { class: "row" })
+        const div = this.CreateElement("div", { class: "row" })
+    
+        for (const campo in this.#campos) {
 
-        for (const campos in this.campos) {
+            const campoHtml = this.#campos[campo].div.html
+    
+            if (campo !== "cep") {
 
-            if(campos != "cep"){
+                div.appendChild(campoHtml)
+                campos_clientes.push(div)
 
-                div.appendChild(this.campos[campos].div.html)
-                this.clientes.push(div)
-                continue
+            } else {
+
+                campos_clientes.push(campoHtml)
             }
-
-            this.clientes.push(this.campos[campos].div.html) 
         }
+
+        return campos_clientes
+    }
+
+    ProcessaCampos(){
+
+        for (const campo in this.#campos) {
+
+            this.#campos_preenchidos[campo] = this.#campos[campo].Val()
+     
+        }
+
     }
 
     async SalvarCliente(){
 
-        let self = this
-        let cliente = {}
+        this.ProcessaCampos()
 
-       for (const campo in this.campos) {
+        try {
 
-            cliente[campo] = this.campos[campo].Val()
-     
+            const response = await fetch(Constantes.URL_API_POST_CLIENTES.CADASTRAR, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(this.#campos_preenchidos),
+            })
+    
+            const data = await response.json()
+
+            if(!data.success) throw new Error(data.message)
+            console.log(data)
+            this.noty.Noty("success", "Cliente cadastrado com sucesso")
+
+        } catch (error) {
+
+            this.noty.Noty("warning", `Erro ao cadastrar cliente: ${error.message}`)
         }
-
-        await fetch(Constantes.URL_API_POST_CLIENTES.CADASTRAR, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(cliente),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success === true){
-                self.noty.Noty("success", "Cliente cadastrado com sucesso")
-                console.log(data)
-            }
-        }).catch(error => {
-            self.noty.Noty("warning", `Erro ao cadastrar cliente ${error.message}`)
-        })
         
     }
 

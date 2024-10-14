@@ -94,9 +94,9 @@ class LoginPage extends HTML{
             
         let self = this
         let login = this.campos["email"].Val()
-        let senha = this.campos["password"].Val()
-
-        if(email == "" || senha == ""){
+        let password = this.campos["password"].Val()
+        let valid = new RegExp(Constantes.VALIDA.EMAIL)
+        if(login.trim() == "" || password.trim() == ""){
             self.noty.Noty("warning","Preencha todos os campos")
             return
         }
@@ -106,7 +106,7 @@ class LoginPage extends HTML{
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({login, senha})
+            body: JSON.stringify({login, password})
         })
         .then(response => response.json())
         .then(data => {

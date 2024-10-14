@@ -8,6 +8,7 @@ import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
 
 
 class ClientePage extends MetodosClientesPage {
+
     constructor(){
         super()
         this.title = 'Clientes'
@@ -36,6 +37,7 @@ class ClientePage extends MetodosClientesPage {
             await self.MontaModalCliente(false)
             self.modal.Show()
         })
+
         this.button_cadastrar.Load()
         
         this.table = new Table()
@@ -61,6 +63,7 @@ class ClientePage extends MetodosClientesPage {
         const button_serach = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
             console.log(self.campos_filtros["money"].Val())
         })
+
         button_serach.Load()
 
         for (let campo in this.campos_filtros) {
@@ -70,29 +73,6 @@ class ClientePage extends MetodosClientesPage {
 
         this.Find("#botao_search").appendChild(button_serach.html)
 
-       // let bootstrapUtil = new Bootstrap()
-
-        // // Criar um botão com Popover
-        // const popoverButton = this.CreateElement('button', {
-        //     type: 'button',
-        //     class: 'btn btn-info col-md-3',
-        //     'data-bs-toggle': 'popover',
-        //     'data-bs-trigger': 'focus',
-        //     title: 'Título do Popover',
-        //     'data-bs-content': 'Conteúdo do popover.',
-        //     'data-bs-placement': 'right'
-        // })
-
-        // this.Text("Clique para ver o Popover", popoverButton) 
-
-        // this.Find("#filtros").appendChild(popoverButton)
-
-        // // Inicializar o Popover
-        // bootstrapUtil.CreatePopover(popoverButton, {
-        //     trigger: 'hover',
-        //     placement: 'right'
-        // })
-
     }
 
     async MontaModalCliente(button_excluir){
@@ -100,15 +80,21 @@ class ClientePage extends MetodosClientesPage {
         let self = this
         this.modal = new Modal('large', 'Cliente')
         this.modal.Load()
-        await this.MontaCamposHTML()
 
-        for (const campo of this.clientes) {
+        for (const campo of await this.MontaCamposHTML()) {
 
             this.modal.LoadBody(campo)
         }
 
         this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
             self.modal.Hide()
+        })
+
+        this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
+            
+            self.modal.Hide()
+            await self.table.ReloadTable()
+            await self.SalvarCliente()
         })
 
         if(button_excluir){
@@ -120,15 +106,13 @@ class ClientePage extends MetodosClientesPage {
             })
         }
 
-        this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
-            self.modal.Hide()
-            await self.table.ReloadTable()
-             await self.SalvarCliente()
-            self.noty.Noty('success', 'Cliente salvo com sucesso!')
-           //await self.noty.Noty('danger', 'Cliente salvo com sucesso!')
-           //await self.noty.Noty('warning', 'Cliente salvo com sucesso!')
-        })
+        const existingModal = document.querySelector('.modal')
 
+        if (existingModal) {
+            existingModal.remove()
+        }
+        
+       document.querySelector("body").append(this.modal.html)
 
     }
 

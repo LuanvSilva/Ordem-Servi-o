@@ -1,4 +1,4 @@
-import Constantes from "./Constantes"
+import Constantes from "./Constantes.js"
 
 class Validator {
 

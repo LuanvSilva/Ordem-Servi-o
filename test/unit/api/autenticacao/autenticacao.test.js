@@ -3,6 +3,7 @@ import { expect } from '@jest/globals'
 import App from '../../../../app.js'
 
 class AuthTests {
+  
   constructor() {
     this.app = new App().express
     

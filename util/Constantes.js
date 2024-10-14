@@ -16,9 +16,19 @@ class Constantes {
 
     static get URL_API_CLIENTES() {
         return {
-            CADASTRAR: `${this.URL_API}/api/v1/clientes/cadastrarCliente`,
-            ATUALIZAR: `${this.URL_API}/api/v1/clientes/atualizar`,
-            DELETAR: `${this.URL_API}/api/v1/clientes/deletar`,
+            CADASTRAR: `${this.URL_API}/api/v1/client/createClient`,
+            ATUALIZAR: `${this.URL_API}/api/v1/client/updateClient`,
+            DELETAR: `${this.URL_API}/api/v1/client/deletar`,
+            LISTAR: `${this.URL_API}/api/v1/client/listar`,
+        }
+    }
+
+    static get URL_BASE_CLIENTES() {
+        return {
+            CADASTRAR: "/api/v1/client/createClient",
+            ATUALIZAR: "/api/v1/client/updateClient",
+            DELETAR: "/api/v1/client/deletar",
+            LISTAR: "/api/v1/client/listar",
         }
     }
 
@@ -57,7 +67,9 @@ class Constantes {
             LOGIN_SUCESSO: "Login realizado com sucesso",
             ERRO_LOGIN: "Erro ao realizar login",
             EMAIL_INVALIDO: "Email inválido",
-            SENHA_INVALIDA: "Senha inválida. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial."
+            SENHA_INVALIDA: "Senha inválida. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial.",
+            CADASTRO_SUCESSO: "Cadastro realizado com sucesso",
+            ERRO_CADASTRO: "Erro ao realizar cadastro",
         }
     }
 }

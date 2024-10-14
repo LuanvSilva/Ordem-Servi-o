@@ -192,4 +192,33 @@
 //         };
         
 //         dashbordBolhas.CreateChart('bubble', bubbleData, bubbleOptions);
-//         this.Find("#chart6").appendChild(dashbordBolhas.chart.canvas)        
+//         this.Find("#chart6").appendChild(dashbordBolhas.chart.canvas)      
+
+
+
+
+//popovers
+
+
+       // let bootstrapUtil = new Bootstrap()
+
+        // // Criar um botão com Popover
+        // const popoverButton = this.CreateElement('button', {
+        //     type: 'button',
+        //     class: 'btn btn-info col-md-3',
+        //     'data-bs-toggle': 'popover',
+        //     'data-bs-trigger': 'focus',
+        //     title: 'Título do Popover',
+        //     'data-bs-content': 'Conteúdo do popover.',
+        //     'data-bs-placement': 'right'
+        // })
+
+        // this.Text("Clique para ver o Popover", popoverButton) 
+
+        // this.Find("#filtros").appendChild(popoverButton)
+
+        // // Inicializar o Popover
+        // bootstrapUtil.CreatePopover(popoverButton, {
+        //     trigger: 'hover',
+        //     placement: 'right'
+        // })
