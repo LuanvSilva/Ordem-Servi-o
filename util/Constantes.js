@@ -59,6 +59,13 @@ class Constantes {
             CEP: /^\d{5}-\d{3}$/ 
         }
     }
+
+    static get URL_GET_MODELOS_TABLE() {
+        return {
+            GET_CLIENTES: `${this.URL_API}/api/v1/client/getAllClient`,
+            GET_CLIENTE_BY_ID: `${this.URL_API}/api/v1/modelos/clientes`,
+        }
+    }
     
     
     static get MENSAGEM() {
@@ -70,6 +77,8 @@ class Constantes {
             SENHA_INVALIDA: "Senha inválida. Deve conter pelo menos 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial.",
             CADASTRO_SUCESSO: "Cadastro realizado com sucesso",
             ERRO_CADASTRO: "Erro ao realizar cadastro",
+            MODELO_NAO_ENCONTRADO: "Modelo não encontrado",
+            MODELO_NAO_INFORMADO: "Modelo não informado",
         }
     }
 }

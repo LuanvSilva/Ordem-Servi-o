@@ -40,7 +40,7 @@ class ClientePage extends MetodosClientesPage {
 
         this.button_cadastrar.Load()
         
-        this.table = new Table()
+        this.table = new Table("clientes")
         this.table.Load()
         this.table.AddRowClickListener(async (params) => {
 

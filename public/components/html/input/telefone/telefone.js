@@ -41,7 +41,7 @@ class Telefone extends Input{
     }
 
     ApplyTelefoneMask(value){
-
+        debugger
         let self = this
         value = value.replace(/\D/g, '')
 

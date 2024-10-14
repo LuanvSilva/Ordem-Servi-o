@@ -18,7 +18,7 @@ class MetodosClientesPage extends HTML {
         const campos = [
             { key: "name", type: "Text", label: "Nome" },
             { key: "email", type: "Email", label: "Email" },
-            { key: "telefone", type: "Text", label: "Telefone" },
+            { key: "telefone", type: "Telefone", label: "Telefone" },
             { key: "cpfcnpj", type: "CpfCnpj", label: "CPF/CNPJ" },
             { key: "endereco", type: "Cep", label: "CEP" },
         ]

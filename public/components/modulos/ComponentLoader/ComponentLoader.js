@@ -3,8 +3,8 @@ import { Email } from "../../html/input/email/email.js";
 import { Money } from "../../html/input/money/money.js";
 import { CpfCnpj } from "../../html/input/cpfcnpj/CpfCnpj.js";
 import { Cep } from "../../html/input/cep/cep.js";
+import { Telefone } from "../../html/input/telefone/telefone.js";
 
-// Encapsulando em uma classe
 class ComponentLoader {
   constructor() {
     this.components = new WeakMap()
@@ -13,6 +13,7 @@ class ComponentLoader {
     this.components["Email"] = Email
     this.components["Money"] = Money
     this.components["CpfCnpj"] = CpfCnpj
+    this.components["Telefone"] = Telefone
   }
 
   async GetComponent(componentName, ...args) {

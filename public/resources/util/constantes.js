@@ -1,17 +1,17 @@
 class Constantes {
-    static get URL_BASE() { return "http://localhost:3000" }
 
-    // Rotas Zoom
-    static get URL_ZOOM_CLIENTE() {
-        return `../../components/html/input/zoom/samples/${this.modelo}.json`
+    static get URL_BASE() { 
+        return "http://localhost:3000" 
     }
 
-    // Rotas de autenticação
     static get URL_API_AUTH() {
         return "/api/v1/auth/logar"
     }
 
-    // Rotas de clientes
+    static get URL_GET_TABLE_MODELOS() {
+        return  `${this.URL_BASE}/api/v1/modelos/getModelos`
+    }
+
     static get URL_API_POST_CLIENTES() {
         return {
             CADASTRAR: `${this.URL_BASE}/api/v1/client/createClient`,
