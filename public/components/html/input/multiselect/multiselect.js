@@ -15,10 +15,7 @@ class MultiSelect extends HTML {
 
     SetLabel(label) {
             
-        if (label) {
-
-            this.label = new Label(label)
-        }
+        if (label) this.label = new Label(label)
     }
 
     async Load() {
@@ -35,7 +32,6 @@ class MultiSelect extends HTML {
     async createFields() {
 
         let self = this
-
         this.Readonly(true)
         this.Atributo("class", "form-control multiselect-input")
         this.Atributo("placeholder", self.placeholder)
@@ -45,41 +41,35 @@ class MultiSelect extends HTML {
         container.appendChild(this.html)
 
         this.dropdownElement = this.CreateElement('div', { class: 'dropdown-menu' })
- 
-        this.options.forEach(option => {
-
-            const optionElement = this.CreateElement('div', { class: 'multiselect-option dropdown-item' })
-            optionElement.dataset.value = option.value
-
-            const checkIcon = this.CreateElement('span', { class: 'check-icon me-2' }, self.selectedValues.includes(option.value) ? '✔️' : '')
-           
-
-            optionElement.appendChild(checkIcon)
-            optionElement.appendChild(self.TextNode(option.label))
-
-            this.On('click', () => {
-                this.toggleOption(option.value, option.label)
-                this.updateCheckIcons()
-            }, optionElement)
-
-
-            this.dropdownElement.appendChild(optionElement)
-        })
+        this.options.forEach(option => self.createOption(option))
 
         container.appendChild(this.dropdownElement)
         this.html.div = container
 
-       this.On('click', () => {
-
-            self.dropdownElement.classList.toggle('show')
-        })
-
+        this.On('click', () => this.dropdownElement.classList.toggle('show'))
         document.addEventListener('click', (event) => {
-
-            if (!container.contains(event.target)) {
-                self.dropdownElement.classList.remove('show')
-            }
+            if (!container.contains(event.target)) this.dropdownElement.classList.remove('show')
         })
+    }
+
+    createOption(option) {
+
+        let self = this
+       
+        const optionElement = this.CreateElement('div', { class: 'multiselect-option dropdown-item' })
+        optionElement.dataset.value = option.value
+
+        const checkIcon = this.CreateElement('span', { class: 'check-icon me-2' }, self.selectedValues.includes(option.value) ? '✔️' : '')
+    
+        optionElement.appendChild(checkIcon)
+        optionElement.appendChild(self.TextNode(option.label))
+
+        this.On('click', () => {
+            this.toggleOption(option.value, option.label)
+            this.updateCheckIcons()
+        }, optionElement)
+
+        this.dropdownElement.appendChild(optionElement)
     }
 
     toggleOption(value, label) {
@@ -91,7 +81,7 @@ class MultiSelect extends HTML {
             this.selectedValues.push(value)
 
         } else {
-            
+
             this.selectedValues.splice(index, 1)
         }
 
@@ -124,7 +114,7 @@ class MultiSelect extends HTML {
 
     Val(value) {
 
-        if (value) {
+        if (value !== undefined) {
 
             super.Val(value) 
             this.updateCheckIcons()
