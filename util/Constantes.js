@@ -67,7 +67,12 @@ class Constantes {
         }
     }
     
-    
+    static get URL_BASE_TABLE() {
+        return {
+            GET_TABLE: "/api/v1/modelos/getModelos",
+        }
+    }
+
     static get MENSAGEM() {
         
         return {
@@ -79,6 +84,8 @@ class Constantes {
             ERRO_CADASTRO: "Erro ao realizar cadastro",
             MODELO_NAO_ENCONTRADO: "Modelo não encontrado",
             MODELO_NAO_INFORMADO: "Modelo não informado",
+            ERRO_GET_TABLE: "Erro ao buscar registros",
+            GET_TABLE_SUCESSO: "Registros encontrados",
         }
     }
 }

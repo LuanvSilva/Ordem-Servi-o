@@ -11,14 +11,8 @@ class Autenticacao{
   
   SetResponse(data, success, message, error, url) {
 
-    return {
-        data,
-        success,
-        message,
-        error,
-        url,
-    }
-}
+    return { data, success, message, error, url }
+  }
 
   Auth(app) {
 

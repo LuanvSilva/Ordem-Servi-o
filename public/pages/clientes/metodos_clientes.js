@@ -10,6 +10,7 @@ class MetodosClientesPage extends HTML {
     constructor() {
         super()
         this.noty = new Noty()
+        this.campos = new Array()
         this.input_loader = new ComponentLoader()
     }
 
@@ -25,7 +26,7 @@ class MetodosClientesPage extends HTML {
     
         for (const campo of campos) {
             
-            this.#campos[campo.key] = await this.input_loader.GetComponent(
+            this.campos[campo.key] = await this.input_loader.GetComponent(
                 campo.type, campo.label, campo.label, "col-md-3 mt-3", null, { id: campo.key, name: campo.key }
             )
         }
@@ -37,9 +38,9 @@ class MetodosClientesPage extends HTML {
         await this.MontaCamposModalClientes()
         const div = this.CreateElement("div", { class: "row" })
     
-        for (const campo in this.#campos) {
+        for (const campo in this.campos) {
 
-            const campoHtml = this.#campos[campo].div.html
+            const campoHtml = this.campos[campo].div.html
     
             if (campo !== "cep") {
 
@@ -57,9 +58,9 @@ class MetodosClientesPage extends HTML {
 
     ProcessaCampos(){
 
-        for (const campo in this.#campos) {
+        for (const campo in this.campos) {
 
-            this.#campos_preenchidos[campo] = this.#campos[campo].Val()
+            this.#campos_preenchidos[campo] = this.campos[campo].Val()
      
         }
 

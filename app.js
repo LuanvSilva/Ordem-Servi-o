@@ -34,7 +34,6 @@ class App {
         const routes = new Router(path, __dirname)
         const jwtCheck = new JwtCheck(process.env.SECRET)
 
-        // Roteamento das páginas e autenticação
         this.express.use('/', await routes.RoutesAuthMain())
         this.express.use('/pages/login', await routes.RoutesLoginMain())
         this.express.use('/pages', jwtCheck.check, await routes.PagesRoutes())
@@ -44,7 +43,7 @@ class App {
 
     startServer() {
         const server = http.createServer(this.express)
-        const port = process.env.PORT || 3000 // Define uma porta padrão
+        const port = process.env.PORT || 3000 
         server.listen(port, () => console.log(`Servidor rodando na porta ${port}`))
     }
 }
