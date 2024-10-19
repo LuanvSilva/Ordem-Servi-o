@@ -4,6 +4,10 @@ import { Money } from "../../html/input/money/money.js";
 import { CpfCnpj } from "../../html/input/cpfcnpj/CpfCnpj.js";
 import { Cep } from "../../html/input/cep/cep.js";
 import { Telefone } from "../../html/input/telefone/telefone.js";
+import { TextArea } from "../../html/input/textarea/textearea.js";
+import { Checkbox } from "../../html/input/checkbox/checkbox.js";
+import { DatePicker } from "../../html/input/datepicker/datepicker.js";
+import { Time } from "../../html/input/time/time.js";
 
 class ComponentLoader {
   constructor() {
@@ -14,6 +18,11 @@ class ComponentLoader {
     this.components["Money"] = Money
     this.components["CpfCnpj"] = CpfCnpj
     this.components["Telefone"] = Telefone
+    this.components["TextArea"] = TextArea
+    this.components["Checkbox"] = Checkbox
+    this.components["DatePicker"] = DatePicker
+    this.components["Time"] = Time
+
   }
 
   async GetComponent(componentName, ...args) {

@@ -1,6 +1,6 @@
-import { Input } from "../input";
+import { Input } from '../input.js'
 
-class TextArea extends Input{
+class TextArea extends Input {
     constructor(label, placeholder, col, callback) {
         super('textarea', label, placeholder, col, callback)
         this.placeholder = placeholder

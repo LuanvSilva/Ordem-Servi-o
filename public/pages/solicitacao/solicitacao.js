@@ -3,6 +3,7 @@ import { Table } from '../../components/html/table/table.js'
 import { Modal } from '../../components/html/modal/modal.js'
 import { Noty } from '../../components/html/noty/noty.js'
 import { Button } from '../../components/html/input/button/button.js'
+import { MultiSelect } from '../../components/html/input/multiselect/multiselect.js'
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 
 class SolicitacaoPage extends HTML {
@@ -60,6 +61,14 @@ class SolicitacaoPage extends HTML {
         this.campos_filtros["cpf"]    = await this.input_loader.GetComponent('CpfCnpj', "CPF/CNPJ", "CPF", "col-md-3", null, { id: "cpf", name: "cpf"})
         this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
         this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
+        
+        this.multiSelect = new MultiSelect('Select Items', 'Select...', 'col-md-3', (selected) => {
+            console.log('Selected values:', selected);
+        }, [
+            { value: '1', label: 'Option 1' },
+            { value: '2', label: 'Option 2' },
+            { value: '3', label: 'Option 3' }
+        ]);
 
         const button_search = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
             console.log(self.campos_filtros["money"].Val())
@@ -67,10 +76,15 @@ class SolicitacaoPage extends HTML {
 
         button_search.Load()
 
-        for (let campo in this.campos_filtros) {
+        // for (let campo in this.campos_filtros) {
 
-            this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
-        }
+        //     this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
+        // }
+
+        this.multiSelect.Load();
+        this.Find("#filtros").appendChild(this.multiSelect.html)
+
+       
 
         this.Find("#botao_search").appendChild(button_search.html)
 
@@ -79,11 +93,13 @@ class SolicitacaoPage extends HTML {
 
     async MontaModalSolicitacao(editar){
 
+        await this.MontaCamposHTML()
+
         this.modal = new Modal("modal_solicitacao", "Solicitação", "Salvar", async () => {
             await this.SalvaSolicitacao(editar)
         })
 
-        this.modal.AddBody(await this.MontaCamposHTML())
+        this.modal.AddBody(this.campos_solitacao)
         this.modal.Load()
     }
 

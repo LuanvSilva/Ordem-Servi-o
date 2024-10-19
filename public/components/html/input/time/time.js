@@ -1,6 +1,6 @@
-import { Input } from "../input";
+import { Input } from "../input.js";
 
-class TimePicker extends Input {
+class Time extends Input {
 
     constructor(label, placeholder, classe, callback){
         super(label, placeholder, classe, callback)
@@ -28,4 +28,4 @@ class TimePicker extends Input {
     }
 }
 
-export { TimePicker }
+export { Time }
