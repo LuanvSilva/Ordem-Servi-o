@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Gestão de Lava-car</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>Solicitacao - Painel de Gestão</title>
+    <link rel="stylesheet" href="/pages/home/styles.css">
     <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/fontawesome-free-6.6.0-web/css/all.min.css">    
+    <link rel="stylesheet" href="/resources/fontawesome-free-6.6.0-web/css/all.min.css">
 </head>
 <body>
     <div class="main">
         <aside class="main-links">
-            <h2>Home</h2>
+            <h2>Serviços</h2>
             <ul>
                 <li><a href="/pages/home/home"><i class="fa fa-home" aria-hidden="true"></i><span class="menu-text">Home</span></a></li>
                 <li><a href="/pages/solicitacao/solicitacao"><i class="fas fa-paper-plane"></i><span class="menu-text">Solicitação</span></a></li>
@@ -22,39 +22,25 @@
             </ul>
         </aside>
         <main class="main-content">
+            <div class="row justify-content-end" id="alert" ></div>
             <div class="container">
-                <h2 id="home"></h2>
-                <p>Bem-vindo ao painel de gestão do lava-car!</p>
-                <div class="row" id="campos_busca"></div>
+                <h2 id="header">Você está na página Manutenção - </h2>
+                <div class="row" id="filtros"></div>
+                <div class="row justify-content-end ms-3 me-4" id="botao_search"></div>
             </div>
             <br>
-            <div class="container" id="main"></div>
-            <div class="row" id="button"></div>
             <div class="container">
-                <h2>Dashboard</h2>
-                <div class="row">
-                    <div class="col-md-6" id="chart1"></div>
-                    <div class="col-md-6" id="chart2"></div>
-                    <div class="col-md-6" id="chart3"></div>
-                    <div class="col-md-6" id="chart4" ></div>
-                    <div class="col-md-6" id="chart5" ></div>
-                    <div class="col-md-6" id="chart6" ></div>
-                </div>
+                <div class="row justify-content-end ms-3 me-4" id="botao_add"></div>
+                <div class="row  mx-auto" id="table"></div>
             </div>
-            <div class="container mt-4" >
-                <h2>Últimos serviços</h2>
-                <div class="row" id="ultimos_servicos">
-                <div id="table"></div>
-                </div>
-            </div>
+            
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <script type="module">    
-        import { HomePage } from './home.js'
-        const home = new HomePage()
-        await home.Open()
+        import { ServicoPage } from './servico.js'
+        const agenda = new ServicoPage();
+        await agenda.Open()
 
     </script>
 </body>

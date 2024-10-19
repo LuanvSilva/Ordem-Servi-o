@@ -5,8 +5,6 @@ import { Noty } from "../../components/html/noty/noty.js"
 class MetodosClientesPage extends HTML {
 
     #campos_preenchidos = new Object()
-    #campos = new Array()
-
     constructor() {
         super()
         this.noty = new Noty()

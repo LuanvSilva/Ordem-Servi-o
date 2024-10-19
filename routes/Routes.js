@@ -44,7 +44,9 @@ class Routes {
     PagesRoutes() {
         this.app.get('/clientes/cliente', (req, res) => this.SendFile(res, '/clientes/cliente.html'))
         this.app.get('/home/home', (req, res) => this.SendFile(res, '/home/home.html'))
+        this.app.get('/solicitacao/solicitacao', (req, res) => this.SendFile(res, '/solicitacao/solicitacao.html'))
         this.app.get('/agenda/agenda', (req, res) => this.SendFile(res, '/agenda/agenda.html'))
+        this.app.get('/servicos/servicos', (req, res) => this.SendFile(res, '/servicos/servicos.html'))
         this.app.get('/relatorio/relatorio', (req, res) => this.SendFile(res, '/relatorio/relatorio.html'))
         return this.app
     }
