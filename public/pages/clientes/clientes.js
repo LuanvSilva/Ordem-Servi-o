@@ -31,7 +31,7 @@ class ClientePage extends MetodosClientesPage {
     async AddMain(){
 
         let self = this
-        await this.Filtros()
+        await this.Filter()
 
         this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
             await self.MontaModalCliente(false)
@@ -53,7 +53,7 @@ class ClientePage extends MetodosClientesPage {
         this.Find("#botao_add").appendChild(this.button_cadastrar.html)
     }
 
-    async Filtros(){
+    async Filter(){
 
         let self = this        
         this.campos_filtros["nome"]   = await this.input_loader.GetComponent('Text', "Nome", "Nome", "col-md-3", null, { id: "nome",  name: "nome"})

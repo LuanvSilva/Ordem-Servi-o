@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitacao - Painel de Gestão</title>
+    <title>Solicitacões - Painel de Gestão</title>
+    <link rel="stylesheet" href="/resources/poper/tooltip.min.js">
     <link rel="stylesheet" href="/pages/home/styles.css">
     <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+    <script src="/resources/poper/popper.min.js"></script>
 </head>
 <body>
     <div class="main">
         <aside class="main-links">
-            <h2>Serviços</h2>
+            <h2>Solicitacões</h2>
             <ul>
                 <li><a href="/pages/home/home"><i class="fa fa-home" aria-hidden="true"></i><span class="menu-text">Home</span></a></li>
                 <li><a href="/pages/solicitacao/solicitacao"><i class="fas fa-paper-plane"></i><span class="menu-text">Solicitação</span></a></li>
@@ -24,7 +27,7 @@
         <main class="main-content">
             <div class="row justify-content-end" id="alert" ></div>
             <div class="container">
-                <h2 id="header">Você está na página Manutenção - </h2>
+                <h2 id="header">Você está no Painel de Gestão - </h2>
                 <div class="row" id="filtros"></div>
                 <div class="row justify-content-end ms-3 me-4" id="botao_search"></div>
             </div>
@@ -38,9 +41,9 @@
     </div>
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
     <script type="module">    
-        import { ServicoPage } from './servico.js'
-        const agenda = new ServicoPage();
-        await agenda.Open()
+        import { SolicitacaoPage } from './solicitacao.js'
+        const solicitacao = new SolicitacaoPage()
+        await solicitacao.Open()
 
     </script>
 </body>
