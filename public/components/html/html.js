@@ -352,6 +352,18 @@ class HTML{
 
     }
 
+    TextNode(valor, objeto) {
+
+        if(objeto != undefined && valor != undefined) {
+                        
+            this.Find(objeto).appendChild(this.main.createTextNode(valor))
+            
+        }else{
+
+            return this.main.createTextNode(valor)
+        }
+    }
+
     Prepend(objeto) {
 
         if (objeto != undefined || this.main != undefined || this.html != undefined) {

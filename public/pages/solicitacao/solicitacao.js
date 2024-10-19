@@ -63,7 +63,7 @@ class SolicitacaoPage extends HTML {
         this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
         
         this.multiSelect = new MultiSelect('Select Items', 'Select...', 'col-md-3', (selected) => {
-            console.log('Selected values:', selected);
+            //console.log('Selected values:', selected);
         }, [
             { value: '1', label: 'Option 1' },
             { value: '2', label: 'Option 2' },
@@ -71,7 +71,7 @@ class SolicitacaoPage extends HTML {
         ]);
 
         const button_search = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
-            console.log(self.campos_filtros["money"].Val())
+            console.log(this.multiSelect.Val())
         })
 
         button_search.Load()
@@ -82,7 +82,7 @@ class SolicitacaoPage extends HTML {
         // }
 
         this.multiSelect.Load();
-        this.Find("#filtros").appendChild(this.multiSelect.html)
+        this.Find("#filtros").appendChild(this.multiSelect.html.div)
 
        
 
@@ -99,7 +99,12 @@ class SolicitacaoPage extends HTML {
             await this.SalvaSolicitacao(editar)
         })
 
-        this.modal.AddBody(this.campos_solitacao)
+        for (const element of this.campos_solitacao) {
+
+            this.modal.LoadBody(element)
+            
+        }
+
         this.modal.Load()
     }
 

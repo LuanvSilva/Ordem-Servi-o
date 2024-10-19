@@ -1,4 +1,6 @@
 import { HTML } from '../../html.js'
+import { Label } from '../label/label.js'
+
 class MultiSelect extends HTML {
     constructor(label, placeholder, classe, callback, options = []) {
         super("input")
@@ -7,8 +9,16 @@ class MultiSelect extends HTML {
         this.classe = classe
         this.callback = callback
         this.options = options
+        this.SetLabel(label)
         this.selectedValues = []
-        this.html = null
+    }
+
+    SetLabel(label) {
+            
+        if (label) {
+
+            this.label = new Label(label)
+        }
     }
 
     async Load() {
@@ -24,69 +34,68 @@ class MultiSelect extends HTML {
 
     async createFields() {
 
-        const container = document.createElement('div')
-        container.classList.add('multiselect-container', this.classe)
+        let self = this
 
-        const labelElement = document.createElement('label')
-        labelElement.innerText = this.label
-        container.appendChild(labelElement)
+        this.Readonly(true)
+        this.Atributo("class", "form-control multiselect-input")
+        this.Atributo("placeholder", self.placeholder)
 
-        this.inputElement = document.createElement('input')
-        this.inputElement.setAttribute('readonly', true)
-        this.inputElement.classList.add('form-control', 'multiselect-input')
-        this.inputElement.placeholder = this.placeholder
-        container.appendChild(this.inputElement)
+        const container = this.CreateElement('div', { class: 'multiselect-container ' + this.classe })
+        container.appendChild(this.label.html)
+        container.appendChild(this.html)
 
-        this.dropdownElement = document.createElement('div')
-        this.dropdownElement.classList.add('multiselect-dropdown', 'dropdown-menu')
+        this.dropdownElement = this.CreateElement('div', { class: 'dropdown-menu' })
+ 
         this.options.forEach(option => {
 
-            const optionElement = document.createElement('div')
-            optionElement.classList.add('multiselect-option', 'dropdown-item')
+            const optionElement = this.CreateElement('div', { class: 'multiselect-option dropdown-item' })
             optionElement.dataset.value = option.value
 
-            const checkIcon = document.createElement('span')
-            checkIcon.classList.add('check-icon', 'me-2')
-            checkIcon.innerHTML = this.selectedValues.includes(option.value) ? '✔️' : '';
+            const checkIcon = this.CreateElement('span', { class: 'check-icon me-2' }, self.selectedValues.includes(option.value) ? '✔️' : '')
+           
 
-            optionElement.appendChild(checkIcon);
-            optionElement.appendChild(document.createTextNode(option.label))
+            optionElement.appendChild(checkIcon)
+            optionElement.appendChild(self.TextNode(option.label))
 
-            optionElement.addEventListener('click', () => {
-                this.toggleOption(option.value)
+            this.On('click', () => {
+                this.toggleOption(option.value, option.label)
                 this.updateCheckIcons()
-            });
+            }, optionElement)
+
 
             this.dropdownElement.appendChild(optionElement)
-        });
+        })
 
         container.appendChild(this.dropdownElement)
-        this.html = container
+        this.html.div = container
 
-        this.inputElement.addEventListener('click', () => {
+       this.On('click', () => {
 
-            this.dropdownElement.classList.toggle('show')
-        });
+            self.dropdownElement.classList.toggle('show')
+        })
 
         document.addEventListener('click', (event) => {
 
             if (!container.contains(event.target)) {
-                this.dropdownElement.classList.remove('show')
+                self.dropdownElement.classList.remove('show')
             }
         })
     }
 
-    toggleOption(value) {
+    toggleOption(value, label) {
 
         const index = this.selectedValues.indexOf(value)
-        
+
         if (index === -1) {
+
             this.selectedValues.push(value)
+
         } else {
+            
             this.selectedValues.splice(index, 1)
         }
 
-        this.updateInput()
+        this.updateInput(label)
 
         if (this.callback) {
 
@@ -95,8 +104,8 @@ class MultiSelect extends HTML {
     }
 
     updateInput() {
-
-        this.inputElement.value = this.selectedValues.join(', ') || this.placeholder
+        let self = this
+        this.Val(self.selectedValues.join(', ')) 
     }
 
     updateCheckIcons() {
@@ -110,6 +119,21 @@ class MultiSelect extends HTML {
             checkIcon.innerHTML = this.selectedValues.includes(value) ? '✔️' : ''
 
         })
+    }
+
+
+    Val(value) {
+
+        if (value) {
+
+            super.Val(value) 
+            this.updateCheckIcons()
+
+        }else{
+
+            return super.Val().split(',')
+        }
+
     }
 }
 
