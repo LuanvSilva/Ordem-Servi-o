@@ -20,7 +20,7 @@ class ComponentLoader {
     this.components["Telefone"] = Telefone
     this.components["TextArea"] = TextArea
     this.components["Checkbox"] = Checkbox
-    this.components["DatePicker"] = DatePicker
+    this.components["Date"] = DatePicker
     this.components["Time"] = Time
 
   }

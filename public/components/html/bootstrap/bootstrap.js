@@ -1,6 +1,18 @@
-class Bootstrap{
+import { HTML } from "../html.js"
+class Bootstrap extends HTML {
 
     constructor(){
+        super()
+    }
+
+    AddColumns(columns, row) {
+            
+        for (const column of columns) {
+
+            row.appendChild(column)
+        }
+
+        return row
     }
 
     Form() {

@@ -47,6 +47,7 @@ class MultiSelect extends HTML {
         this.html.div = container
 
         this.On('click', () => this.dropdownElement.classList.toggle('show'))
+        
         document.addEventListener('click', (event) => {
             if (!container.contains(event.target)) this.dropdownElement.classList.remove('show')
         })

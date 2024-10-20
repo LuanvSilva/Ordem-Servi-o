@@ -3,6 +3,7 @@ import { Table } from '../../components/html/table/table.js'
 import { Modal } from '../../components/html/modal/modal.js'
 import { Noty } from '../../components/html/noty/noty.js'
 import { Button } from '../../components/html/input/button/button.js'
+import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
 import { MultiSelect } from '../../components/html/input/multiselect/multiselect.js'
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 
@@ -12,6 +13,7 @@ class SolicitacaoPage extends HTML {
         super()
         this.title = 'Solicitações'
         this.noty = new Noty()
+        this.bootstrap = new Bootstrap()
         this.campos_filtros = new Map()
         this.campos_solitacao = new Object()
         this.input_loader = new ComponentLoader()
@@ -94,18 +96,33 @@ class SolicitacaoPage extends HTML {
     async MontaModalSolicitacao(editar){
 
         await this.MontaCamposHTML()
-
-        this.modal = new Modal("modal_solicitacao", "Solicitação", "Salvar", async () => {
+        let self = this
+        this.modal = new Modal('large', 'Solicitação', "Salvar", async () => {
             await this.SalvaSolicitacao(editar)
         })
+        await this.modal.Load()
 
-        for (const element of this.campos_solitacao) {
+        this.modal.LoadBody(this.row_solicitacao)
 
-            this.modal.LoadBody(element)
+        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
+            self.modal.Hide()
+        })
+
+        this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
             
-        }
+            self.modal.Hide()
+           // await self.table.ReloadTable()
+           // await self.SalvarCliente()
+        })
 
-        this.modal.Load()
+        const existingModal = document.querySelector('.modal')
+
+        if (existingModal) {
+            existingModal.remove()
+        }
+        
+       document.querySelector("body").append(this.modal.html)
+            
     }
 
     async SalvaSolicitacao(editar){
@@ -130,15 +147,31 @@ class SolicitacaoPage extends HTML {
 
     async MontaCamposHTML(){
 
-        this.campos_filtros["cliente"]  = await this.input_loader.GetComponent('Text', "Cliente", "Cliente", "col-md-3", null, { id: "cliente",  name: "cliente"})
-        this.campos_filtros["codigo"]  = await this.input_loader.GetComponent('Text', "Código", "Código", "col-md-3", null, { id: "codigo",  name: "codigo"})
-        this.campos_filtros["urgente"]  = await this.input_loader.GetComponent('Checkbox', "Urgente", "Urgente", "col-md-3", null, { id: "urgente",  name: "urgente"})
-        this.campos_filtros["data_inicio"]  = await this.input_loader.GetComponent('Date', "Data Início", "Data Início", "col-md-3", null, { id: "data_inicio",  name: "data_inicio"})
-        this.campos_filtros["hora_inicio"]  = await this.input_loader.GetComponent('Time', "Hora Início", "Hora Início", "col-md-3", null, { id: "hora_inicio",  name: "hora_inicio"})
-        this.campos_filtros["data_fim"]  = await this.input_loader.GetComponent('Date', "Data Fim", "Data Fim", "col-md-3", null, { id: "data_fim",  name: "data_fim"}) 
-        this.campos_filtros["hora_fim"]  = await this.input_loader.GetComponent('Time', "Hora Fim", "Hora Fim", "col-md-3", null, { id: "hora_fim",  name: "hora_fim"})
-        this.campos_filtros["obsevacao"]  = await this.input_loader.GetComponent('TextArea', "Obesvações", "Obesvações", "col-md-3", null, { id: "obsevacao",  name: "obsevacao"})
-        this.campos_filtros["valor"]  = await this.input_loader.GetComponent('Money', "Valor", "Valor", "col-md-3", null, { id: "valor",  name: "valor"})
+        let campos = new Array()
+        this.row_solicitacao = this.bootstrap.Row()
+
+        const camposConfig = [
+            { key: "cliente", type: "Text", label: "Cliente", class: "col-md-3 mt-3", attrs: { id: "cliente", name: "cliente" } },
+            { key: "codigo", type: "Text", label: "Código", class: "col-md-3 mt-3", attrs: { id: "codigo", name: "codigo" } },
+            { key: "urgente", type: "Checkbox", label: "Urgente", class: "col-md-3 mt-3", attrs: { id: "urgente", name: "urgente" }, position: "top" },
+            { key: "data_inicio", type: "Date", label: "Data Início", class: "col-md-3 mt-3", attrs: { id: "data_inicio", name: "data_inicio" } },
+            { key: "hora_inicio", type: "Time", label: "Hora Início", class: "col-md-3 mt-3", attrs: { id: "hora_inicio", name: "hora_inicio" } },
+            { key: "data_fim", type: "Date", label: "Data Fim", class: "col-md-3 mt-3", attrs: { id: "data_fim", name: "data_fim" } },
+            { key: "hora_fim", type: "Time", label: "Hora Fim", class: "col-md-3 mt-3", attrs: { id: "hora_fim", name: "hora_fim" } },
+            { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-3 mt-3", attrs: { id: "obsevacao", name: "obsevacao" } },
+            { key: "valor", type: "Money", label: "Valor", class: "col-md-3 mt-3", attrs: { id: "valor", name: "valor" } }
+        ];
+        
+        for (const campo of camposConfig) {
+            
+            campos[campo.key] = await this.input_loader.GetComponent(
+                campo.type, campo.label, campo.label, campo.class, null, campo.position, campo.attrs
+            )
+
+            this.row_solicitacao.appendChild(campos[campo.key].div.html)
+        }
+
+        
     }
 }
 

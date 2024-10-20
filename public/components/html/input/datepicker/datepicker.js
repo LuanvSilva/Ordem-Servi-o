@@ -3,7 +3,7 @@ import { Input } from "../input.js";
 class DatePicker extends Input {
 
     constructor(label, placeholder, classe, callback){
-        super(label, placeholder, classe, callback)
+        super("input", label, placeholder, classe, callback)
         this.type = "date"
     }
 

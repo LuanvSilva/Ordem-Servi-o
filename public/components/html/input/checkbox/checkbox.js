@@ -1,12 +1,23 @@
 import { Input } from "../input.js";
+import { HTML } from "../../html.js";
+import { Label } from "../label/label.js";
 
-class Checkbox extends Input {
+class Checkbox extends HTML{
 
     constructor(label, placeholder, classe, callback, labelPosition = "top") {
-        super(null, placeholder, classe, callback)
+        super("input")
         this.type = "checkbox"
         this.label = label 
+        this.SetLabel(label)
+        this.placeholder = placeholder
+        this.classe = classe
+        this.callback = callback
         this.labelPosition = labelPosition 
+    }
+
+    SetLabel(label) {
+
+        if (label) this.label = new Label(label)
     }
 
     Load() {
@@ -15,46 +26,46 @@ class Checkbox extends Input {
 
     ConfiguraCampos() {
 
+        let colunm = []
+
         this.Atributo('type', 'checkbox')
-        this.AddClass('input-checkbox')
+        this.Atributo('input-checkbox')
 
-        const container = document.createElement('div')
-        container.classList.add('checkbox-container')
+        this.div = this.CreateElement('div', { class: this.classe})
 
-        const labelElement = document.createElement('label')
-        labelElement.innerText = this.label
+        this.PositionLabel(this.label.html)
 
-        this.PositionLabel(container, labelElement)
-
+        this.div.html = this.div
+        
         if (this.callback) {
             this.Change(this.callback)
         }
     }
 
-    PositionLabel(container, labelElement) {
+    PositionLabel(labelElement) {
         
         switch (this.labelPosition) {
             case "top":
-                container.appendChild(labelElement)
-                container.appendChild(this.element)
+                this.div.appendChild(labelElement)
+                this.div.appendChild(this.html)
                 break
             case "left":
-                container.appendChild(labelElement)
+                this.div.appendChild(labelElement)
                 labelElement.style.marginRight = "10px"
-                container.appendChild(this.element)
+                this.div.appendChild(this.html)
                 break
             case "right":
-                container.appendChild(this.element)
+                this.div.appendChild(this.html)
                 labelElement.style.marginLeft = "10px"
-                container.appendChild(labelElement)
+                this.div.appendChild(labelElement)
                 break
             case "bottom":
-                container.appendChild(this.element)
-                container.appendChild(labelElement)
+                this.div.appendChild(this.html)
+                this.div.appendChild(labelElement)
                 break
             default:
-                container.appendChild(labelElement)
-                container.appendChild(this.element)
+                this.div.appendChild(labelElement)
+                this.div.appendChild(this.html)
         }
     }
 
