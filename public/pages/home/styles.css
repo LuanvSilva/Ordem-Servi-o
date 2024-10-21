@@ -9,6 +9,7 @@
 @import url("../../components/html/input/button/button.css");
 @import url("../../components/html/cards/card.css");
 @import url("../../components/html/input/multiselect/multiselect.css");
+@import url("../../components/html/input/checkbox/checkbox.css");
 
 :root {
     --primary-color: #000000; /* Preto */

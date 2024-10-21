@@ -1,0 +1,19 @@
+.input-checkbox {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.input-checkbox input[type="checkbox"] {
+    width: 24px; /* Aumenta a largura da caixa */
+    height: 24px; /* Aumenta a altura da caixa */
+    border: 2px solid #007BFF; /* Cor da borda */
+    margin-top: 15px; /* Ajusta a margem superior */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    transition: background-color 0.3s, border-color 0.3s; /* Transição suave para as mudanças de estado */
+}
+
+.input-checkbox input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Adiciona um contorno azul quando focado */
+}

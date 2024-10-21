@@ -17,7 +17,7 @@ class TextArea extends Input {
         
         let self = this
     
-        this.AddClass('form-input')
+        this.AddClass('input-carwash')
         this.Atributo("autocomplete", "off")
 
         if (this.placeholder) {
