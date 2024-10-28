@@ -1,4 +1,5 @@
 import { Input } from "../input.js"
+import { Bootstrap } from "../../bootstrap/bootstrap.js"
 import { ComponentLoader } from "../../../modulos/ComponentLoader/ComponentLoader.js"
 
 class Cep extends Input {
@@ -12,6 +13,7 @@ class Cep extends Input {
         this.col = col
         this.input_loader = new ComponentLoader()
         this.campos_cep = new Array()
+        this.bootstrap = new Bootstrap()
         this.#nome = 'cep'
         
     }
@@ -88,16 +90,15 @@ class Cep extends Input {
 
     async MontaCamposHTML() {
 
-        this.divCep = this.CreateElement("div", { class: "row" })
-        this.divCep.appendChild(this.div.html)
+        const div_row = this.bootstrap.Row()
+        div_row.appendChild(this.div.html)
 
-       for (const campo in this.campos_cep) {
+        for (const campo in this.campos_cep) {
 
-            this.divCep.appendChild(this.campos_cep[campo].div.html)
+            div_row.appendChild(this.campos_cep[campo].div.html)
         }
 
-        this.div.html = this.divCep
-
+        this.div.html = div_row
     }
 
     SetVal(data){

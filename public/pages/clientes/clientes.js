@@ -81,11 +81,8 @@ class ClientePage extends MetodosClientesPage {
         this.modal = new Modal('large', 'Cliente')
         this.modal.Load()
 
-        for (const campo of await this.MontaCamposHTML()) {
-
-            this.modal.LoadBody(campo)
-        }
-
+         this.modal.LoadBody(await this.MontaCamposModalClientes())
+        
         this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
             self.modal.Hide()
         })

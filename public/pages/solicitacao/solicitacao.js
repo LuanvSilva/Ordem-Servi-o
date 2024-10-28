@@ -4,7 +4,12 @@ import { Modal } from '../../components/html/modal/modal.js'
 import { Noty } from '../../components/html/noty/noty.js'
 import { Button } from '../../components/html/input/button/button.js'
 import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
+import { Page } from '../../components/modulos/page/page.js'
 import { MultiSelect } from '../../components/html/input/multiselect/multiselect.js'
+import { Popover } from "../../components/html/bootstrap/popover/popover.js";
+import { Tooltip } from "../../components/html/bootstrap/tooltip/tooltip.js";
+import { Toast } from "../../components/html/bootstrap/toast/toast.js";
+import { Alert } from "../../components/html/bootstrap/alert/alert.js";
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 
 class SolicitacaoPage extends HTML {
@@ -17,10 +22,11 @@ class SolicitacaoPage extends HTML {
         this.campos_filtros = new Map()
         this.campos_solitacao = new Object()
         this.input_loader = new ComponentLoader()
+       // this.page = new Page('Solicitações - Painel de Gestão', 'Você está no Painel de Gestão - ')
     }
 
     async Open(){
-
+        //await this.page.buildPage()
         this.AddHeader()
         this.AddMain()
     }
@@ -34,7 +40,7 @@ class SolicitacaoPage extends HTML {
 
         let self = this
         this.Filter()
-
+        
         this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
             await self.MontaModalSolicitacao(false)
             self.modal.Show()
@@ -97,9 +103,11 @@ class SolicitacaoPage extends HTML {
 
         await this.MontaCamposHTML()
         let self = this
+
         this.modal = new Modal('large', 'Solicitação', "Salvar", async () => {
             await this.SalvaSolicitacao(editar)
         })
+        
         await this.modal.Load()
 
         this.modal.LoadBody(this.row_solicitacao)

@@ -199,26 +199,59 @@
 
 //popovers
 
-
-       // let bootstrapUtil = new Bootstrap()
-
-        // // Criar um botão com Popover
+ // this.popover = new Popover('Conteúdo do popover.', "", 'left', 'hover')
+        // this.tooltip = new Tooltip('Conteúdo do tooltip.', 'Título do tooltip.', 'top', 'hover')
+  
         // const popoverButton = this.CreateElement('button', {
         //     type: 'button',
+        //     id: 'popover',
         //     class: 'btn btn-info col-md-3',
         //     'data-bs-toggle': 'popover',
-        //     'data-bs-trigger': 'focus',
-        //     title: 'Título do Popover',
-        //     'data-bs-content': 'Conteúdo do popover.',
-        //     'data-bs-placement': 'right'
         // })
 
-        // this.Text("Clique para ver o Popover", popoverButton) 
+        // const tooltipButton = this.CreateElement('button', {
+        //     type: 'button',
+        //     id: 'tooltip',
+        //     class: 'btn btn-info col-md-3',
+        //     'data-bs-toggle': 'tooltip',
+        // })
+
+        // this.Find("#filtros").appendChild(tooltipButton)
+
 
         // this.Find("#filtros").appendChild(popoverButton)
 
-        // // Inicializar o Popover
-        // bootstrapUtil.CreatePopover(popoverButton, {
-        //     trigger: 'hover',
-        //     placement: 'right'
-        // })
+        // this.tooltip.LoadTooltip(tooltipButton)
+        // this.popover.LoadPopover(popoverButton)
+
+       //  this.alert = new Alert('Conteúdo do alerta.', 'success')
+       //  this.toast = new Toast('Conteúdo do toast.', 'success')
+
+       //  const buttonAlert = this.CreateElement('button', {
+       //      type: 'button',
+       //      id: 'alert',
+       //      class: 'btn btn-info col-md-3',
+       //  })
+
+       //  const buttonToast = this.CreateElement('button', {
+       //      type: 'button',
+       //      id: 'toast',
+       //      class: 'btn btn-info col-md-3',
+       //  })
+
+
+       //  this.alert.show(buttonAlert)
+
+       //  this.toast.configuraToast(buttonToast)
+
+
+       //  this.Find("#filtros").appendChild(buttonAlert)
+       //  this.Find("#filtros").appendChild(buttonToast)
+
+       //  document.getElementById('toast').addEventListener('click', () => {
+       //      this.toast.show(buttonToast);
+       //  });
+
+       //  document.getElementById('alert').addEventListener('click', () => {
+       //      this.alert.show(buttonAlert);
+       //  });

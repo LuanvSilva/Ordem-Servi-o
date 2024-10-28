@@ -35,18 +35,6 @@ class Bootstrap extends HTML {
         return this.CreateElement("div", { class: "container" })
     }
 
-    CreatePopover(element, options) {
-
-        return new bootstrap.Popover(element, options)
-
-    }
-
-    CreateTooltip(element, options) {
-
-        return new bootstrap.Tooltip(element, options)
-
-    }
-
     CreateToast(options) {
 
         return new bootstrap.Toast(options)

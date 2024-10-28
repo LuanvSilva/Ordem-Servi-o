@@ -24,6 +24,10 @@ class DatePicker extends Input {
     
           this.Placeholder(self.placeholder)
         }
+
+        this.Blur(() => {
+            this.SetMinDate()
+        })
     
         if (this.callback) {
     

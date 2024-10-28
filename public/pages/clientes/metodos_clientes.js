@@ -2,6 +2,8 @@ import { HTML } from "../../components/html/html.js"
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 import { Constantes } from "../../resources/util/constantes.js"
 import { Noty } from "../../components/html/noty/noty.js"
+import { Bootstrap } from "../../components/html/bootstrap/bootstrap.js"
+
 class MetodosClientesPage extends HTML {
 
     #campos_preenchidos = new Object()
@@ -9,10 +11,13 @@ class MetodosClientesPage extends HTML {
         super()
         this.noty = new Noty()
         this.campos = new Array()
+        this.bootstrap = new Bootstrap()
         this.input_loader = new ComponentLoader()
     }
 
     async MontaCamposModalClientes() {
+
+        const div_row = this.bootstrap.Row()
 
         const campos = [
             { key: "name", type: "Text", label: "Nome" },
@@ -27,31 +32,11 @@ class MetodosClientesPage extends HTML {
             this.campos[campo.key] = await this.input_loader.GetComponent(
                 campo.type, campo.label, campo.label, "col-md-3 mt-3", null, { id: campo.key, name: campo.key }
             )
-        }
-    }
 
-    async MontaCamposHTML(){
-
-        const campos_clientes = new Array()
-        await this.MontaCamposModalClientes()
-        const div = this.CreateElement("div", { class: "row" })
-    
-        for (const campo in this.campos) {
-
-            const campoHtml = this.campos[campo].div.html
-    
-            if (campo !== "cep") {
-
-                div.appendChild(campoHtml)
-                campos_clientes.push(div)
-
-            } else {
-
-                campos_clientes.push(campoHtml)
-            }
+             div_row.appendChild(this.campos[campo.key].div.html)
         }
 
-        return campos_clientes
+        return div_row
     }
 
     ProcessaCampos(){
