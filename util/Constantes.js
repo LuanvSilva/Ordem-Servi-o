@@ -73,6 +73,12 @@ class Constantes {
         }
     }
 
+    static get URL_GET_MODELOS_MULTISELECT() {
+        return {
+            GET_CLIENTES: "/api/v1/modelos/getModelosMultiSelect"
+        }
+    }
+
     static get MENSAGEM() {
         
         return {

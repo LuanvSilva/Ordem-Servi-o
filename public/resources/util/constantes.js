@@ -12,6 +12,10 @@ class Constantes {
         return  `${this.URL_BASE}/api/v1/modelos/getModelos`
     }
 
+    static get URL_GET_MULTISELECT_MODELOS() {
+        return  `${this.URL_BASE}/api/v1/modelos/getModelosMultiSelect`
+    }
+
     static get URL_API_POST_CLIENTES() {
         return {
             CADASTRAR: `${this.URL_BASE}/api/v1/client/createClient`,

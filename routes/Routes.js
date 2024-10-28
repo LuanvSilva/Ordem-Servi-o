@@ -4,6 +4,7 @@ import ClientesRoutes from './cliente/clientes.js';
 import axios from 'axios';
 import Constantes from '../util/Constantes.js';
 import TableRoute from './table/table.js';
+import MultiSelectRoute from './multiselect/multiselectRoute.js';
 
 class Routes {
     constructor(path, __dirname) {
@@ -13,6 +14,7 @@ class Routes {
         this.rotas_autenticacao = new Autenticacao()
         this.rotas_clientes = new ClientesRoutes()
         this.rotas_table = new TableRoute()
+        this.rotas_multiselect = new MultiSelectRoute()
     }
 
     SetResponse(data, success, message, error, url) {
@@ -38,7 +40,12 @@ class Routes {
     }
 
     async RoutesModelosTable() {
+        this.RoutesModelosMultiSelect()
         return await this.rotas_table.RoutesMain(this.app)
+    }
+
+    async RoutesModelosMultiSelect() {
+        return await this.rotas_multiselect.RoutesMain(this.app)
     }
 
     PagesRoutes() {

@@ -1,35 +1,71 @@
 import { HTML } from '../../html.js'
 import { Label } from '../label/label.js'
+import { Constantes } from '../../../../resources/util/constantes.js'
 
 class MultiSelect extends HTML {
-    constructor(label, placeholder, classe, callback, options = []) {
+    constructor(modelo, label, placeholder, classe, callback, parametros, options = []) {
         super("input")
         this.label = label
         this.placeholder = placeholder
         this.classe = classe
-        this.callback = callback
-        this.options = options
+        this.modelo = modelo
+        this.SetParametros(parametros)
+        this.SetCallback(callback)
+        this.SetOptions(options)
         this.SetLabel(label)
+        this.registros = []
         this.selectedValues = []
     }
 
     SetLabel(label) {
-            
-        if (label) this.label = new Label(label)
+        if(label) this.label = new Label(label)
+    }
+
+    SetOptions(options) {
+        this.options = options
+    }
+
+    SetCallback(callback) {
+        this.callback = callback
+    }
+
+    SetParametros(parametros) {
+        this.parametros = parametros
     }
 
     async Load() {
-
-        await this.createFields()
+        await this.CreateFields()
     }
 
-    async setOptions(options) {
+    async BuscaRegistros(modelo, parametros) {
 
-        this.options = options
-        await this.Load()
+        if (!modelo) throw new Error('Modelo não informado')
+
+        try {
+            const response = await fetch(Constantes.URL_GET_MULTISELECT_MODELOS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ modelo, parametros: parametros || {} }), 
+            })
+
+            if (!response.ok) {
+                throw new Error('Erro ao buscar registros')
+            }
+
+            this.registros = await response.json()
+            this.registros = this.registros.data
+
+        } catch (error) {
+
+            console.log(error)
+            throw new Error('Erro ao buscar registros')
+        }
+        
     }
 
-    async createFields() {
+    async CreateFields() {
 
         let self = this
         this.Readonly(true)
@@ -41,7 +77,8 @@ class MultiSelect extends HTML {
         container.appendChild(this.html)
 
         this.dropdownElement = this.CreateElement('div', { class: 'dropdown-menu' })
-        this.options.forEach(option => self.createOption(option))
+
+        await this.LoadOptions()
 
         container.appendChild(this.dropdownElement)
         this.html.div = container
@@ -53,7 +90,25 @@ class MultiSelect extends HTML {
         })
     }
 
-    createOption(option) {
+    async LoadOptions() {
+
+        let self = this
+        if (this.options.length > 0 && !this.modelo) {
+
+            this.options.forEach(option => self.CreateOption(option))
+
+        }else if (this.modelo && this.options.length === 0) {
+
+            await this.BuscaRegistros(this.modelo, this.parametros)
+            this.registros.forEach(option => self.CreateOption(option))
+            
+        }else{
+                
+            throw new Error('Opções não informadas')
+        }
+    }
+
+    CreateOption(option) {
 
         let self = this
        
@@ -66,14 +121,14 @@ class MultiSelect extends HTML {
         optionElement.appendChild(self.TextNode(option.label))
 
         this.On('click', () => {
-            this.toggleOption(option.value, option.label)
-            this.updateCheckIcons()
+            this.ToggleOption(option.value, option.label)
+            this.UpdateCheckIcons()
         }, optionElement)
 
         this.dropdownElement.appendChild(optionElement)
     }
 
-    toggleOption(value, label) {
+    ToggleOption(value, label) {
 
         const index = this.selectedValues.indexOf(value)
 
@@ -86,7 +141,7 @@ class MultiSelect extends HTML {
             this.selectedValues.splice(index, 1)
         }
 
-        this.updateInput(label)
+        this.UpdateInput(label)
 
         if (this.callback) {
 
@@ -94,12 +149,12 @@ class MultiSelect extends HTML {
         }
     }
 
-    updateInput() {
+    UpdateInput() {
         let self = this
         this.Val(self.selectedValues.join(', ')) 
     }
 
-    updateCheckIcons() {
+    UpdateCheckIcons() {
 
         const optionElements = this.dropdownElement.querySelectorAll('.multiselect-option')
 
@@ -107,7 +162,7 @@ class MultiSelect extends HTML {
 
             const value = optionElement.dataset.value
             const checkIcon = optionElement.querySelector('.check-icon')
-            checkIcon.innerHTML = this.selectedValues.includes(value) ? '✔️' : ''
+            checkIcon.innerHTML = this.selectedValues.includes(Number(value)) ? '✔️' : ''
 
         })
     }
@@ -118,7 +173,7 @@ class MultiSelect extends HTML {
         if (value !== undefined) {
 
             super.Val(value) 
-            this.updateCheckIcons()
+            this.UpdateCheckIcons()
 
         }else{
 

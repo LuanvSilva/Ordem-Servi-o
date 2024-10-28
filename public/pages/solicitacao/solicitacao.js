@@ -40,7 +40,7 @@ class SolicitacaoPage extends HTML {
 
         let self = this
         this.Filter()
-        
+
         this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
             await self.MontaModalSolicitacao(false)
             self.modal.Show()
@@ -70,13 +70,10 @@ class SolicitacaoPage extends HTML {
         this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
         this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
         
-        this.multiSelect = new MultiSelect('Select Items', 'Select...', 'col-md-3', (selected) => {
+        this.multiSelect = new MultiSelect("clientes", 'Select Items', 'Select...', 'col-md-3', (selected) => {
             //console.log('Selected values:', selected);
-        }, [
-            { value: '1', label: 'Option 1' },
-            { value: '2', label: 'Option 2' },
-            { value: '3', label: 'Option 3' }
-        ]);
+        })
+        await this.multiSelect.Load()
 
         const button_search = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
             console.log(this.multiSelect.Val())
@@ -84,19 +81,14 @@ class SolicitacaoPage extends HTML {
 
         button_search.Load()
 
-        // for (let campo in this.campos_filtros) {
+        for (let campo in this.campos_filtros) {
 
-        //     this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
-        // }
+            this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
+        }
 
-        this.multiSelect.Load();
         this.Find("#filtros").appendChild(this.multiSelect.html.div)
-
-       
-
         this.Find("#botao_search").appendChild(button_search.html)
 
-      
     }
 
     async MontaModalSolicitacao(editar){
@@ -162,11 +154,11 @@ class SolicitacaoPage extends HTML {
             { key: "cliente", type: "Text", label: "Cliente", class: "col-md-3 mt-3", attrs: { id: "cliente", name: "cliente" } },
             { key: "codigo", type: "Text", label: "Código", class: "col-md-3 mt-3", attrs: { id: "codigo", name: "codigo" } },
             { key: "urgente", type: "Checkbox", label: "Urgente", class: "col-md-2 mt-3", attrs: { id: "urgente", name: "urgente" }, position: "top" },
+            { key: "valor", type: "Money", label: "Valor", class: "col-md-3 mt-3", attrs: { id: "valor", name: "valor" } },
             { key: "data_inicio", type: "Date", label: "Data Início", class: "col-md-3 mt-3", attrs: { id: "data_inicio", name: "data_inicio" } },
             { key: "hora_inicio", type: "Time", label: "Hora Início", class: "col-md-3 mt-3", attrs: { id: "hora_inicio", name: "hora_inicio" } },
             { key: "data_fim", type: "Date", label: "Data Fim", class: "col-md-3 mt-3", attrs: { id: "data_fim", name: "data_fim" } },
             { key: "hora_fim", type: "Time", label: "Hora Fim", class: "col-md-3 mt-3", attrs: { id: "hora_fim", name: "hora_fim" } },
-            { key: "valor", type: "Money", label: "Valor", class: "col-md-3 mt-3", attrs: { id: "valor", name: "valor" } },
             { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-6 mt-3", attrs: { id: "obsevacao", name: "obsevacao" }},
         ]
         
