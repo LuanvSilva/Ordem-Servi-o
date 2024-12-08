@@ -82,6 +82,8 @@ class MultiSelect extends HTML {
 
         container.appendChild(this.dropdownElement)
         this.html.div = container
+        this.div = {}
+        this.div.html = container
 
         this.On('click', () => this.dropdownElement.classList.toggle('show'))
         

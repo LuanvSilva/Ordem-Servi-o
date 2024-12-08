@@ -10,11 +10,15 @@ class Table extends HTML {
         this.recordsPerPage = 10
         this.hiddenColumns = new Set()
         this.coluna_nova = []
-        this.parametros = {}
+    }
+
+    SetParametros(parametros) {
+        
+        this.parametros = parametros || {}
     }
 
     async Load(parametros) {
-        this.parametros = parametros || {}
+        this.SetParametros(parametros)
         await this.BuscaRegistros(this.modelo)
         await this.MontaTabela()
     }

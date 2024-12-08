@@ -11,6 +11,7 @@ import { Tooltip } from "../../components/html/bootstrap/tooltip/tooltip.js";
 import { Toast } from "../../components/html/bootstrap/toast/toast.js";
 import { Alert } from "../../components/html/bootstrap/alert/alert.js";
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
+import { SkeletonLoader } from "../../components/html/skeleton/skeleton.js"
 
 class SolicitacaoPage extends HTML {
 
@@ -22,6 +23,7 @@ class SolicitacaoPage extends HTML {
         this.campos_filtros = new Map()
         this.campos_solitacao = new Object()
         this.input_loader = new ComponentLoader()
+        this.skeleton_container = new SkeletonLoader()
        // this.page = new Page('Solicitações - Painel de Gestão', 'Você está no Painel de Gestão - ')
     }
 
@@ -79,21 +81,20 @@ class SolicitacaoPage extends HTML {
             console.log(this.multiSelect.Val())
         })
 
-        button_search.Load()
-
+        button_search.Load() 
+ 
         for (let campo in this.campos_filtros) {
-
+ 
             this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
-        }
+        }     
 
-        this.Find("#filtros").appendChild(this.multiSelect.html.div)
+        this.Find("#filtros").appendChild(this.multiSelect.div.html)
         this.Find("#botao_search").appendChild(button_search.html)
 
     }
 
     async MontaModalSolicitacao(editar){
-
-        await this.MontaCamposHTML()
+ 
         let self = this
 
         this.modal = new Modal('large', 'Solicitação', "Salvar", async () => {
@@ -102,7 +103,20 @@ class SolicitacaoPage extends HTML {
         
         await this.modal.Load()
 
-        this.modal.LoadBody(this.row_solicitacao)
+        this.skeleton_container.SetRows([
+            'title',
+            'input',  
+            'title', 
+            'input',   
+            'title',
+            'textarea',     
+            'table',        
+            'multiplecards' 
+        ]);
+        this.skeleton_container.Load()
+
+        this.modal.LoadBody(this.skeleton_container.targetElement);
+
 
         this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
             self.modal.Hide()
@@ -122,7 +136,13 @@ class SolicitacaoPage extends HTML {
         }
         
        document.querySelector("body").append(this.modal.html)
-            
+        await this.MontaCamposHTML();
+
+        setTimeout(() => {
+            this.skeleton_container.Destroy()
+            this.modal.LoadBody(this.row_solicitacao);
+        }, 2000);
+        
     }
 
     async SalvaSolicitacao(editar){
@@ -151,21 +171,21 @@ class SolicitacaoPage extends HTML {
         this.row_solicitacao = this.bootstrap.Row()
 
         const camposConfig = [
-            { key: "cliente", type: "Text", label: "Cliente", class: "col-md-3 mt-3", attrs: { id: "cliente", name: "cliente" } },
-            { key: "codigo", type: "Text", label: "Código", class: "col-md-3 mt-3", attrs: { id: "codigo", name: "codigo" } },
-            { key: "urgente", type: "Checkbox", label: "Urgente", class: "col-md-2 mt-3", attrs: { id: "urgente", name: "urgente" }, position: "top" },
-            { key: "valor", type: "Money", label: "Valor", class: "col-md-3 mt-3", attrs: { id: "valor", name: "valor" } },
-            { key: "data_inicio", type: "Date", label: "Data Início", class: "col-md-3 mt-3", attrs: { id: "data_inicio", name: "data_inicio" } },
-            { key: "hora_inicio", type: "Time", label: "Hora Início", class: "col-md-3 mt-3", attrs: { id: "hora_inicio", name: "hora_inicio" } },
-            { key: "data_fim", type: "Date", label: "Data Fim", class: "col-md-3 mt-3", attrs: { id: "data_fim", name: "data_fim" } },
-            { key: "hora_fim", type: "Time", label: "Hora Fim", class: "col-md-3 mt-3", attrs: { id: "hora_fim", name: "hora_fim" } },
-            { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-6 mt-3", attrs: { id: "obsevacao", name: "obsevacao" }},
+            { key: "cliente", type: "MultiSelect", modelo:"clientes", label: "Cliente", placeholder:"Clientes" , class: "col-md-4 mt-3", callback: false, },
+            { key: "codigo",  type: "Text", label: "Código", class: "col-md-3 mt-3", callback: false, attrs: { id: "codigo", name: "codigo" } },
+            { key: "urgente", type: "Checkbox", label: "Urgente", class: "col-md-2 mt-3", callback: false, attrs: { id: "urgente", name: "urgente" }, position: "top" },
+            { key: "valor",   type: "Money", label: "Valor", class: "col-md-3 mt-3", callback: false, attrs: { id: "valor", name: "valor" } },
+            { key: "data_inicio", type: "Date", label: "Data Início", class: "col-md-3 mt-3", callback: false, attrs: { id: "data_inicio", name: "data_inicio" } },
+            { key: "hora_inicio", type: "Time", label: "Hora Início", class: "col-md-3 mt-3", callback: false, attrs: { id: "hora_inicio", name: "hora_inicio" } },
+            { key: "data_fim", type: "Date", label: "Data Fim", class: "col-md-3 mt-3", callback: false, attrs: { id: "data_fim", name: "data_fim" } },
+            { key: "hora_fim", type: "Time", label: "Hora Fim", class: "col-md-3 mt-3", callback: false, attrs: { id: "hora_fim", name: "hora_fim" } },
+            { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-6 mt-3", callback: false, attrs: { id: "obsevacao", name: "obsevacao" }},
         ]
         
         for (const campo of camposConfig) {
             
             campos[campo.key] = await this.input_loader.GetComponent(
-                campo.type, campo.label, campo.label, campo.class, null, campo.position, campo.attrs
+                campo.type, campo.modelo || null, campo.label, campo.label, campo.class, campo.callback, campo.position, campo.attrs
             )
 
             this.row_solicitacao.appendChild(campos[campo.key].div.html)

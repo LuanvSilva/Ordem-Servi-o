@@ -8,6 +8,7 @@ import { TextArea } from "../../html/input/textarea/textearea.js";
 import { Checkbox } from "../../html/input/checkbox/checkbox.js";
 import { DatePicker } from "../../html/input/datepicker/datepicker.js";
 import { Time } from "../../html/input/time/time.js";
+import { MultiSelect } from "../../html/input/multiselect/multiselect.js";
 
 class ComponentLoader {
   constructor() {
@@ -22,10 +23,13 @@ class ComponentLoader {
     this.components["Checkbox"] = Checkbox
     this.components["Date"] = DatePicker
     this.components["Time"] = Time
+    this.components["MultiSelect"] = MultiSelect
 
-  }
+  } 
 
   async GetComponent(componentName, ...args) {
+
+    args = args.filter(arg => arg != null)
 
     if (this.components[componentName]) {
 
