@@ -1,9 +1,9 @@
 import { HTML } from '../html.js'
 
-class SkeletonLoader extends HTML{
+class LoadingHTML extends HTML {
     constructor(targetElement, rowTypes) {
         super('div')
-        this.skeletons = [];
+        this.skeletons = []
         this.SetTargetElement(targetElement)
         this.SetRows(rowTypes)
     }
@@ -14,11 +14,10 @@ class SkeletonLoader extends HTML{
 
             this.targetElement = this.Find(targetElement)
 
-        } else{
+        } else {
 
-            this.targetElement = this.CreateElement('div', {class: 'skeleton-container'})
+            this.targetElement = this.CreateElement('div', { class: 'container' })
         }
-       
     }
 
     SetRows(rowTypes) {
@@ -29,54 +28,94 @@ class SkeletonLoader extends HTML{
     Load() {
 
         this.SetTargetElement()
+        this.LoadSkeletons()
+    }
+
+    LoadSkeletons() {
 
         for (let i = 0; i < this.rowTypes.length; i++) {
 
-            let skeleton = this.CreateElement('div', {class: 'col-md-12 mt-4 skeleton'})
+            this.div = this.CreateElement('div', { class: 'row mt-4' })
+            let row = this.rowTypes[i]
+            let type, count
 
-            // Ajustar estilos com base no tipo de row
-            switch (this.rowTypes[i]) {
-                case 'input':
-                    skeleton.style.height = '30px'
-                    break;
-                case 'textarea':
-                    skeleton.style.height = '100px'
-                    break;
-                case 'card':
-                    skeleton.style.height = '150px'
-                    skeleton.style.width = '80%'
-                    break;
-                case 'table':
-                    skeleton.style.height = '200px'
-                    break;
-                case 'multiplecards':
-                    let cardContainer = this.CreateElement('div', { class: 'd-flex flex-wrap gap-4' }); 
-                    for (let j = 0; j < 3; j++) { 
-                        let additionalCard = this.CreateElement('div', { class: 'mt-4 skeleton' }); 
-                        additionalCard.style.height = '150px'; 
-                        additionalCard.style.width = '30%';  
-                        cardContainer.appendChild(additionalCard); 
-                    }
-                    this.targetElement.appendChild(cardContainer);
-                    break;
-                case 'title':
-                    skeleton.style.height = '30px'
-                    skeleton.style.width = '10%'
-                    break;
-                default:
-                    skeleton.style.height = '30px'
+            if (Array.isArray(row)) {
+
+                [type, count] = row
+
+            } else {
+
+                type = row
+                count = 1
             }
 
-            this.targetElement.appendChild(skeleton);
+            for (let j = 0; j < count; j++) {
 
+                this.CreateSkeleton(type, count)
+            }
+
+            this.targetElement.appendChild(this.div)
+        }
+    }
+
+    CreateSkeleton(type, count) {
+
+        let column = this.CreateElement('div', { class: `col-md-${count > 1 ? Math.floor(12 / count) : 12}` })
+        let title =  this.CreateElement('div', { class: 'skeleton' , style: 'height: 15px; width: 25%' })
+        let campo =  this.CreateElement('div', { class: 'skeleton mt-2' })
+
+        // Ajustar estilos com base no tipo de row
+        switch (type) {
+            case 'input':
+                campo.style.height = '40px'
+                column.appendChild(title)
+                column.appendChild(campo)
+                this.div.appendChild(column)
+                break;
+            case 'textarea':
+                campo.style.height = '100px'
+                column.appendChild(title)
+                column.appendChild(campo)
+                this.div.appendChild(column)
+                break;
+            case 'card':
+                campo.style.height = '150px'
+                campo.style.width = '80%'
+                column.appendChild(campo)
+                this.div.appendChild(column)
+                break;
+            case 'table':
+                campo.style.height = '200px'
+                column.appendChild(campo)
+                this.div.appendChild(column)
+                break;
+            case 'multiplecards':
+                let cardContainer = this.CreateElement('div', { class: 'd-flex flex-wrap gap-4' })
+                for (let j = 0; j < 3; j++) {
+                    let additionalCard = this.CreateElement('div', { class: 'mt-1 skeleton' } )
+                    additionalCard.style.height = '150px'
+                    additionalCard.style.width = '30%'
+                    cardContainer.appendChild(additionalCard)
+                }
+                this.div.appendChild(cardContainer)
+                return;
+            case 'title':
+                campo.style.height = '20px'
+                campo.style.width = '15%'
+                column.appendChild(campo)
+                this.div.appendChild(column)
+                break;
+            default:
+                campo.style.height = '30px'
+                column.appendChild(campo)
+                this.div.appendChild(column)
         }
     }
 
     Destroy() {
-
         this.targetElement.remove()
         this.targetElement = null
     }
 }
 
-export { SkeletonLoader } 
+export { LoadingHTML }

@@ -11,7 +11,7 @@ import { Tooltip } from "../../components/html/bootstrap/tooltip/tooltip.js";
 import { Toast } from "../../components/html/bootstrap/toast/toast.js";
 import { Alert } from "../../components/html/bootstrap/alert/alert.js";
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
-import { SkeletonLoader } from "../../components/html/skeleton/skeleton.js"
+import { LoadingHTML } from "../../components/html/skeleton/skeleton.js"
 
 class SolicitacaoPage extends HTML {
 
@@ -23,7 +23,7 @@ class SolicitacaoPage extends HTML {
         this.campos_filtros = new Map()
         this.campos_solitacao = new Object()
         this.input_loader = new ComponentLoader()
-        this.skeleton_container = new SkeletonLoader()
+        this.skeleton_container = new LoadingHTML()
        // this.page = new Page('Solicitações - Painel de Gestão', 'Você está no Painel de Gestão - ')
     }
 
@@ -103,17 +103,12 @@ class SolicitacaoPage extends HTML {
         
         await this.modal.Load()
 
-        this.skeleton_container.SetRows([
-            'title',
-            'input',  
-            'title', 
-            'input',   
-            'title',
-            'textarea',     
-            'table',        
-            'multiplecards' 
-        ]);
-        this.skeleton_container.Load()
+            this.skeleton_container.SetRows([
+                ['input', 4],   // 3 inputs
+                ['input', 4],   // 3 inputs
+                'textarea'
+            ]);
+            this.skeleton_container.Load()
 
         this.modal.LoadBody(this.skeleton_container.targetElement);
 
@@ -141,7 +136,7 @@ class SolicitacaoPage extends HTML {
         setTimeout(() => {
             this.skeleton_container.Destroy()
             this.modal.LoadBody(this.row_solicitacao);
-        }, 2000);
+        }, 1000);
         
     }
 
@@ -179,7 +174,7 @@ class SolicitacaoPage extends HTML {
             { key: "hora_inicio", type: "Time", label: "Hora Início", class: "col-md-3 mt-3", callback: false, attrs: { id: "hora_inicio", name: "hora_inicio" } },
             { key: "data_fim", type: "Date", label: "Data Fim", class: "col-md-3 mt-3", callback: false, attrs: { id: "data_fim", name: "data_fim" } },
             { key: "hora_fim", type: "Time", label: "Hora Fim", class: "col-md-3 mt-3", callback: false, attrs: { id: "hora_fim", name: "hora_fim" } },
-            { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-6 mt-3", callback: false, attrs: { id: "obsevacao", name: "obsevacao" }},
+            { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-12 mt-3", callback: false, attrs: { id: "obsevacao", name: "obsevacao" }},
         ]
         
         for (const campo of camposConfig) {

@@ -1,10 +1,11 @@
 .skeleton {
     background: linear-gradient(90deg, #d3d3d3 0%, #b0b0b0 50%, #999999 100%);
     background-size: 200% 100%;
-    animation: shimmer 2s infinite linear; /* Aumentei o tempo da animação para suavizar a transição */
+    animation: shimmer 2s infinite linear;
     border-radius: 4px;
     height: inherit; /* Permite que a altura seja definida dinamicamente */
-    margin: 5px 0;
+    margin: 0;
+    padding: 0;
 }
 
 @keyframes shimmer {
