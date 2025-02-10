@@ -4,7 +4,17 @@ import { Button } from '../input/button/button.js'
 class Modal extends HTML {
     constructor(size, title) {
         super("div")
+        this.SetSize(size)
+        this.SetTitle(title)
+    }
+
+    SetSize(size) {
+
         this.size = size
+    }
+
+    SetTitle(title) {
+        
         this.title = title
     }
 

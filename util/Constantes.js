@@ -79,6 +79,12 @@ class Constantes {
         }
     }
 
+    static get URL_INTEGRACAO_GEMINI() {
+        return {
+            URL_BASE: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+        }
+    }
+
     static get MENSAGEM() {
         
         return {

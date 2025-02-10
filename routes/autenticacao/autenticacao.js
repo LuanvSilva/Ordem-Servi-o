@@ -1,12 +1,14 @@
 import axios from 'axios'
 import Constantes from '../../util/Constantes.js'
 import Validator from '../../util/Validator.js'
+import Gemini from '../../services/gemine.js';
 
 
 class Autenticacao{
 
   constructor(teste = false) {
     this.teste = teste
+    //this.gemini = new Gemini()
   }
   
   SetResponse(data, success, message, error, url) {
@@ -36,9 +38,13 @@ class Autenticacao{
         }
     
         try {
+
+        //    let resposta = await this.gemini.Generate('Escreva um poema sobre a lua.')
+        //     console.log(resposta)
+
             const response = await axios.post(Constantes.URL_API_LOGIN.LOGAR, { login, password })
             req.session.user = response.data
-    
+
             return res.status(response.status).json(
                 this.SetResponse(response.data, true, Constantes.MENSAGEM.LOGIN_SUCESSO, null, Constantes.URL_PAGES.HOME)
             )

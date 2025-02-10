@@ -105,7 +105,7 @@ class SolicitacaoPage extends HTML {
 
             this.skeleton_container.SetRows([
                 ['input', 4],   // 3 inputs
-                ['input', 4],   // 3 inputs
+                ['input', 4],
                 'textarea'
             ]);
             this.skeleton_container.Load()
