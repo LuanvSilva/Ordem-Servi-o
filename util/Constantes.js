@@ -107,6 +107,26 @@ class Constantes {
         }
     }
 
+    static get URL_BASE_ITENS() {
+        return {
+            CADASTRAR:  "/api/v1/item/create",
+            ATUALIZAR:  "/api/v1/item/update",
+            DELETAR:    "/api/v1/item/delete",
+            LISTAR:     "/api/v1/item/all",
+            LISTAR_ID:  "/api/v1/item/",
+        }
+    }
+
+    static get URL_API_ITEM() {
+        return {
+            CADASTRAR:  `${this.URL_API}/api/v1/item/create`,
+            ATUALIZAR:  `${this.URL_API}/api/v1/item/update`,
+            DELETAR:    `${this.URL_API}/api/v1/item/delete`,
+            LISTAR:     `${this.URL_API}/api/v1/item/all`,
+            LISTAR_ID:  `${this.URL_API}/api/v1/item/`,
+        }
+    }
+
     static get MENSAGEM() {
         
         return {
