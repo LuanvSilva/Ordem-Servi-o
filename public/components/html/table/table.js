@@ -61,9 +61,21 @@ class Table extends HTML {
 
         for (let key in this.registros[0]) {
 
-            let th = this.CreateElement('th')
-            th.innerHTML = key
-            this.tr.appendChild(th)
+            if(typeof this.registros[0][key] === 'object') {
+
+                for (let k in this.registros[0][key]) {
+
+                    let th = this.CreateElement('th')
+                    th.innerHTML = k
+                    this.tr.appendChild(th)
+                }
+
+            }else{
+                
+                let th = this.CreateElement('th')
+                th.innerHTML = key
+                this.tr.appendChild(th)
+            }
         }
 
         this.thead.appendChild(this.tr)
@@ -88,8 +100,21 @@ class Table extends HTML {
 
             for (let key in paginatedRecords[i]) {
 
-                let td = this.CreateElement('td', {}, paginatedRecords[i][key])
-                this.tr.appendChild(td)
+                if(typeof paginatedRecords[i][key] === 'object') {
+                   
+                    for (let k in paginatedRecords[i][key]) {
+
+                        let valor = this.TrataBoolean(paginatedRecords[i][key][k])
+                        let td = this.CreateElement('td', {}, valor)
+                        this.tr.appendChild(td)
+                    }
+
+                }else{
+
+                    let valor = this.TrataBoolean(paginatedRecords[i][key])
+                    let td = this.CreateElement('td', {}, valor)
+                    this.tr.appendChild(td)
+                }
             }
 
             if (this.coluna_nova.length > 0) {
@@ -224,20 +249,17 @@ class Table extends HTML {
 
             if (row) {
 
-                const rowData = {}
-                const cells = row.querySelectorAll('td')
+                const rowIndex = row.rowIndex - 1
 
-                cells.forEach((cell, index) => {
+                if (rowIndex >= 0 && rowIndex < this.registros.length) {
 
-                    const key = Object.keys(this.registros[0])[index]
-                    rowData[key] = cell.innerHTML
-
-                })
-                
-                callback(rowData)
+                    const rowData = { ...this.registros[rowIndex] }
+                    callback(rowData)
+                }
             }
-        })
+        });
     }
+    
 
     HideColumns(columns) {
 
@@ -301,6 +323,11 @@ class Table extends HTML {
         newTh.innerHTML = this.coluna_nova[this.coluna_nova.length - 1].name
         theadRow.appendChild(newTh)
 
+    }
+
+    TrataBoolean(value) {
+        
+        return value === true ? 'Sim' : value === false ? 'Não' : value
     }
     
     

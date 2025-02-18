@@ -4,10 +4,35 @@ class CardMenu extends HTML{
 
     constructor(descricao, card_secundario, icone, bgColorClass, coluna) {
         super("div")
-        this.descricao = descricao
+        this.SetIcone(icone)
+        this.SetColuna(coluna)
+        this.SetDescricao(descricao)
+        this.SetBgColorClass(bgColorClass)
+        this.SetCardSecundario(card_secundario)
+    }
+
+    SetIcone(icone) {
+
         this.icone = icone
-        this.bgColorClass = bgColorClass
+    }
+
+    SetColuna(coluna) {
+
         this.coluna = coluna
+    }
+
+    SetDescricao(descricao) {
+
+        this.descricao = descricao
+    }
+
+    SetBgColorClass(bgColorClass) {
+        
+        this.bgColorClass = bgColorClass
+    }
+
+    SetCardSecundario(card_secundario) {
+
         this.card_secundario = card_secundario
     }
 

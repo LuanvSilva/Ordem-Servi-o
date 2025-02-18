@@ -11,16 +11,19 @@ class AgendaPage extends HTML {
   }
 
   async Open() {
+
     this.AddHeader()
     await this.AddMain()
     this.AddFooter()
   }
 
   AddHeader() {
+    
     this.Find("#header").innerHTML += this.title
   }
 
   async AddMain() {
+
     const calendario = new CalendarioSemanal()
     await calendario.Load()
     this.Find("#agendamento").appendChild(calendario.html)

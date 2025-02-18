@@ -5,17 +5,43 @@ class Dashboard extends HTML {
     constructor(height, width, type, data, options) {
         super("canvas")
         this.ctx = this.GetContext('2d')
-        this.chart = null
-        this.height = height || '200px'
-        this._width = width || '400px'
-        this.type = type || 'bar'
-        this.data = data || {}
-        this.options = options || {}
+        this.SetChart(null)
+        this.SetData(data)
+        this.SetTipo(type)
+        this.SetWidth(width)
+        this.SetHeight(height)
+        this.SetOptions(options)
         this.Load()
     }
 
     SetTipo(type) {
+
         this.type = type
+    }
+
+    SetData(data) {
+        
+        this.data = data || {}
+    }
+
+    SetChart(chart) {
+        
+        this.chart = chart
+    }
+
+    SetWidth(width) {
+        
+        this.width = width || '400px'
+    }
+
+    SetHeight(height) {
+        
+        this.height =  height || '200px'
+    }
+
+    SetOptions(options) {
+        
+        this.options = options || {}
     }
 
     Load(){

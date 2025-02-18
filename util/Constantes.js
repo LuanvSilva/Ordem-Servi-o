@@ -85,6 +85,28 @@ class Constantes {
         }
     }
 
+    static get URL_BASE_SOLICITACOES() {
+        return {
+            CADASTRAR:  "/api/v1/solicitacao/create",
+            ATUALIZAR:  "/api/v1/solicitacao/update",
+            DELETAR:    "/api/v1/solicitacao/delete",
+            LISTAR:     "/api/v1/solicitacao/all",
+            ALTERAR_STATUS: "/api/v1/solicitacao/changeStatus",
+            LISTAR_ID:  "/api/v1/solicitacao/",
+        }
+    }
+
+    static get URL_API_SOLICITACAO() {
+        return {
+            CADASTRAR:  `${this.URL_API}/api/v1/solicitacao/create`,
+            ATUALIZAR:  `${this.URL_API}/api/v1/solicitacao/update`,
+            DELETAR:    `${this.URL_API}/api/v1/solicitacao/delete`,
+            LISTAR:     `${this.URL_API}/api/v1/solicitacao/all`,
+            ALTERAR_STATUS: `${this.URL_API}/api/v1/solicitacao/changeStatus`,
+            LISTAR_ID:  `${this.URL_API}/api/v1/solicitacao/`,
+        }
+    }
+
     static get MENSAGEM() {
         
         return {
@@ -98,6 +120,20 @@ class Constantes {
             MODELO_NAO_INFORMADO: "Modelo não informado",
             ERRO_GET_TABLE: "Erro ao buscar registros",
             GET_TABLE_SUCESSO: "Registros encontrados",
+            ERRO_GET_CLIENTES: "Erro ao buscar clientes",
+            GET_CLIENTES_SUCESSO: "Clientes encontrados",
+            CADASTRO_SUCESSO: "Cadastro realizado com sucesso",
+            ERRO_CADASTRO: "Erro ao realizar cadastro",
+            ATUALIZACAO_SUCESSO: "Atualização realizada com sucesso",
+            ERRO_ATUALIZACAO: "Erro ao realizar atualização",
+            DELETAR_SUCESSO: "Deleção realizada com sucesso",
+            ERRO_DELETAR: "Erro ao realizar deleção",
+            LISTAR_SUCESSO: "Listagem realizada com sucesso",
+            ERRO_LISTAR: "Erro ao realizar listagem",
+            ERRO_LISTAR_ID: "Erro ao realizar listagem por id",
+            LISTAR_ID_SUCESSO: "Listagem por id realizada com sucesso",
+            ERRO_ALTERAR_STATUS: "Erro ao alterar status",
+            ALTERAR_STATUS_SUCESSO: "Status alterado com sucesso",
         }
     }
 }

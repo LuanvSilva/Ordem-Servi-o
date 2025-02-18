@@ -10,7 +10,7 @@ class ClientesController {
 
         try {
 
-            const { token, empresa  } = req.session?.user || {}
+            const { token, empresa  } = req.session?.user?.token || {}
             const result = await this.clientesUseCase.PostClientes(req.body, token, String(empresa))
 
             res.json(result)
