@@ -3,9 +3,9 @@ import Constantes from '../../util/Constantes.js'
 
 class SolicitacaoUseCase{
     
-    constructor(){
-        this.SetEmpresa(null)
-        this.SetToken(null)
+    constructor(token, empresa){
+        this.SetToken(token)
+        this.SetEmpresa(empresa)
     }
 
     SetToken(token){
@@ -23,7 +23,7 @@ class SolicitacaoUseCase{
         return { data, success, message, error, url }
     }
 
-    async PostSolicitacao(body){
+    GetHeaders(){
 
         const headers = {
             'Content-Type': 'application/json',
@@ -34,7 +34,13 @@ class SolicitacaoUseCase{
             headers.Authorization = `Bearer ${this.token}`
         }
 
+        return headers
+    }
+
+    async PostSolicitacao(body){
+
         try {
+            const headers = this.GetHeaders()
             const response = await axios.post(Constantes.URL_API_SOLICITACAO.CADASTRAR, body, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.CADASTRO_SUCESSO, null, null)
@@ -47,16 +53,8 @@ class SolicitacaoUseCase{
 
     async PutSolicitacao(body){
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
-
         try {
+            const headers = this.GetHeaders()
             const response = await axios.put(Constantes.URL_API_SOLICITACAO.ATUALIZAR, body, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.ATUALIZACAO_SUCESSO, null, null)
@@ -70,16 +68,8 @@ class SolicitacaoUseCase{
 
     async DeleteSolicitacao(body){
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
-
         try {
+            const headers = this.GetHeaders()
             const response = await axios.delete(Constantes.URL_API_SOLICITACAO.DELETAR, body, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.DELETAR_SUCESSO, null, null)
@@ -92,17 +82,9 @@ class SolicitacaoUseCase{
     }
 
     async GetSolicitacao(){
-        
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
 
         try {
+            const headers = this.GetHeaders()
             const response = await axios.get(Constantes.URL_API_SOLICITACAO.LISTAR, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.LISTAR_SUCESSO, null, null)
@@ -115,17 +97,9 @@ class SolicitacaoUseCase{
     }
 
     async GetSolicitacaoById(id){
-        
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
 
         try {
+            const headers = this.GetHeaders()
             const url = `${Constantes.URL_API_SOLICITACAO.LISTAR_ID}${id}`
             const response = await axios.get(url, { headers })
 
@@ -139,17 +113,9 @@ class SolicitacaoUseCase{
     }
 
     async PatchSolicitacaoAlteraStatus(body){
-        
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
 
         try {
+            const headers = this.GetHeaders()
             const response = await axios.patch(Constantes.URL_API_SOLICITACAO.ALTERAR_STATUS, body, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.ALTERAR_STATUS_SUCESSO, null, null)

@@ -1,20 +1,8 @@
-import ItemUseCase from '../../useCase/item/itemUseCase.js'
+import ItemUseCase from '../../use_case/item/ItemUseCase.js'
 
 class itemController{
-    constructor(){
-        this.itemUseCase = new ItemUseCase()
-        this.SetToken(req.session?.user?.token)
-        this.SetEmpresa(String(req.session?.user?.empresa))
-    }
-
-    SetToken(token){
-
-        this.itemUseCase.SetToken(token)
-    }
-
-    SetEmpresa(empresa){
-
-        this.itemUseCase.SetEmpresa(empresa)
+    constructor(token, empresa){
+        this.itemUseCase = new ItemUseCase(token, empresa)
     }
 
     async PostItem(req, res){
@@ -36,6 +24,7 @@ class itemController{
     }
 
     async GetItem(req, res){
+        
         let result = await this.itemUseCase.GetItem()
         result.success ? res.status(200).json(result) : res.status(400).json(result)
     }

@@ -1,10 +1,10 @@
 import Autenticacao from './autenticacao/autenticacao.js';
 import express from 'express';
 import ClientesRoutes from './cliente/clientes.js';
-import axios from 'axios';
-import Constantes from '../util/Constantes.js';
 import TableRoute from './table/table.js';
 import MultiSelectRoute from './multiselect/multiselectRoute.js';
+import Solicitacao from './solicitacao/Solicitacao.js';
+import Item from './item/Item.js';
 
 class Routes {
     constructor(path, __dirname) {
@@ -15,6 +15,8 @@ class Routes {
         this.rotas_clientes = new ClientesRoutes()
         this.rotas_table = new TableRoute()
         this.rotas_multiselect = new MultiSelectRoute()
+        this.solicitacao = new Solicitacao()
+        this.item = new Item()
     }
 
     SetResponse(data, success, message, error, url) {
@@ -27,11 +29,23 @@ class Routes {
     }
 
     async RoutesAuthMain() {
+
         return await this.rotas_autenticacao.Auth(this.app)
     }
 
     async RoutesClientMain() {
+
         return await this.rotas_clientes.RoutesMain(this.app)
+    }
+
+    async RoutesSolicitacaoMain() {
+
+        return await this.solicitacao.RoutesMain(this.app)
+    }
+
+    async RoutesItemMain() {
+        
+        return await this.item.RoutesMain(this.app)
     }
 
     RoutesLoginMain() {

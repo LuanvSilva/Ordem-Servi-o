@@ -2,9 +2,9 @@ import axios from 'axios'
 import Constantes from '../../util/Constantes.js'
 
 class ItemUseCase{
-    constructor(){
-        this.SetEmpresa(null)
-        this.SetToken(null)
+    constructor(token, empresa){
+        this.SetToken(token)
+        this.SetEmpresa(empresa)
     }
 
     SetToken(token){
@@ -22,7 +22,7 @@ class ItemUseCase{
         return { data, success, message, error, url }
     }
 
-    async PostItem(body){
+    GetHeaders(){
 
         const headers = {
             'Content-Type': 'application/json',
@@ -33,7 +33,13 @@ class ItemUseCase{
             headers.Authorization = `Bearer ${this.token}`
         }
 
+        return headers
+    }
+
+    async PostItem(body){
+
         try {
+            const headers = this.GetHeaders()
             const response = await axios.post(Constantes.URL_API_ITEM.CADASTRAR, body, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.CADASTRO_SUCESSO, null, null)
@@ -46,16 +52,8 @@ class ItemUseCase{
 
     async PutItem(body){
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
-
         try {
+            const headers = this.GetHeaders()
             const response = await axios.put(Constantes.URL_API_ITEM.ATUALIZAR, body, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.ATUALIZACAO_SUCESSO, null, null)
@@ -68,16 +66,8 @@ class ItemUseCase{
 
     async DeleteItem(body){
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
-
         try {
+            const headers = this.GetHeaders()
             const response = await axios.delete(Constantes.URL_API_ITEM.DELETAR, { headers, data: body })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.DELETAR_SUCESSO, null, null)
@@ -90,16 +80,8 @@ class ItemUseCase{
 
     async GetItem(){
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
-
         try {
+            const headers = this.GetHeaders()
             const response = await axios.get(Constantes.URL_API_ITEM.LISTAR, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.LISTAR_SUCESSO, null, null)
@@ -112,17 +94,9 @@ class ItemUseCase{
 
     async GetItemById(id){
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'empresa': this.empresa
-        }
-
-        if (this.token) {
-            headers.Authorization = `Bearer ${this.token}`
-        }
-
         try {
-            const response = await axios.get(Constantes.URL_API_ITEM.LISTAR_ID + id, { headers })
+            const headers = this.GetHeaders()
+            const response = await axios.get(`${Constantes.URL_API_ITEM.LISTAR_ID}${id}`, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.LISTAR_SUCESSO, null, null)
 

@@ -1,22 +1,9 @@
 import SolicitacaoUseCase from '../../use_case/solicitacao/SolicitacaoUseCase.js'
 
-class SolicitacaoController{
+class SolicitacaoController {
     
-    constructor(){
-        this.solicitacao_useCase = new SolicitacaoUseCase()
-        this.SetToken(req.session?.user?.token)
-        this.SetEmpresa(String(req.session?.user?.empresa))
-
-    }
-
-    SetToken(token){
-
-        this.solicitacao_useCase.SetToken(token)
-    }
-
-    SetEmpresa(empresa){
-
-        this.solicitacao_useCase.SetEmpresa(empresa)
+    constructor(token, empresa){
+        this.solicitacao_useCase = new SolicitacaoUseCase(token, empresa)
     }
 
     async PostSolicitacao(req, res){
