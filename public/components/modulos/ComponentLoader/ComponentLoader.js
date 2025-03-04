@@ -9,6 +9,7 @@ import { Checkbox } from "../../html/input/checkbox/checkbox.js";
 import { DatePicker } from "../../html/input/datepicker/datepicker.js";
 import { Time } from "../../html/input/time/time.js";
 import { MultiSelect } from "../../html/input/multiselect/multiselect.js";
+import { Select } from "../../html/input/select/select.js";
 
 class ComponentLoader {
   constructor() {
@@ -24,6 +25,7 @@ class ComponentLoader {
     this.components["Date"] = DatePicker
     this.components["Time"] = Time
     this.components["MultiSelect"] = MultiSelect
+    this.components["Select"] = Select
 
   } 
 
@@ -36,7 +38,7 @@ class ComponentLoader {
         const componentInstance = new this.components[componentName](...args)
         await componentInstance.Load()
 
-        if (args.length > 0 && typeof args[args.length - 1] === 'object') {
+        if (args.length > 0 && (typeof args[args.length - 1] === 'object' || typeof args[args.length - 1] === 'array')) {
 
             const params = args.pop()
             if (params.id) componentInstance.Id(params.id)
@@ -49,6 +51,7 @@ class ComponentLoader {
             if (params.type) componentInstance.Atributo('type', params.type)
             if (params.callback) componentInstance.SetCallback(params.callback)
             if (params.placeholder) componentInstance.Placeholder(params.placeholder)
+            if (params.options) componentInstance.SetOption(params.options)
             
         }
   

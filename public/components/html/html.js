@@ -141,15 +141,15 @@ class HTML{
 
     Obrigatorio(valor, objeto) {
             
-            if (this.main != undefined || this.html != undefined && valor != undefined) {
-    
-                this.html.required = valor
-    
-            }else if (objeto != undefined && valor != undefined) {
-    
-                this.Find(objeto).required = valor
-    
-            }
+        if (this.main != undefined || this.html != undefined && valor != undefined) {
+
+            this.html.required = valor
+
+        }else if (objeto != undefined && valor != undefined) {
+
+            this.Find(objeto).required = valor
+
+        }
     }
 
     Readonly(valor, objeto) {
@@ -339,15 +339,15 @@ class HTML{
     
     
 
-    AppendChild(objeto) {
+    AppendChild(objeto, elemento) {
 
-        if(this.main != undefined || this.html != undefined) {
+        if(!elemento && (this.main != undefined || this.html != undefined)) {
                 
             this.html.appendChild(objeto)
         
-        }else if(objeto != undefined) {
+        }else if(objeto != undefined && elemento != undefined) {
                         
-            this.Find(objeto).appendChild(objeto)
+            this.Find(elemento).appendChild(objeto)
         }
 
     }

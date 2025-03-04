@@ -9,6 +9,7 @@ class TableUseCase {
     }
 
     async GetTable(parametros, url, bearerToken) {
+        
         try {
             const headers = {
                 'Content-Type': 'application/json'

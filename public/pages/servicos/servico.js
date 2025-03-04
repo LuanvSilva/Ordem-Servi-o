@@ -4,17 +4,21 @@ import { Table } from '../../components/html/table/table.js'
 import { Modal } from '../../components/html/modal/modal.js'
 import { Noty } from '../../components/html/noty/noty.js'
 import { Button } from '../../components/html/input/button/button.js'
-import { Zoom } from '../../components/html/input/zoom/zoom.js'
+import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
+import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
+import { Footer } from "../../components/html/footer/footer.js"
 
 class ServicoPage extends HTML{
     constructor(){
         super()
         this.title = 'Serviços'
         this.noty = new Noty()
+        this.bootstrap = new Bootstrap()
+        this.input_loader = new ComponentLoader()
     }
 
      async Open(){
-
+        
         this.AddHeader()
         await this.AddMain()
         this.AddFooter()
@@ -61,17 +65,10 @@ class ServicoPage extends HTML{
         const button_serach = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
             await self.BuscarServicos()
         })
+
         button_serach.Load()
         this.Find("#botao_search").appendChild(button_serach.html)
 
-        // this.zoom = new Zoom("clientes", "clientes", "col-md-1", false, true)
-        // this.zoom.Load()
-        // this.zoom.SetRetorno({
-        //     id: { data: 'id', placeholder:"id" ,visible: false, readonly: false},
-        //     descricao: {data: 'descricao', placeholder:"descricao" ,visible: true, obrigatorio: true, readonly: false},
-        // })
-
-       // this.Find("#filtros").appendChild(this.zoom.html)
     }
 
     async MontaModalServico(button_excluir){
@@ -79,13 +76,8 @@ class ServicoPage extends HTML{
         let self = this
         this.modal = new Modal('large', 'Serviço')
         this.modal.Load()
-        let campos = await this.MontaCamposHTML()
-
-        for (const campo of campos) {
-
-            await this.modal.LoadBody(campo)
-        }
-
+        this.modal.LoadBody(await this.GetCamposHTML())
+        
         this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
             self.modal.Hide()
         })
@@ -94,7 +86,7 @@ class ServicoPage extends HTML{
 
             this.modal.AddButton('Excluir', 'danger ', 'col-md-2', async () => {
                 self.modal.Hide()
-            // await self.ExcluirServico()
+                await self.ExcluirServico()
                 await self.noty.Noty('success', 'Serviço excluido com sucesso!')
             })
         }
@@ -105,23 +97,53 @@ class ServicoPage extends HTML{
             await self.noty.Noty('success', 'Serviço salvo com sucesso!')
             self.SalvarServico()
         })
-
-        const existingModal = document.querySelector('.modal')
-
-        if (existingModal) {
-            existingModal.remove()
-        }
-        
-       document.querySelector("body").append(this.modal.html)
     }
 
-    async SetValCampos(params){
+  
+  async GetCamposHTML(){
 
-    
+      let campos = []
+  
+      const estrutura_campos = this.bootstrap.Row()
+      const campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())
+  
+      for (const campo of campos_servicos.campos) {
+         
+          let evento = null
+          if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
+                evento = this[campo.callback]
+          }
+  
+          campos[campo.key] = await this.input_loader.GetComponent(
+              campo.type,
+              campo.modelo || null,
+              campo.label,
+              campo.placeholder,
+              campo.class,
+              evento,  
+              campo.position,
+              campo.attrs,
+              campo.options
+          );
+          
+          estrutura_campos.appendChild(campos[campo.key].div.html);
+      }
+  
+      return estrutura_campos;
+  }
+
+  OnTipoChange(){
+    const start = () => {
+        this.Val()
     }
+    start()
+  }
+  
 
     AddFooter(){
-       // this.Find("#footer").innerHTML = "Footer"
+        // const footer = new Footer()
+        // footer.Load()
+        // this.Find("#footer").appendChild(footer.html)
     }
 }
 

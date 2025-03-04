@@ -112,6 +112,14 @@ class Modal extends HTML {
         modal.hide()
     }
 
+    Clear() {   
+        const existingModal = document.querySelector('.modal')
+
+        if (existingModal) {
+            existingModal.remove()
+        }
+    }
+
 
 }
 

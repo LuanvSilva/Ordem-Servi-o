@@ -1,0 +1,50 @@
+{
+    "campos": [
+        {
+            "key":"codigo",
+            "type":"Text",
+            "label":"Código",
+            "placeholder":"Código",
+            "class":"col-md-4 mt-3",
+            "callback": false
+        },
+        {
+            "key":"descricao",
+            "type":"Text",
+            "label":"Descrição",
+            "placeholder":"Descrição",
+            "class":"col-md-4 mt-3",
+            "callback": false
+        },
+        {
+            "key":"valor",
+            "type":"Text",
+            "label":"Valor",
+            "placeholder":"Valor",
+            "class":"col-md-4 mt-3",
+            "callback": false
+        },
+        {
+            "key":"tipo",
+            "type":"Select",
+            "modelo":"null",
+            "texto_inicial":"Selecione o tipo",
+            "label":"Tipo",
+            "placeholder":"Tipo",
+            "class":"col-md-4 mt-3",
+            "callback": "OnTipoChange",
+            "options": [
+                {
+                    "id": "1",
+                    "descricao": "item",
+                    "valor": "item"
+                },
+                {
+                    "id": "2",
+                    "descricao": "Serviço",
+                    "valor": "servico"
+                }
+            ]
+        }
+    ]
+}
