@@ -1,12 +1,11 @@
 import { Input } from '../input.js'
-
+import { Constantes } from '../../../../resources/util/constantes.js'
 class Select extends Input{
     constructor(modelo, label, placeholder, col, callback, option = null){
         super('select', label, placeholder, col, callback)
         this.placeholder = placeholder
         this.callback = callback
-        this.modelo = modelo
-        //this.texto_inicial = texto_inicial
+        this.registros = null
         this.SetOption(option)
         this.SetModelo(modelo)
         
@@ -21,30 +20,57 @@ class Select extends Input{
 
         this.modelo = modelo
     }
+
+    SetTextoInicial(texto_inicial){
+
+        this.texto_inicial = texto_inicial
+    }
     
     async Load() {
-
-        await this.GetModelo()
+        await this.LoadSelect()
         return await this.ConfiguraCampos()
     }
 
     async GetModelo() {
-    
-       // await this.FetchPost(this.modelo, {}, function() {})
-            
-        let dados = [ // Exemplo de dados que viriam do servidor caso o modelo fosse um passando como parâmetro no construtor
-            { id: 1, name: 'Alice',     age: 30,    descricao: 'A software engineer from New York.' },
-            { id: 2, name: 'Bob',       age: 25,    descricao: 'A graphic designer with a passion for art.' },
-            { id: 3, name: 'Charlie',   age: 35,    descricao: 'An experienced project manager in the tech industry.' }
-        ]
 
-        if (this.option) {
+        if (!this.modelo) {
+            throw new Error('Modelo não informado')
+        }
+
+        try {
+            const response = await fetch(Constantes.URL_GET_MULTISELECT_MODELOS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ modelo: this.modelo, parametros: this.parametros || {} }), 
+            })
+
+            if (!response.ok) {
+                throw new Error('Erro ao buscar registros')
+            }
+
+            this.registros = await response.json()
+            this.registros = this.registros.data
+
+        } catch (error) {
+
+            console.log(error)
+            throw new Error('Erro ao buscar registros')
+        }
+    }
+
+    async LoadSelect() {
+    
+
+        if (this.option && this.option.length > 0) {
                 
-            await this.LoadSelect(this.option)
+            await this.CreateSelect(this.option)
 
         }else if (this.modelo) {
 
-            await this.LoadSelect(dados)
+            await this.GetModelo()
+            await this.CreateSelect(this.registros)
 
         }else {
 
@@ -57,9 +83,10 @@ class Select extends Input{
         this.AddClass('input-carwash')
         if (this.placeholder) this.Placeholder(this.placeholder)
         if (this.callback) this.Change(this.callback)
+            
     }
 
-    async LoadSelect(dados){
+    async CreateSelect(dados){
 
         let option = document.createElement('option')
         option.text = this.texto_inicial ? this.texto_inicial : 'Selecione'
@@ -96,10 +123,7 @@ class Select extends Input{
 
         }else{
 
-            return {
-                id: this.GetValue(),
-                data: this.GetSelectedData()
-            }
+            return this.GetSelectedData()
         }
     }
 

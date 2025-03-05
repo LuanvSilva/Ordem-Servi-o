@@ -6,7 +6,8 @@
             "label":"Código",
             "placeholder":"Código",
             "class":"col-md-4 mt-3",
-            "callback": false
+            "callback": false,
+            "attrs":{"id":"codigo", "name":"codigo"}
         },
         {
             "key":"descricao",
@@ -14,7 +15,8 @@
             "label":"Descrição",
             "placeholder":"Descrição",
             "class":"col-md-4 mt-3",
-            "callback": false
+            "callback": false,
+            "attrs":{"id":"descricao", "name":"descricao"}
         },
         {
             "key":"valor",
@@ -22,7 +24,8 @@
             "label":"Valor",
             "placeholder":"Valor",
             "class":"col-md-4 mt-3",
-            "callback": false
+            "callback": false,
+            "attrs":{"id":"valor", "name":"valor"}
         },
         {
             "key":"tipo",
@@ -37,14 +40,58 @@
                 {
                     "id": "1",
                     "descricao": "item",
-                    "valor": "item"
+                    "codigo": "001"
                 },
                 {
                     "id": "2",
                     "descricao": "Serviço",
-                    "valor": "servico"
+                    "valor": "002"
                 }
-            ]
+            ],
+            "attrs": {"id":"tipo", "name":"tipo"}
+        },
+        {
+            "key":"categoria",
+            "type":"Select",
+            "modelo":"categoria",
+            "texto_inicial":"Selecione a categoria",
+            "label":"Categoria",
+            "placeholder":"Categoria",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "options": [],
+            "attrs": {"id":"categoria", "name":"categoria"}
+        },
+        {
+            "key": "unidade",
+            "type": "Select",
+            "modelo": "unidade",
+            "texto_inicial": "Selecione a unidade",
+            "label": "Unidade",
+            "placeholder": "Unidade",
+            "class": "col-md-4 mt-3",
+            "callback": false,
+            "options": [],
+            "attrs": {"id":"unidade", "name":"unidade"}
+        },
+        {
+            "key":"observacao",
+            "type":"TextArea",
+            "label":"Observação",
+            "placeholder":"Observação",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "attrs":{"id":"observacao", "name":"observacao"}
+        },
+        {
+            "key":"ativo",
+            "type":"Checkbox",
+            "label":"Ativo",
+            "placeholder":"Ativo",
+            "class":"col-md-2 mt-3",
+            "callback": false,
+            "attrs":{"id":"ativo", "name":"ativo"}
         }
+
     ]
 }

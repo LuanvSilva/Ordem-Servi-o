@@ -1,0 +1,22 @@
+{
+    "campos": [
+        {
+            "key":"email",
+            "type":"Email",
+            "label":false,
+            "placeholder":"Email",
+            "class":"form-group",
+            "callback": false,
+            "attrs":{"id":"email", "name":"email", "class":"form-style"}
+        },
+        {
+            "key":"senha",
+            "type":"Text",
+            "label":false,
+            "placeholder":"Senha",
+            "class":"form-group mt-2",
+            "callback": false,
+            "attrs":{"id":"senha", "name":"senha", "class":"form-style"}
+        }
+    ]
+}

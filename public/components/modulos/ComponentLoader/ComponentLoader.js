@@ -29,6 +29,25 @@ class ComponentLoader {
 
   } 
 
+  SetAtributes(atributes) {
+
+    this.atributes = atributes
+  }
+
+  SetAtributesComponent(component, params) {
+
+    if (params.id) component.Id(params.id)
+    if (params.name) component.Name(params.name)
+    if (params.value) component.Val(params.value)
+    if (params.class) component.AddClass(params.class)
+    if (params.disabled) component.Disabled(params.disabled)
+    if (params.required) component.Required(params.required)
+    if (params.readonly) component.Readonly(params.readonly)
+    if (params.type) component.Atributo('type', params.type)
+    if (params.callback) component.SetCallback(params.callback)
+    if (params.placeholder) component.Placeholder(params.placeholder)
+  }
+
   async GetComponent(componentName, ...args) {
 
     args = args.filter(arg => arg != null)
@@ -37,23 +56,7 @@ class ComponentLoader {
 
         const componentInstance = new this.components[componentName](...args)
         await componentInstance.Load()
-
-        if (args.length > 0 && (typeof args[args.length - 1] === 'object' || typeof args[args.length - 1] === 'array')) {
-
-            const params = args.pop()
-            if (params.id) componentInstance.Id(params.id)
-            if (params.name) componentInstance.Name(params.name)
-            if (params.value) componentInstance.Val(params.value)
-            if (params.class) componentInstance.AddClass(params.class)
-            if (params.disabled) componentInstance.Disabled(params.disabled)
-            if (params.required) componentInstance.Required(params.required)
-            if (params.readonly) componentInstance.Readonly(params.readonly)
-            if (params.type) componentInstance.Atributo('type', params.type)
-            if (params.callback) componentInstance.SetCallback(params.callback)
-            if (params.placeholder) componentInstance.Placeholder(params.placeholder)
-            if (params.options) componentInstance.SetOption(params.options)
-            
-        }
+        await this.SetAtributesComponent(componentInstance, this.atributes)
   
         return componentInstance
 

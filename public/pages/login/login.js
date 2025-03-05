@@ -10,41 +10,58 @@ class LoginPage extends HTML{
     constructor(){
         super()
         this.noty = new Noty()  
-        this.campos = new WeakMap()
+        this.campos = []
         this.util = new Util()
         this.campos_cadastro = new WeakMap()
         this.input_loader = new ComponentLoader()
     }
 
-    Open(){
-        this.AddMain()
+    async Open(){
+        await this.AddMain()
         this.AddFooter()
     }
 
 
-    AddMain(){
-        this.MontaLogin()
+    async AddMain(){
+        await this.MontaLogin()
         this.MontaEsqueciSenha()
-        this.CadastrarUsurio()
+        //this.CadastrarUsurio()
     }
 
     async MontaLogin(){
 
         let self = this
-        let icon_email = this.CreateElement("i", {class:"input-icon uil uil-at" })
-        let icon_senha = this.CreateElement("i",{ class:"input-icon uil uil-lock" })
+        this.icones = {}
+        this.icones.email = this.CreateElement("i", {class:"input-icon uil uil-at" })
+        this.icones.senha = this.CreateElement("i",{ class:"input-icon uil uil-lock" })
 
-        this.campos["email"]    = await this.input_loader.GetComponent('Email', false, "Seu E-mail", "form-group", null, { id: "email", class: "form-style",})
-        this.campos["password"] = await this.input_loader.GetComponent('Text', false, "Sua Senha", "form-group mt-2", null, { id: "senha", class: "form-style"})
-        
-        this.campos["email"].div.AppendChild(icon_email)
-        this.campos["password"].div.AppendChild(icon_senha)
+        const campos_login = await fetch('./login.json').then(response => response.json())
+    
+        for (const campo of campos_login.campos) {
+            
+            if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
 
-        for(let campo in this.campos){
+                campo.callback = this[campo.callback].bind(this)
+            }
 
-            this.AppendChild(this.campos[campo].div.html, "#login")
+            this.input_loader.SetAtributes(campo.attrs)
+
+            this.campos[campo.key] = await this.input_loader.GetComponent(
+                campo.type,
+                campo.modelo || null,
+                campo.label,
+                campo.placeholder,
+                campo.class,
+                campo.callback,  
+                campo.position,
+                campo.attrs,
+                campo.options
+            )
+            
+            this.campos[campo.key].div.AppendChild(self.icones[campo.key])
+            this.AppendChild(self.campos[campo.key].div.html, "#login")
         }
-
+    
         this.btn = this.CreateElement("a", { class:"btn mt-4" }, "Entrar")
         this.btn.addEventListener("click", () => self.Logar())
 
@@ -94,7 +111,7 @@ class LoginPage extends HTML{
             
         let self = this
         let login = this.campos["email"].Val()
-        let password = this.campos["password"].Val()
+        let password = this.campos["senha"].Val()
         let valid = new RegExp(Constantes.VALIDA.EMAIL)
         if(login.trim() == "" || password.trim() == ""){
             self.noty.Noty("warning","Preencha todos os campos")

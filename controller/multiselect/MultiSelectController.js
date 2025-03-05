@@ -16,7 +16,7 @@ class MultiSelectController {
         switch (modelo) {
             case 'clientes':
                 return Constantes.URL_GET_MODELOS_TABLE.GET_CLIENTES;
-            case 'categorias':
+            case 'categoria':
                 return Constantes.URL_GET_MODELOS_TABLE.GET_CATEGORIA;
             case 'status':
                 return Constantes.URL_GET_MODELOS_TABLE.GET_STATUS;
@@ -48,7 +48,7 @@ class MultiSelectController {
 
             const result = await this.multiSelectUseCase.GetTable(parametros, url, token)
 
-            result.data =  result.data.map(item => ({ value: item.id, label: item.name }))
+            result.data =  result.data.map(item => ({ id: item.id, descricao: item.name || item.descricao || "", codigo: item.codigo || "" }))
 
             res.json(result)
 

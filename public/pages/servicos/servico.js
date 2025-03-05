@@ -12,6 +12,7 @@ class ServicoPage extends HTML{
     constructor(){
         super()
         this.title = 'Serviços'
+        this.campos = []
         this.noty = new Noty()
         this.bootstrap = new Bootstrap()
         this.input_loader = new ComponentLoader()
@@ -98,45 +99,42 @@ class ServicoPage extends HTML{
             self.SalvarServico()
         })
     }
+  
+    async GetCamposHTML(){
+    
+        const estrutura_campos = this.bootstrap.Row()
+        const campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())
+    
+        for (const campo of campos_servicos.campos) {
+            
+            if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
 
-  
-  async GetCamposHTML(){
-
-      let campos = []
-  
-      const estrutura_campos = this.bootstrap.Row()
-      const campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())
-  
-      for (const campo of campos_servicos.campos) {
-         
-          let evento = null
-          if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
-                evento = this[campo.callback]
-          }
-  
-          campos[campo.key] = await this.input_loader.GetComponent(
-              campo.type,
-              campo.modelo || null,
-              campo.label,
-              campo.placeholder,
-              campo.class,
-              evento,  
-              campo.position,
-              campo.attrs,
-              campo.options
-          );
-          
-          estrutura_campos.appendChild(campos[campo.key].div.html);
-      }
-  
-      return estrutura_campos;
-  }
-
-  OnTipoChange(){
-    const start = () => {
-        this.Val()
+                campo.callback = this[campo.callback].bind(this)
+            }
+            
+            if(campo.attrs && campo.attrs.length > 0){
+                campo.attrs = Object.fromEntries(campo.attrs.map(attr => attr.split('=')));
+            }
+            this.campos[campo.key] = await this.input_loader.GetComponent(
+                campo.type,
+                campo.modelo || null,
+                campo.label,
+                campo.placeholder,
+                campo.class,
+                campo.callback,  
+                campo.position,
+                campo.attrs,
+                campo.options
+            )
+            
+            estrutura_campos.appendChild(this.campos[campo.key].div.html)
+        }
+    
+        return estrutura_campos
     }
-    start()
+
+  OnTipoChange(params){
+    console.log(this.campos['tipo'].Val())
   }
   
 

@@ -4,6 +4,7 @@ import { Button } from '../input/button/button.js'
 class Modal extends HTML {
     constructor(size, title) {
         super("div")
+        this.modal_html = null
         this.SetSize(size)
         this.SetTitle(title)
     }
@@ -26,6 +27,16 @@ class Modal extends HTML {
     LoadFooter(footer) {
         
         this.footer.appendChild(footer)
+    }
+
+    Getoptions(){
+
+        return {
+            backdrop: false,
+            keyboard: true,    
+            focus: true,        
+            show: true 
+        }
     }
 
     AddButton(label, tipo, col, callback) {
@@ -66,9 +77,7 @@ class Modal extends HTML {
         this.Atributo("class", 'modal fade')
         this.Atributo('tabindex', '-1')
         this.Atributo('role', 'dialog')
-        this.Atributo('aria-labelledby', 'staticBackdropLabel')
         this.Atributo('aria-hidden', 'true')
-        this.Atributo("data-bs-backdrop", "static")
         this.Atributo("data-bs-keyboard", "false")
     
         this.modal_div     = this.CreateElement("div", { class: "modal-dialog " + this.size })
@@ -103,16 +112,19 @@ class Modal extends HTML {
     }
 
     Show() {
-        const modal = new bootstrap.Modal(this.html)
-        modal.show()
+
+        this.modal_html = new bootstrap.Modal(this.html, this.Getoptions())
+        this.modal_html.toggle()
     }
 
     Hide() {
-        const modal = bootstrap.Modal.getInstance(this.html)
-        modal.hide()
+
+        this.modal_html.toggle()
+        this.Clear()
     }
 
     Clear() {   
+        
         const existingModal = document.querySelector('.modal')
 
         if (existingModal) {
