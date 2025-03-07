@@ -124,7 +124,7 @@ class Constantes {
 
     static get URL_API_ITEM() {
         return {
-            CADASTRAR:  `${this.URL_API}/api/v1/item/create`,
+            CADASTRAR:  `${this.URL_API}/api/v1/item/createItem`,
             ATUALIZAR:  `${this.URL_API}/api/v1/item/update`,
             DELETAR:    `${this.URL_API}/api/v1/item/delete`,
             LISTAR:     `${this.URL_API}/api/v1/item/all`,

@@ -7,6 +7,7 @@ import { Button } from '../../components/html/input/button/button.js'
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
 import { Footer } from "../../components/html/footer/footer.js"
+import { Constantes } from '../../resources/util/constantes.js'
 
 class ServicoPage extends HTML{
     constructor(){
@@ -93,10 +94,7 @@ class ServicoPage extends HTML{
         }
 
         this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
-            self.modal.Hide()
-            self.table.ReloadTable()
-            await self.noty.Noty('success', 'Serviço salvo com sucesso!')
-            self.SalvarServico()
+            await self.SalvarServico()
         })
     }
   
@@ -112,19 +110,18 @@ class ServicoPage extends HTML{
                 campo.callback = this[campo.callback].bind(this)
             }
             
-            if(campo.attrs && campo.attrs.length > 0){
-                campo.attrs = Object.fromEntries(campo.attrs.map(attr => attr.split('=')));
-            }
+            this.input_loader.SetAtributes(campo.attrs)
+            
             this.campos[campo.key] = await this.input_loader.GetComponent(
                 campo.type,
-                campo.modelo || null,
+                campo.modelo,
                 campo.label,
                 campo.placeholder,
                 campo.class,
                 campo.callback,  
                 campo.position,
-                campo.attrs,
-                campo.options
+                campo.options,
+                campo.attrs
             )
             
             estrutura_campos.appendChild(this.campos[campo.key].div.html)
@@ -133,9 +130,39 @@ class ServicoPage extends HTML{
         return estrutura_campos
     }
 
-  OnTipoChange(params){
-    console.log(this.campos['tipo'].Val())
-  }
+    OnTipoChange(params){
+
+        console.log(this.campos['tipo'].Val())
+    }
+
+
+    async SalvarServico(){
+
+        let params = {}
+
+        for (const campo in this.campos) {
+            params[campo] = this.campos[campo].Val()
+        }
+
+        let response = await fetch(Constantes.URL_BASE_ITENS.CADASTRAR, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        }).then(response => response.json())
+
+        if(response.success){
+
+            this.noty.Noty('success', response.message)
+            this.modal.Hide()
+
+        }else{
+
+            this.noty.Noty('error', error)
+        }
+    
+    }
   
 
     AddFooter(){

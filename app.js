@@ -39,6 +39,8 @@ class App {
         this.express.use('/pages', jwtCheck.check, await routes.PagesRoutes())
         this.express.use('/api/v1/client', jwtCheck.check, await routes.RoutesClientMain())
         this.express.use('/api/v1/modelos', jwtCheck.check, await routes.RoutesModelosTable())
+        this.express.use('/api/v1/solicitacao', jwtCheck.check, await routes.RoutesSolicitacaoMain())
+        this.express.use('/api/v1/item', jwtCheck.check, await routes.RoutesItemMain())
     }
 
     startServer() {

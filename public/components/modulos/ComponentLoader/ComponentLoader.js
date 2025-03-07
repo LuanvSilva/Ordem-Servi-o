@@ -46,6 +46,7 @@ class ComponentLoader {
     if (params.type) component.Atributo('type', params.type)
     if (params.callback) component.SetCallback(params.callback)
     if (params.placeholder) component.Placeholder(params.placeholder)
+    if( params.options) component.SetOption(params.options)
   }
 
   async GetComponent(componentName, ...args) {

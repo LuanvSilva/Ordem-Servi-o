@@ -19,23 +19,34 @@
             "attrs":{"id":"descricao", "name":"descricao"}
         },
         {
+            "key":"ativo",
+            "type":"Checkbox",
+            "label":"Ativo",
+            "placeholder":"Ativo",
+            "class":"col-md-1 mt-3",
+            "callback": false,
+            "attrs":{"id":"ativo", "name":"ativo"},
+            "position": "top"
+        },
+        {
             "key":"valor",
             "type":"Text",
             "label":"Valor",
             "placeholder":"Valor",
-            "class":"col-md-4 mt-3",
+            "class":"col-md-3 mt-3",
             "callback": false,
             "attrs":{"id":"valor", "name":"valor"}
         },
         {
             "key":"tipo",
             "type":"Select",
-            "modelo":"null",
+            "modelo":false,
             "texto_inicial":"Selecione o tipo",
             "label":"Tipo",
             "placeholder":"Tipo",
             "class":"col-md-4 mt-3",
             "callback": "OnTipoChange",
+            "attrs": {"id":"tipo", "name":"tipo"},
             "options": [
                 {
                     "id": "1",
@@ -47,8 +58,7 @@
                     "descricao": "Serviço",
                     "valor": "002"
                 }
-            ],
-            "attrs": {"id":"tipo", "name":"tipo"}
+            ]
         },
         {
             "key":"categoria",
@@ -79,18 +89,9 @@
             "type":"TextArea",
             "label":"Observação",
             "placeholder":"Observação",
-            "class":"col-md-4 mt-3",
+            "class":"col-md-12 mt-3",
             "callback": false,
             "attrs":{"id":"observacao", "name":"observacao"}
-        },
-        {
-            "key":"ativo",
-            "type":"Checkbox",
-            "label":"Ativo",
-            "placeholder":"Ativo",
-            "class":"col-md-2 mt-3",
-            "callback": false,
-            "attrs":{"id":"ativo", "name":"ativo"}
         }
 
     ]
