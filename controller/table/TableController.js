@@ -16,6 +16,16 @@ class TableController {
         switch (modelo) {
             case 'clientes':
                 return Constantes.URL_GET_MODELOS_TABLE.GET_CLIENTES;
+            case 'categoria':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_CATEGORIA;
+            case 'status':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_STATUS;
+            case 'unidade':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_UNIDADE;
+            case 'tipoItem':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_TIPO_DO_ITEM;
+            case 'servico':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_SERVICO;
             default:
                 return null;
         }

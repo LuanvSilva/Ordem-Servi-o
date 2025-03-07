@@ -60,6 +60,11 @@ class Validator {
         return validator.isEmpty(campos) === false;
     }
 
+    static ToBoolean(value) {
+        if (!value) return false
+        return validator.toBoolean(value, true)
+    }
+
     static isBoolean(value) {
         if (!value) return false
         if(value === true || value === false) return validator.isBoolean(String(value), { strict: true }) === true
@@ -79,12 +84,6 @@ class Validator {
         if (!value) return false
         return isCurrency(value, { allow_negatives: false, require_decimal: true })
     }
-
-    static ToBoolean(value) {
-        if (!value) return false
-        return validator.toBoolean(value, true)
-    }
-
 
 }
 

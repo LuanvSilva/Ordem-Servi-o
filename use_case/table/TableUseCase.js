@@ -19,7 +19,7 @@ class TableUseCase {
                 headers.Authorization = `Bearer ${bearerToken}`
             }
 
-            const response = await axios.post(url, { parametros }, { headers })
+            const response = await axios.get(url, { headers })
 
             return this.SetResponse(response.data, true, Constantes.MENSAGEM.GET_TABLE_SUCESSO, null, null)
 

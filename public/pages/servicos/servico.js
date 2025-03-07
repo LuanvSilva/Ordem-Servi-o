@@ -43,13 +43,13 @@ class ServicoPage extends HTML{
         this.button_cadastrar.Load()
         this.Find("#botao_add").appendChild(this.button_cadastrar.html)
         
-        this.table = new Table()
+        this.table = new Table('servico')
         this.table.Load()
         this.table.AddRowClickListener(async (params) => {
 
             await self.MontaModalServico(true)
             await self.modal.Show()
-            await self.SetValCampos(params)
+            await self.SetValuesCampos(params)
         })
 
         this.Find("#table").appendChild(this.table.html)
@@ -135,14 +135,22 @@ class ServicoPage extends HTML{
         console.log(this.campos['tipo'].Val())
     }
 
-
-    async SalvarServico(){
+    ReturnValueCampos(){
 
         let params = {}
 
         for (const campo in this.campos) {
+
             params[campo] = this.campos[campo].Val()
         }
+
+        return params
+    }
+
+
+    async SalvarServico(){
+
+        let params = this.ReturnValueCampos()
 
         let response = await fetch(Constantes.URL_BASE_ITENS.CADASTRAR, {
             method: 'POST',
@@ -162,6 +170,14 @@ class ServicoPage extends HTML{
             this.noty.Noty('error', error)
         }
     
+    }
+
+    SetValuesCampos(params){
+
+        for (const campo in this.campos) {
+
+            this.campos[campo].Val(params[campo])
+        }
     }
   
 

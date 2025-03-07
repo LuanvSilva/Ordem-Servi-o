@@ -5,11 +5,13 @@ class itemController{
         this.itemUseCase = new ItemUseCase(token, empresa)
     }
 
+    GetCampodFormulario(){
+        return ['codigo', 'descricao', 'unidade', 'valor', 'tipo', 'categoria', 'ativo', 'observacao']
+    }
+
     async PostItem(req, res){
         
-        const campos = ['codigo', 'descricao', 'unidade', 'valor', 'tipo', 'categoria', 'ativo', 'observacao']
-
-        if(!Validator.isCamposObjPreenchidos(campos, req.body)){
+        if(!Validator.isCamposObjPreenchidos(this.GetCampodFormulario(), req.body)){
             return res.status(400).json({ success: false, error: 'Preencha todos os campos obrigatórios!' })
         }
 
