@@ -26,6 +26,8 @@ class TableController {
                 return Constantes.URL_GET_MODELOS_TABLE.GET_TIPO_DO_ITEM;
             case 'servico':
                 return Constantes.URL_GET_MODELOS_TABLE.GET_SERVICO;
+            case 'item':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_ITEM;
             default:
                 return null;
         }
@@ -35,6 +37,9 @@ class TableController {
         try {
             const { modelo, parametros } = req.body;
             const token = req.session?.user?.token ?? ''
+            const empresa = req.session?.user?.empresa ?? ''
+            this.tableUseCase.SetToken(token)
+            this.tableUseCase.SetEmpresa(empresa)
 
             if (!modelo) {
                 return res.status(500).json(this.SetResponse({}, false, Constantes.MENSAGEM.MODELO_NAO_INFORMADO, Constantes.MENSAGEM.MODELO_NAO_INFORMADO, null))
@@ -46,7 +51,7 @@ class TableController {
                 return res.status(500).json(this.SetResponse({}, false, Constantes.MENSAGEM.MODELO_NAO_ENCONTRADO, Constantes.MENSAGEM.MODELO_NAO_ENCONTRADO, null))
             }
 
-            const result = await this.tableUseCase.GetTable(parametros, url, token)
+            const result = await this.tableUseCase.GetTable(parametros, url)
             res.json(result)
 
         } catch (error) {

@@ -5,11 +5,21 @@ class Table extends HTML {
     
     constructor(modelo) {
         super('table')
-        this.modelo = modelo
+        this.SetModelo(modelo)
         this.currentPage = 1
         this.recordsPerPage = 10
         this.hiddenColumns = new Set()
         this.coluna_nova = []
+    }
+
+    SetModelo(modelo) {
+
+        this.modelo = modelo
+    }
+
+    async GetModeloJson() {
+
+        this.modelo_configuracao = await fetch('/components/html/table/modelos/table_item.json').then(response => response.json())
     }
 
     SetParametros(parametros) {
@@ -44,6 +54,7 @@ class Table extends HTML {
 
             this.registros = await response.json()
             this.registros = this.registros.data
+            await this.GetModeloJson()
 
         } catch (error) {
 
@@ -59,22 +70,15 @@ class Table extends HTML {
         this.thead = this.CreateElement('thead')
         this.tr = this.CreateElement('tr')
 
-        for (let key in this.registros[0]) {
+        if (this.registros.length > 0) {
 
-            if(typeof this.registros[0][key] === 'object') {
+            if (this.modelo_configuracao && this.modelo_configuracao.columns) {
 
-                for (let k in this.registros[0][key]) {
+                this.MontaTabelaComConfig()
 
-                    let th = this.CreateElement('th')
-                    th.innerHTML = k
-                    this.tr.appendChild(th)
-                }
+            } else {
 
-            }else{
-                
-                let th = this.CreateElement('th')
-                th.innerHTML = key
-                this.tr.appendChild(th)
+                this.MontaTabelaSemConfig()
             }
         }
 
@@ -88,8 +92,39 @@ class Table extends HTML {
         this.CreatePagination()
     }
 
-    UpdateTable() {
+    MontaTabelaComConfig() {
 
+        const visibleColumns = this.modelo_configuracao.columns.filter(col => col.visible !== false)
+
+        const columnsToDisplay = this.modelo_configuracao.columnOrder ? this.modelo_configuracao.columnOrder.map(field => this.modelo_configuracao.columns
+                .find(col => col.field === field))
+                .filter(col => col && col.visible !== false) : visibleColumns
+
+        for (const column of columnsToDisplay) {
+
+            let th = this.CreateElement('th')
+            th.innerHTML = column.header || column.field
+            this.tr.appendChild(th)
+        }
+    }
+
+    MontaTabelaSemConfig() {
+
+        if (this.registros.length > 0) {
+
+            const primeiroRegistro = this.registros[0]
+
+            for (let key in primeiroRegistro) {
+                let th = this.CreateElement('th')
+                th.innerHTML = key
+                this.tr.appendChild(th)
+            }
+        }
+    }
+
+    
+    UpdateTable() {
+        
         this.tbody.innerHTML = ''
         let start = (this.currentPage - 1) * this.recordsPerPage
         let end = start + this.recordsPerPage
@@ -98,49 +133,80 @@ class Table extends HTML {
         for (let i = 0; i < paginatedRecords.length; i++) {
             this.tr = this.CreateElement('tr')
 
-            for (let key in paginatedRecords[i]) {
+            if (this.modelo_configuracao && this.modelo_configuracao.columns) {
 
-                if(typeof paginatedRecords[i][key] === 'object') {
-                   
-                    for (let k in paginatedRecords[i][key]) {
+                this.RenderRowWithConfig(paginatedRecords[i])
 
-                        let valor = this.TrataBoolean(paginatedRecords[i][key][k])
-                        let td = this.CreateElement('td', {}, valor)
-                        this.tr.appendChild(td)
-                    }
+            } else {
 
-                }else{
-
-                    let valor = this.TrataBoolean(paginatedRecords[i][key])
-                    let td = this.CreateElement('td', {}, valor)
-                    this.tr.appendChild(td)
-                }
+                this.RenderRowWithoutConfig(paginatedRecords[i])
             }
 
             if (this.coluna_nova.length > 0) {
-
-                this.coluna_nova.forEach(coluna => {
-
-                    const newTd = this.CreateElement('td')
-
-                    if (typeof coluna.values === 'string' || coluna.values instanceof String) {
-
-                        newTd.innerHTML = coluna.values
-
-                    } else if (Array.isArray(coluna.values)) {
-                        
-                        newTd.innerHTML = coluna.values[i] || ''
-
-                    } else {
-
-                        newTd.appendChild(coluna.values.cloneNode(true))
-                    }
-                    this.tr.appendChild(newTd)
-                })
+                this.RenderExtraColumns(i)
             }
 
             this.tbody.appendChild(this.tr)
         }
+    }
+
+    RenderRowWithConfig(rowData) {
+     
+        const columnsToDisplay = this.modelo_configuracao.columnOrder ? this.modelo_configuracao.columnOrder.map(field => this.modelo_configuracao.columns
+                .find(col => col.field === field))
+                .filter(col => col && col.visible !== false) : this.modelo_configuracao.columns.filter(col => col.visible !== false)
+
+        for (const column of columnsToDisplay) {
+            const value = rowData[column.field]
+            const formattedValue = column.format ? column.format(value) : this.TrataBoolean(value)
+            const td = this.CreateElement('td', {}, formattedValue)
+            this.tr.appendChild(td)
+        }
+    }
+
+    RenderRowWithoutConfig(rowData) {
+
+        for (let key in rowData) {
+
+            if(typeof rowData[key] === 'object') {
+
+                for (let k in rowData[key]) {
+
+                    let valor = this.TrataBoolean(rowData[key][k])
+                    let td = this.CreateElement('td', {}, valor)
+                    this.tr.appendChild(td)
+                }
+
+            } else {
+
+                let valor = this.TrataBoolean(rowData[key])
+                let td = this.CreateElement('td', {}, valor)
+                this.tr.appendChild(td)
+            }
+        }
+    }
+
+    RenderExtraColumns(rowIndex) {
+
+        this.coluna_nova.forEach(coluna => {
+
+            const newTd = this.CreateElement('td')
+
+            if (typeof coluna.values === 'string' || coluna.values instanceof String) {
+
+                newTd.innerHTML = coluna.values
+
+            } else if (Array.isArray(coluna.values)) {
+
+                newTd.innerHTML = coluna.values[rowIndex] || ''
+
+            } else {
+
+                newTd.appendChild(coluna.values.cloneNode(true))
+            }
+            
+            this.tr.appendChild(newTd)
+        })
     }
 
     async ReloadTable() {

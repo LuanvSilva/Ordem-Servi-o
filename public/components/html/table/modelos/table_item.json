@@ -1,0 +1,71 @@
+{
+    "columns": [
+        {
+            "field": "itemId",
+            "header": "ID",
+            "visible": false
+        },
+        {
+            "field": "itemDescricao",
+            "header": "Descrição",
+            "visible": true
+        },
+        {
+            "field": "itemCodigo",
+            "header": "Código",
+            "visible": true
+        },
+        {
+            "field": "categoriaId",
+            "header": "ID Categoria",
+            "visible": false
+        },
+        {
+            "field": "categoriaDescricao",
+            "header": "Categoria",
+            "visible": true
+        },
+        {
+            "field": "categoriaCodigo",
+            "header": "Cód. Categoria",
+            "visible": true
+        },
+        {
+            "field": "unidadeId",
+            "header": "ID Unidade",
+            "visible": false
+        },
+        {
+            "field": "unidadeDescricao",
+            "header": "Unidade",
+            "visible": true
+        },
+        {
+            "field": "unidadeCodigo",
+            "header": "Cód. Unidade",
+            "visible": true
+        },
+        {
+            "field": "tipoId",
+            "header": "ID Tipo",
+            "visible": false
+        },
+        {
+            "field": "tipoDescricao",
+            "header": "Tipo",
+            "visible": true
+        },
+        {
+            "field": "tipoCodigo",
+            "header": "Cód. Tipo",
+            "visible": true
+        }
+    ],
+    "columnOrder": [
+        "itemDescricao",
+        "itemCodigo",
+        "categoriaDescricao",
+        "unidadeDescricao",
+        "tipoDescricao"
+    ]
+}

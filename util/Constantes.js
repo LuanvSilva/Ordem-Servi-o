@@ -69,6 +69,7 @@ class Constantes {
             GET_STATUS: `${this.URL_API}/api/v1/table/status`,
             GET_CATEGORIA: `${this.URL_API}/api/v1/table/categoria`,
             GET_TIPO_DO_ITEM: `${this.URL_API}/api/v1/table/tipoItem`,
+            GET_ITEM: `${this.URL_API}/api/v1/table/item`,
         }
     }
     

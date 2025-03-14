@@ -43,7 +43,7 @@ class ServicoPage extends HTML{
         this.button_cadastrar.Load()
         this.Find("#botao_add").appendChild(this.button_cadastrar.html)
         
-        this.table = new Table('servico')
+        this.table = new Table('item')
         this.table.Load()
         this.table.AddRowClickListener(async (params) => {
 

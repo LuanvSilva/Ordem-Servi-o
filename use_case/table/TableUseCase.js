@@ -8,15 +8,26 @@ class TableUseCase {
         return { data, success, message, error, url }
     }
 
-    async GetTable(parametros, url, bearerToken) {
+    SetToken(token) {
+
+        this.token = token
+    }
+
+    SetEmpresa(empresa) {
+
+        this.empresa = empresa
+    }
+
+    async GetTable(parametros, url) {
         
         try {
             const headers = {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'empresa': this.empresa,
             };
 
-            if (bearerToken) {
-                headers.Authorization = `Bearer ${bearerToken}`
+            if (this.token) {
+                headers.Authorization = `Bearer ${this.token}`;
             }
 
             const response = await axios.get(url, { headers })
