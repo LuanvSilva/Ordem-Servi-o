@@ -105,8 +105,11 @@ class Select extends Input{
         option.text = label
 
         if (data) {
+
             for (let key in data) {
+
                 if (data.hasOwnProperty(key)) {
+
                     option.dataset[key] = data[key];
                 }
             }
@@ -140,13 +143,14 @@ class Select extends Input{
         for (let key in selectedOption.dataset) {
 
             if (selectedOption.dataset.hasOwnProperty(key)) {
-
+                
                 data[key] = selectedOption.dataset[key]
             }
         }
 
         return data
     }
+
 
 }
 

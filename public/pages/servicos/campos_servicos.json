@@ -1,22 +1,22 @@
 {
     "campos": [
         {
-            "key":"codigo",
+            "key":"itemCodigo",
             "type":"Text",
             "label":"Código",
             "placeholder":"Código",
             "class":"col-md-4 mt-3",
             "callback": false,
-            "attrs":{"id":"codigo", "name":"codigo"}
+            "attrs":{"id":"itemCodigo", "name":"itemCodigo"}
         },
         {
-            "key":"descricao",
+            "key":"itemDescricao",
             "type":"Text",
             "label":"Descrição",
             "placeholder":"Descrição",
             "class":"col-md-4 mt-3",
             "callback": false,
-            "attrs":{"id":"descricao", "name":"descricao"}
+            "attrs":{"id":"itemDescricao", "name":"itemDescricao"}
         },
         {
             "key":"ativo",
@@ -38,7 +38,7 @@
             "attrs":{"id":"valor", "name":"valor"}
         },
         {
-            "key":"tipo",
+            "key":"tipoId",
             "type":"Select",
             "modelo":false,
             "texto_inicial":"Selecione o tipo",
@@ -46,7 +46,7 @@
             "placeholder":"Tipo",
             "class":"col-md-4 mt-3",
             "callback": "OnTipoChange",
-            "attrs": {"id":"tipo", "name":"tipo"},
+            "attrs": {"id":"tipoId", "name":"tipoId"},
             "options": [
                 {
                     "id": "1",
@@ -61,7 +61,7 @@
             ]
         },
         {
-            "key":"categoria",
+            "key":"categoriaId",
             "type":"Select",
             "modelo":"categoria",
             "texto_inicial":"Selecione a categoria",
@@ -70,10 +70,10 @@
             "class":"col-md-4 mt-3",
             "callback": false,
             "options": [],
-            "attrs": {"id":"categoria", "name":"categoria"}
+            "attrs": {"id":"categoriaId", "name":"categoriaId"}
         },
         {
-            "key": "unidade",
+            "key": "unidadeId",
             "type": "Select",
             "modelo": "unidade",
             "texto_inicial": "Selecione a unidade",
@@ -82,7 +82,7 @@
             "class": "col-md-4 mt-3",
             "callback": false,
             "options": [],
-            "attrs": {"id":"unidade", "name":"unidade"}
+            "attrs": {"id":"unidadeId", "name":"unidadeId"}
         },
         {
             "key":"observacao",

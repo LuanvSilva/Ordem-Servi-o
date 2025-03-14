@@ -19,7 +19,7 @@ class Table extends HTML {
 
     async GetModeloJson() {
 
-        this.modelo_configuracao = await fetch('/components/html/table/modelos/table_item.json').then(response => response.json())
+        this.modelo_configuracao = await fetch(`/components/html/table/modelos/${this.modelo}.json`).then(response => response.json())
     }
 
     SetParametros(parametros) {
@@ -204,7 +204,7 @@ class Table extends HTML {
 
                 newTd.appendChild(coluna.values.cloneNode(true))
             }
-            
+
             this.tr.appendChild(newTd)
         })
     }
@@ -319,8 +319,7 @@ class Table extends HTML {
 
                 if (rowIndex >= 0 && rowIndex < this.registros.length) {
 
-                    const rowData = { ...this.registros[rowIndex] }
-                    callback(rowData)
+                    callback(this.registros[rowIndex])
                 }
             }
         });
