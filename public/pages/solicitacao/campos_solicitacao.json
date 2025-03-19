@@ -1,0 +1,136 @@
+{
+    "campos": [
+        {
+            "key":"clientes",
+            "type":"Select",
+            "modelo":"clientes",
+            "texto_inicial":"Selecione o Cliente",
+            "label":"Cliente",
+            "placeholder":"Clientes",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "options": [],
+            "attrs": { "id":"clientes", "name":"clientes"}
+        },
+        {
+            "key":"servicos",
+            "type":"Select",
+            "modelo":"servicos",
+            "texto_inicial":"Selecione o Serviço",
+            "label":"Serviço",
+            "placeholder":"Serviços",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "options": [],
+            "attrs": { "id":"servicos", "name":"servicos"}
+        },
+        {
+            "key":"Item",
+            "type":"Select",
+            "modelo":"item",
+            "texto_inicial":"Selecione o Item",
+            "label":"Item",
+            "placeholder":"Item",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "options": [],
+            "attrs": { "id":"item", "name":"item"}
+        },
+        {
+            "key": "codigo",
+            "type": "Text",
+            "label": "Código",
+            "placeholder":"Codigo",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "codigo", "name": "codigo" }
+        },
+        {
+            "key": "urgente",
+            "type": "Checkbox",
+            "label": "Urgente",
+            "placeholder": "Urgente",
+            "class": "col-md-2 mt-3",
+            "callback": false,
+            "attrs": { "id": "urgente", "name": "urgente" },
+            "position": "top"
+        },
+        {
+            "key": "valor",
+            "type": "Money",
+            "label": "Valor",
+            "placeholder": "Valor",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "valor", "name": "valor" }
+        },
+        {
+            "key": "data_inicio",
+            "type": "Date",
+            "label": "Data Início",
+            "placeholder": "Data Início",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "data_inicio", "name": "data_inicio"}
+        },
+        {
+            "key": "hora_inicio",
+            "type": "Time",
+            "label": "Hora Início",
+            "placeholder": "Hora Início",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "hora_inicio","name": "hora_inicio"}
+        },
+        {
+            "key": "data_fim",
+            "type": "Date",
+            "label": "Data Fim",
+            "placeholder": "Data Fim",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "data_fim", "name": "data_fim" }
+        },
+        {
+            "key": "hora_fim",
+            "type": "Time",
+            "label": "Hora Fim",
+            "placeholder": "Hora Fim",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "hora_fim", "name": "hora_fim" }
+        },
+        {
+            "key": "obsevacao",
+            "type": "TextArea",
+            "label": "Observações",
+            "placeholder": "Observações",
+            "class": "col-md-12 mt-3",
+            "callback": false,
+            "attrs": { "id": "obsevacao","name": "obsevacao" }
+        }
+    ],
+    "filtros": [
+        {
+            "key":"clientes",
+            "type":"Select",
+            "modelo":"clientes",
+            "texto_inicial":"Selecione o cliente",
+            "label":"Cliente",
+            "placeholder":"Clientes",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "options": [],
+            "attrs": { "id":"clientes", "name":"clientes"}
+        },
+        {
+            "key": "codigo",
+            "type": "Text",
+            "label": "Código",
+            "class": "col-md-3 mt-3",
+            "callback": false,
+            "attrs": { "id": "codigo", "name": "codigo" }
+        }
+    ]
+  }
+  

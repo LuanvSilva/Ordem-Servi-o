@@ -70,7 +70,7 @@
             "class":"col-md-4 mt-3",
             "callback": false,
             "options": [],
-            "attrs": {"id":"categoriaId", "name":"categoriaId"}
+            "attrs": { "id":"categoriaId", "name":"categoriaId"}
         },
         {
             "key": "unidadeId",
@@ -82,7 +82,7 @@
             "class": "col-md-4 mt-3",
             "callback": false,
             "options": [],
-            "attrs": {"id":"unidadeId", "name":"unidadeId"}
+            "attrs": { "id":"unidadeId", "name":"unidadeId"}
         },
         {
             "key":"observacao",
@@ -91,8 +91,28 @@
             "placeholder":"Observação",
             "class":"col-md-12 mt-3",
             "callback": false,
-            "attrs":{"id":"observacao", "name":"observacao"}
+            "attrs":{ "id":"observacao", "name":"observacao"}
         }
 
+    ],
+    "filtros": [
+        {
+            "key":"itemCodigo",
+            "type":"Text",
+            "label":"Código",
+            "placeholder":"Código",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "attrs":{"id":"itemCodigo", "name":"itemCodigo"}
+        },
+        {
+            "key":"itemDescricao",
+            "type":"Text",
+            "label":"Descrição",
+            "placeholder":"Descrição",
+            "class":"col-md-4 mt-3",
+            "callback": false,
+            "attrs":{"id":"itemDescricao", "name":"itemDescricao"}
+        }
     ]
 }

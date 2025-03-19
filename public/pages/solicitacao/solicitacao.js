@@ -4,12 +4,7 @@ import { Modal } from '../../components/html/modal/modal.js'
 import { Noty } from '../../components/html/noty/noty.js'
 import { Button } from '../../components/html/input/button/button.js'
 import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
-import { Page } from '../../components/modulos/page/page.js'
-import { MultiSelect } from '../../components/html/input/multiselect/multiselect.js'
-import { Popover } from "../../components/html/bootstrap/popover/popover.js";
-import { Tooltip } from "../../components/html/bootstrap/tooltip/tooltip.js";
-import { Toast } from "../../components/html/bootstrap/toast/toast.js";
-import { Alert } from "../../components/html/bootstrap/alert/alert.js";
+import { Constantes } from '../../resources/util/constantes.js'
 import { ComponentLoader } from "../../components/modulos/ComponentLoader/ComponentLoader.js"
 import { LoadingHTML } from "../../components/html/skeleton/skeleton.js"
 
@@ -20,17 +15,16 @@ class SolicitacaoPage extends HTML {
         this.title = 'Solicitações'
         this.noty = new Noty()
         this.bootstrap = new Bootstrap()
-        this.campos_filtros = new Map()
-        this.campos_solitacao = new Object()
+        this.campos = new Array()
+        this.campos_solicitacao = new Object()
         this.input_loader = new ComponentLoader()
         this.skeleton_container = new LoadingHTML()
-       // this.page = new Page('Solicitações - Painel de Gestão', 'Você está no Painel de Gestão - ')
     }
 
     async Open(){
-        //await this.page.buildPage()
+
         this.AddHeader()
-        this.AddMain()
+        await this.AddMain()
     }
 
     AddHeader(){
@@ -40,9 +34,37 @@ class SolicitacaoPage extends HTML {
 
     AddMain(){
 
-        let self = this
         this.Filter()
+        this.LoadTableSolicitacao()
+        
+    }
 
+    async GetCamposToJSON(){
+
+        this.campos_solicitacao = await fetch('./campos_solicitacao.json').then(response => response.json())    
+    }
+
+    async Filter(){
+
+        let self = this        
+        await this.GetCamposToJSON()
+
+        const button_search = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
+            console.log(this.multiSelect.Val())
+        })
+
+        button_search.Load() 
+ 
+        this.Find("#filtros").appendChild(await this.GetCamposHTML(this.campos_solicitacao.filtros))
+            
+
+        this.Find("#botao_search").appendChild(button_search.html)
+
+    }
+
+    LoadTableSolicitacao(){
+
+        let self = this
         this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
             await self.MontaModalSolicitacao(false)
             self.modal.Show()
@@ -56,67 +78,30 @@ class SolicitacaoPage extends HTML {
 
             await self.MontaModalSolicitacao(true)
             self.modal.Show()
-            await self.SetValCampos(params)
+            await self.SetValuesCampos(params)
         })
 
         this.Find("#table").appendChild(this.table.html)
         this.Find("#botao_add").appendChild(this.button_cadastrar.html)
-
-    }
-
-    async Filter(){
-
-        let self = this        
-        this.campos_filtros["nome"]   = await this.input_loader.GetComponent('Text', "Nome", "Nome", "col-md-3", null, { id: "nome",  name: "nome"})
-        this.campos_filtros["cpf"]    = await this.input_loader.GetComponent('CpfCnpj', "CPF/CNPJ", "CPF", "col-md-3", null, { id: "cpf", name: "cpf"})
-        this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
-        this.campos_filtros["money"]  = await this.input_loader.GetComponent('Money', "Valor","Valor", "col-md-3", null, { id: "valor", name: "valor"})
-        
-        this.multiSelect = new MultiSelect("clientes", 'Select Items', 'Select...', 'col-md-3', (selected) => {
-            //console.log('Selected values:', selected);
-        })
-        await this.multiSelect.Load()
-
-        const button_search = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
-            console.log(this.multiSelect.Val())
-        })
-
-        button_search.Load() 
- 
-        for (let campo in this.campos_filtros) {
- 
-            this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
-        }     
-
-        this.Find("#filtros").appendChild(this.multiSelect.div.html)
-        this.Find("#botao_search").appendChild(button_search.html)
-
     }
 
     async MontaModalSolicitacao(editar){
  
         let self = this
 
-        this.modal = new Modal('large', 'Solicitação', "Salvar", async () => {
-            await this.SalvaSolicitacao(editar)
-        })
-        
+        this.modal = new Modal('large', 'Solicitação', "Salvar", async () => await this.SalvaSolicitacao(editar) )
         await this.modal.Load()
 
             this.skeleton_container.SetRows([
-                ['input', 4],   // 3 inputs
+                ['input', 4], 
                 ['input', 4],
                 'textarea'
             ]);
             this.skeleton_container.Load()
 
-        this.modal.LoadBody(this.skeleton_container.targetElement);
+        this.modal.LoadBody(this.skeleton_container.targetElement)
 
-
-        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
-            self.modal.Hide()
-        })
-
+        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => self.modal.Hide() )
         this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
             
             self.modal.Hide()
@@ -124,19 +109,10 @@ class SolicitacaoPage extends HTML {
            // await self.SalvarCliente()
         })
 
-        const existingModal = document.querySelector('.modal')
-
-        if (existingModal) {
-            existingModal.remove()
-        }
-        
-       document.querySelector("body").append(this.modal.html)
-        await this.MontaCamposHTML();
-
-        setTimeout(() => {
+        setTimeout(async () => {
             this.skeleton_container.Destroy()
-            this.modal.LoadBody(this.row_solicitacao);
-        }, 1000);
+            this.modal.LoadBody(await self.GetCamposHTML(this.campos_solicitacao.campos))
+        }, 1000)
         
     }
 
@@ -152,41 +128,80 @@ class SolicitacaoPage extends HTML {
         }
     }
 
-    async SetValCampos(params){
+   
+    SetValuesCampos(params){
 
-        for (const campo in this.campos_solitacao) {
+        for (const campo in this.campos) {
 
-            this.campos_solitacao[campo].SetVal(params[campo])
+            this.campos[campo].Val(params[campo])
         }
     }
 
-    async MontaCamposHTML(){
+    ReturnValueCampos(){
 
-        let campos = new Array()
-        this.row_solicitacao = this.bootstrap.Row()
+        let params = {}
 
-        const camposConfig = [
-            { key: "cliente", type: "MultiSelect", modelo:"clientes", label: "Cliente", placeholder:"Clientes" , class: "col-md-4 mt-3", callback: false, },
-            { key: "codigo",  type: "Text", label: "Código", class: "col-md-3 mt-3", callback: false, attrs: { id: "codigo", name: "codigo" } },
-            { key: "urgente", type: "Checkbox", label: "Urgente", class: "col-md-2 mt-3", callback: false, attrs: { id: "urgente", name: "urgente" }, position: "top" },
-            { key: "valor",   type: "Money", label: "Valor", class: "col-md-3 mt-3", callback: false, attrs: { id: "valor", name: "valor" } },
-            { key: "data_inicio", type: "Date", label: "Data Início", class: "col-md-3 mt-3", callback: false, attrs: { id: "data_inicio", name: "data_inicio" } },
-            { key: "hora_inicio", type: "Time", label: "Hora Início", class: "col-md-3 mt-3", callback: false, attrs: { id: "hora_inicio", name: "hora_inicio" } },
-            { key: "data_fim", type: "Date", label: "Data Fim", class: "col-md-3 mt-3", callback: false, attrs: { id: "data_fim", name: "data_fim" } },
-            { key: "hora_fim", type: "Time", label: "Hora Fim", class: "col-md-3 mt-3", callback: false, attrs: { id: "hora_fim", name: "hora_fim" } },
-            { key: "obsevacao", type: "TextArea", label: "Obsevações", class: "col-md-12 mt-3", callback: false, attrs: { id: "obsevacao", name: "obsevacao" }},
-        ]
-        
-        for (const campo of camposConfig) {
-            
-            campos[campo.key] = await this.input_loader.GetComponent(
-                campo.type, campo.modelo || null, campo.label, campo.label, campo.class, campo.callback, campo.position, campo.attrs
-            )
+        for (const campo in this.campos) {
 
-            this.row_solicitacao.appendChild(campos[campo.key].div.html)
+            params[campo] = this.campos[campo].Val()
         }
 
-        
+        return params
+    }
+
+    async GetCamposHTML(estrutura_campos){
+    
+        const html_campos = this.bootstrap.Row()
+    
+        for (const campo of estrutura_campos) {
+            
+            if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
+
+                campo.callback = this[campo.callback].bind(this)
+            }
+            
+            this.input_loader.SetAtributes(campo.attrs)
+            
+            this.campos[campo.key] = await this.input_loader.GetComponent(
+                campo.type,
+                campo.modelo,
+                campo.label,
+                campo.placeholder,
+                campo.class,
+                campo.callback,  
+                campo.position,
+                campo.options,
+                campo.attrs
+            )
+            
+            html_campos.appendChild(this.campos[campo.key].div.html)
+        }
+    
+        return html_campos
+    }
+
+    async InsertSolicitacao(){
+
+        let params = this.ReturnValueCampos()
+        console.log(params)
+
+        // let response = await fetch(Constantes.URL_BASE_SOLICITACOES.CADASTRAR, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(params)
+        // }).then(response => response.json())
+
+        // if(response.success){
+
+        //     this.noty.Noty('success', response.message)
+        //     this.modal.Hide()
+
+        // }else{
+
+        //     this.noty.Noty('error', error)
+        // }
     }
 }
 

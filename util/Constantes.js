@@ -62,8 +62,7 @@ class Constantes {
 
     static get URL_GET_MODELOS_TABLE() {
         return {
-            GET_CLIENTES: `${this.URL_API}/api/v1/client/getAllClient`,
-            GET_CLIENTE_BY_ID: `${this.URL_API}/api/v1/modelos/clientes`,
+            GET_CLIENTES: `${this.URL_API}/api/v1/table/cliente`,
             GET_UNIDADE: `${this.URL_API}/api/v1/table/unidade`,
             GET_SERVICO: `${this.URL_API}/api/v1/table/servico`,
             GET_STATUS: `${this.URL_API}/api/v1/table/status`,

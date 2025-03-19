@@ -34,6 +34,16 @@ class Constantes {
         }
     }
 
+    static get URL_BASE_SOLICITACOES() {
+        return {
+            CADASTRAR:  `${this.URL_BASE}/api/v1/solicitacao/create`,
+            ATUALIZAR:  `${this.URL_BASE}/api/v1/solicitacao/update`,
+            DELETAR:    `${this.URL_BASE}/api/v1/solicitacao/delete`,
+            LISTAR:     `${this.URL_BASE}/api/v1/solicitacao/all`,
+            LISTAR_ID:  `${this.URL_BASE}/api/v1/solicitacao/`,
+        }
+    }
+
     static get URL_PAGES_CLIENTES() {
         return `${this.URL_BASE}/pages/login/login.html`
     }

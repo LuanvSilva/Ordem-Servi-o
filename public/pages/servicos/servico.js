@@ -14,6 +14,7 @@ class ServicoPage extends HTML{
         super()
         this.title = 'Serviços'
         this.campos = []
+        this.campos_servicos = new Object()
         this.noty = new Noty()
         this.bootstrap = new Bootstrap()
         this.input_loader = new ComponentLoader()
@@ -34,7 +35,32 @@ class ServicoPage extends HTML{
     async AddMain(){
 
         let self = this
-        await this.Filtros()
+        this.Filtros()
+        this.LoadTableServico()
+    }
+
+    async GetCamposToJSON(){
+
+        this.campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())    
+    }
+
+    async Filtros(){
+
+        let self = this
+        await this.GetCamposToJSON()
+
+        const button_serach = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
+            await self.BuscarServicos()
+        })
+
+        button_serach.Load()
+        this.Find("#botao_search").appendChild(await this.GetCamposHTML(this.campos_servicos.filtros))
+
+    }
+
+    LoadTableServico(servicos){
+
+        let self = this
 
         this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
             await self.MontaModalServico(false)
@@ -55,30 +81,12 @@ class ServicoPage extends HTML{
         this.Find("#table").appendChild(this.table.html)
     }
 
-    async Filtros(){
-
-        let self = this
-        const nome = new Text('Descrição', 'Digite a Descrição do Serviço', 'col-md-3')
-        nome.Load()
-        nome.Id('nome_filtros')
-        nome.Name('nome_filtros')
-        this.Find("#filtros").appendChild(nome.div.html)
-
-        const button_serach = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
-            await self.BuscarServicos()
-        })
-
-        button_serach.Load()
-        this.Find("#botao_search").appendChild(button_serach.html)
-
-    }
-
     async MontaModalServico(button_excluir){
 
         let self = this
         this.modal = new Modal('large', 'Serviço')
         this.modal.Load()
-        this.modal.LoadBody(await this.GetCamposHTML())
+        this.modal.LoadBody(await this.GetCamposHTML(this.campos_servicos.campos))
         
         this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
             self.modal.Hide()
@@ -98,12 +106,11 @@ class ServicoPage extends HTML{
         })
     }
   
-    async GetCamposHTML(){
+    async GetCamposHTML(estrutura_campos){
     
-        const estrutura_campos = this.bootstrap.Row()
-        const campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())
+        const html_campos = this.bootstrap.Row()
     
-        for (const campo of campos_servicos.campos) {
+        for (const campo of estrutura_campos) {
             
             if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
 
@@ -124,15 +131,23 @@ class ServicoPage extends HTML{
                 campo.attrs
             )
             
-            estrutura_campos.appendChild(this.campos[campo.key].div.html)
+            html_campos.appendChild(this.campos[campo.key].div.html)
         }
     
-        return estrutura_campos
+        return html_campos
     }
 
     OnTipoChange(params){
 
         console.log(this.campos['tipo'].Val())
+    }
+
+    SetValuesCampos(params){
+
+        for (const campo in this.campos) {
+
+            this.campos[campo].Val(params[campo])
+        }
     }
 
     ReturnValueCampos(){
@@ -171,16 +186,7 @@ class ServicoPage extends HTML{
         }
     
     }
-
-    SetValuesCampos(params){
-
-        for (const campo in this.campos) {
-
-            this.campos[campo].Val(params[campo])
-        }
-    }
   
-
     AddFooter(){
         // const footer = new Footer()
         // footer.Load()
