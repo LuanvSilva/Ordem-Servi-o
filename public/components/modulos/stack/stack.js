@@ -1,116 +1,137 @@
 
 class Stack{
-    _stack = [];
-    constructor(){
-        this._stack = [];
+    #stack = []
+    constructor(index){
+        this.SetIndex(index)
+        this.#stack = []
+    }
+
+    SetStack(stack) {
+        this.#stack = Array.isArray(stack) ? [...stack] : []
+    }
+
+    GetStack(){
+        return [...this.#stack]
+    }
+
+    GetIndexStack(index){
+        return this.#stack[index || this.index]
+    }
+
+    SetIndexStack(index, element) {
+        this.#stack[index || this.index] = element
+    }
+
+    SetIndex(index = 0) { 
+        this.index = Number(index)
     }
 
     Push(element){
-        this._stack.push(element);
+        this.#stack.push(element)
     }
 
     Pop(){
-        return this._stack.pop();
+        return this.#stack.pop()
     }
 
     Peek(){
-        return this._stack[this._stack.length - 1];
+        return this.#stack[this.#stack.length - 1]
     }
 
     IsEmpty(){
-        return this._stack.length === 0;
+        return this.#stack.length === 0
     }
 
     Clear(){
-        this._stack = [];
+        this.#stack = []
     }
 
     Size(){
-        return this._stack.length;
+        return this.#stack.length
     }
 
     Print(){
-        console.log(this._stack);
+        console.log(this.#stack)
     }
 
     Contains(element){
-        return this._stack.includes(element);
+        return this.#stack.includes(element)
     }
 
     IndexOf(element){
-        return this._stack.indexOf(element);
+        return this.#stack.indexOf(element)
     }
 
     ToArray(){
-        return this._stack.slice();
+        return this.#stack.slice()
     }
 
     FromArray(array){
-        this._stack = array;
+        this.#stack = array
     }
 
     ForEach(callback){
-        this._stack.forEach(callback);
+        this.#stack.forEach(callback)
     }
 
     Map(callback){
-        return this._stack.map(callback);
+        return this.#stack.map(callback)
     }
 
     Filter(callback){
-        return this._stack.filter(callback);
+        return this.#stack.filter(callback)
     }
 
     Reduce(callback, initialValue){
-        return this._stack.reduce(callback, initialValue);
+        return this.#stack.reduce(callback, initialValue)
     }
 
     Find(callback){
-        return this._stack.find(callback);
+        return this.#stack.find(callback)
     }
 
     FindIndex(callback){
-        return this._stack.findIndex(callback);
+        return this.#stack.findIndex(callback)
     }
 
     Some(callback){
-        return this._stack.some(callback);
+        return this.#stack.some(callback)
     }
 
     Every(callback){
-        return this._stack.every(callback);
+        return this.#stack.every(callback)
     }
 
     Sort(compareFunction){
-        this._stack.sort(compareFunction);
+        this.#stack.sort(compareFunction)
     }
 
     Reverse(){
-        this._stack.reverse();
+        this.#stack.reverse()
     }
 
     Slice(start, end){
-        return this._stack.slice(start, end);
+        return this.#stack.slice(start, end)
     }
 
     Splice(start, deleteCount, ...items){
-        return this._stack.splice(start, deleteCount, ...items);
+        return this.#stack.splice(start, deleteCount, ...items)
     }
 
     Join(separator){
-        return this._stack.join(separator);
+        return this.#stack.join(separator)
     }
 
     ToString(){
-        return this._stack.toString();
+        return this.#stack.toString()
     }
 
     ToJSON(){
-        return JSON.stringify(this._stack);
+        return JSON.stringify(this.#stack)
     }
 
     FromJSON(json){
-        this._stack = JSON.parse(json);
+        this.#stack = JSON.parse(json)
     }
 }
 

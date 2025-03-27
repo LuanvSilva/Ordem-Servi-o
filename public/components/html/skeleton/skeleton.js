@@ -113,6 +113,7 @@ class LoadingHTML extends HTML {
     }
 
     Destroy() {
+        
         this.targetElement.remove()
         this.targetElement = null
     }

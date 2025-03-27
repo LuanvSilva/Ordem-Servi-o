@@ -57,12 +57,12 @@ class Input extends HTML{
 
         const colunm = []
 
-        if(this.label?.html !== undefined){
+        if(this.label?.GetHtml() !== undefined){
 
-            colunm.push(this.label.html)
+            colunm.push(this.label.GetHtml())
         }
 
-        colunm.push(this.html)
+        colunm.push(this.GetHtml())
 
         for (let coluna of colunm) {
 

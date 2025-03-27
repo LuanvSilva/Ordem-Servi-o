@@ -33,7 +33,7 @@ class Checkbox extends HTML {
         this.PositionLabel(this.label.html)
 
         this.div.appendChild(this.label.html)
-        this.div.appendChild(this.html)
+        this.div.appendChild(this.GetHtml())
   
 
         this.div.html = this.div
@@ -74,11 +74,11 @@ class Checkbox extends HTML {
 
         if (value != undefined) {
 
-            this.html.checked = value
+            this.GetHtml().checked = value
 
         }else{
 
-            return this.html.checked
+            return this.GetHtml().checked
         }
        
     }

@@ -27,7 +27,7 @@ class Div extends HTML {
       this.AddClass(this.className)
     }
 
-    return this.html
+    return this.GetHtml()
 
   }
 

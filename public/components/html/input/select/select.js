@@ -132,12 +132,12 @@ class Select extends Input{
 
     GetValue() {
 
-        return this.html.options[this.html.selectedIndex].value
+        return this.GetHtml().options[this.GetHtml().selectedIndex].value
     }
 
     GetSelectedData() {
 
-        const selectedOption = this.html.options[this.html.selectedIndex]
+        const selectedOption = this.GetHtml().options[this.GetHtml().selectedIndex]
         const data = {}
 
         for (let key in selectedOption.dataset) {

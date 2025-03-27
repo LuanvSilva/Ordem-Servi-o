@@ -18,8 +18,7 @@ class Footer extends HTML{
         small.innerHTML = "© 2024 - Todos os direitos reservados  |  Desenvolvido por <i class='uil uil-heart text-danger font-size-12'></i> <a href='' class='text-white font-weight-medium'>Luan</a>"
         div_footer.appendChild(small)
 
-
-        this.html.appendChild(div_footer)
+        this.AppendChild(div_footer, this.GetHtml())
     }
 }
 

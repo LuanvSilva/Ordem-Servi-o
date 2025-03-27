@@ -92,11 +92,7 @@ class SolicitacaoPage extends HTML {
         this.modal = new Modal('large', 'Solicitação', "Salvar", async () => await this.SalvaSolicitacao(editar) )
         await this.modal.Load()
 
-            this.skeleton_container.SetRows([
-                ['input', 4], 
-                ['input', 4],
-                'textarea'
-            ]);
+            this.skeleton_container.SetRows([['input', 4], ['input', 4],'textarea']);
             this.skeleton_container.Load()
 
         this.modal.LoadBody(this.skeleton_container.targetElement)

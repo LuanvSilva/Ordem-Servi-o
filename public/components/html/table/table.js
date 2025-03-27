@@ -83,10 +83,10 @@ class Table extends HTML {
         }
 
         this.thead.appendChild(this.tr)
-        this.html.appendChild(this.thead)
+        this.GetHtml().appendChild(this.thead)
 
         this.tbody = this.CreateElement('tbody')
-        this.html.appendChild(this.tbody)
+        this.GetHtml().appendChild(this.tbody)
         
         this.UpdateTable()
         this.CreatePagination()

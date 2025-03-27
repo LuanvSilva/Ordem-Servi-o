@@ -59,7 +59,7 @@ class LoginPage extends HTML{
             )
             
             this.campos[campo.key].div.AppendChild(self.icones[campo.key])
-            this.AppendChild(self.campos[campo.key].div.html, "#login")
+            this.AppendChild(self.campos[campo.key].div.GetHtml(), "#login")
         }
     
         this.btn = this.CreateElement("a", { class:"btn mt-4" }, "Entrar")
@@ -147,7 +147,7 @@ class LoginPage extends HTML{
 
         let footer = new Footer()
         footer.Load()
-        this.Find("#footer").appendChild(footer.html)
+        this.Find("#footer").appendChild(footer.GetHtml())
     }
   
 }

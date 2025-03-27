@@ -25,20 +25,20 @@ class Noty extends HTML {
         const icon = this.GetIcon(type)
 
         this.Atributo('class', `alert alert-${type} alert-${position} alert-dismissible fade show`)
-        this.html.innerHTML = `${icon} ${text}`
+        this.GetHtml().innerHTML = `${icon} ${text}`
 
         const progressBar = document.createElement('div')
         progressBar.className = `alert-bar-${type}`
-        this.html.style.position = 'relative' 
-        this.html.appendChild(progressBar)
+        this.GetHtml().style.position = 'relative' 
+        this.GetHtml().appendChild(progressBar)
 
         const mainElement = document.querySelector('#alert')
 
         if (mainElement) {
 
-            mainElement.insertBefore(this.html, mainElement.firstChild)
+            mainElement.insertBefore(this.GetHtml(), mainElement.firstChild)
 
-            const alert = new bootstrap.Alert(this.html)
+            const alert = new bootstrap.Alert(this.GetHtml())
             progressBar.style.width = '0%'
 
             setTimeout(() => {

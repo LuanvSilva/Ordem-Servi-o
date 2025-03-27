@@ -99,7 +99,7 @@ class Modal extends HTML {
         this.modal_content.appendChild(this.modal_body)
         this.modal_content.appendChild(this.footer)
         this.modal_div.appendChild(this.modal_content)
-        this.html.appendChild(this.modal_div)
+        this.GetHtml().appendChild(this.modal_div)
     }
     
     AddEvent() {
@@ -113,7 +113,7 @@ class Modal extends HTML {
 
     Show() {
 
-        this.modal_html = new bootstrap.Modal(this.html, this.Getoptions())
+        this.modal_html = new bootstrap.Modal(this.GetHtml(), this.Getoptions())
         this.modal_html.toggle()
     }
 

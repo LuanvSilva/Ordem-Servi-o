@@ -91,14 +91,14 @@ class Cep extends Input {
     async MontaCamposHTML() {
 
         const div_row = this.bootstrap.Row()
-        div_row.appendChild(this.div.html)
+        div_row.appendChild(this.div.GetHtml())
 
         for (const campo in this.campos_cep) {
 
-            div_row.appendChild(this.campos_cep[campo].div.html)
+            div_row.appendChild(this.campos_cep[campo].div.GetHtml())
         }
 
-        this.div.html = div_row
+        this.div.GetHtml() = div_row
     }
 
     SetVal(data){

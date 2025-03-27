@@ -1,14 +1,39 @@
-class HTML{
+import { Stack } from "../modulos/stack/stack.js"
+
+class HTML extends Stack{
+    #main = 0
+    #html = 1
     constructor(element){
-        this.main = document
-        this.html = this.CreateElement(element)     
+        super()
+        this.Push(document)
+        this.Push(this.CreateElement(element)) 
+    }
+
+    SetMain(element){
+
+        this.SetIndexStack(this.#main, element)
+    }
+
+    GetElement() {
+
+        return this.GetIndexStack(this.#main)
+    }
+
+    SetHtml(element) {
+
+        this.SetIndexStack(this.#html, element)
+    }
+
+    GetHtml() {
+
+        return this.GetIndexStack(this.#html)
     }
 
     Find(objeto) {
 
-        if (typeof objeto === "string" && objeto != undefined && this.main != undefined) {
+        if (typeof objeto === "string" && objeto != undefined && this.GetIndexStack(this.#main) != undefined) {
 
-            return this.main.body.querySelector(objeto)
+            return this.GetIndexStack(this.#main).body.querySelector(objeto)
 
         }else if (objeto != undefined && objeto instanceof HTMLElement) {
 
@@ -23,9 +48,9 @@ class HTML{
 
     Name(valor, objeto) {
 
-        if (this.main != undefined || this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && valor != undefined) {
 
-            this.html.setAttribute('name', valor)
+            this.GetIndexStack(this.#html).setAttribute('name', valor)
 
         }else if(objeto != undefined && valor != undefined) {
 
@@ -37,9 +62,9 @@ class HTML{
 
     Id(valor, objeto) {
 
-        if (this.main != undefined || this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && valor != undefined) {
 
-            this.html.setAttribute('id', valor)
+            this.GetIndexStack(this.#html).setAttribute('id', valor)
 
         }else if (objeto != undefined && valor != undefined) {
 
@@ -51,13 +76,13 @@ class HTML{
 
     Val(valor, objeto) {
 
-        if (this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#html) != undefined && valor != undefined) {
 
-            this.html.value = valor
+            this.GetIndexStack(this.#html).value = valor
 
-        }else if (this.html != undefined  && valor === undefined && objeto == undefined) {
+        }else if (this.GetIndexStack(this.#html) != undefined  && valor === undefined && objeto == undefined) {
 
-           return this.html.value
+           return this.GetIndexStack(this.#html).value
 
         }
         else if (objeto != undefined && valor != undefined) {
@@ -74,9 +99,9 @@ class HTML{
 
     Placeholder(valor, objeto) {
             
-        if (this.main != undefined || this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && valor != undefined) {
     
-            this.html.setAttribute('placeholder', valor)
+            this.GetIndexStack(this.#html).setAttribute('placeholder', valor)
     
         }else if (objeto != undefined && valor != undefined) {
     
@@ -88,9 +113,9 @@ class HTML{
 
     Atributo(atributo, valor, objeto) {
             
-        if ((this.main != undefined || this.html != undefined) && valor != undefined && objeto === undefined) {
+        if ((this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) && valor != undefined && objeto === undefined) {
     
-            this.html.setAttribute(atributo, valor)
+            this.GetIndexStack(this.#html).setAttribute(atributo, valor)
     
         }else if (objeto != undefined && valor != undefined) {
     
@@ -102,9 +127,9 @@ class HTML{
 
     RemoveAtributo(atributo, objeto) {
 
-        if (this.main != undefined || this.html != undefined && atributo != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && atributo != undefined) {
 
-            this.html.removeAttribute(atributo)
+            this.GetIndexStack(this.#html).removeAttribute(atributo)
 
         }else if (objeto != undefined && atributo != undefined) {
 
@@ -116,9 +141,9 @@ class HTML{
 
     Text(valor, objeto) {
 
-        if ((this.main != undefined || this.html != undefined) && valor != undefined && objeto === undefined) {
+        if ((this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) && valor != undefined && objeto === undefined) {
 
-            this.html.innerText = valor
+            this.GetIndexStack(this.#html).innerText = valor
 
         }else if (objeto != undefined && valor != undefined) {
 
@@ -128,9 +153,9 @@ class HTML{
 
     HTML(valor, objeto) {
 
-        if ((this.main != undefined || this.html != undefined) && valor != undefined && objeto === undefined) {
+        if ((this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) && valor != undefined && objeto === undefined) {
 
-            this.html.innerHTML = valor
+            this.GetIndexStack(this.#html).innerHTML = valor
 
         }else if (objeto !== undefined && valor != undefined) {
 
@@ -141,9 +166,9 @@ class HTML{
 
     Obrigatorio(valor, objeto) {
             
-        if (this.main != undefined || this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && valor != undefined) {
 
-            this.html.required = valor
+            this.GetIndexStack(this.#html).required = valor
 
         }else if (objeto != undefined && valor != undefined) {
 
@@ -154,9 +179,9 @@ class HTML{
 
     Readonly(valor, objeto) {
 
-        if (this.main != undefined || this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && valor != undefined) {
 
-            this.html.readOnly = valor
+            this.GetIndexStack(this.#html).readOnly = valor
 
         }else if (objeto != undefined && valor != undefined) {
 
@@ -166,9 +191,9 @@ class HTML{
 
     Disabled(valor, objeto) {
 
-        if (this.main != undefined || this.html != undefined && valor != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && valor != undefined) {
 
-            this.html.disabled = valor
+            this.GetIndexStack(this.#html).disabled = valor
 
         }else if (objeto != undefined && valor != undefined) {
 
@@ -180,9 +205,9 @@ class HTML{
 
     CSS(atributo, valor, objeto) {
 
-        if (!objeto && (this.main != undefined || this.html != undefined) && valor != undefined) {
+        if (!objeto && (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) && valor != undefined) {
 
-            this.html.style[atributo] = valor
+            this.GetIndexStack(this.#html).style[atributo] = valor
 
         }else if (objeto != undefined && valor != undefined) {
 
@@ -194,7 +219,7 @@ class HTML{
     
     CreateElement(tag, attributes = {}, innerHTML = '') {
         
-        let element = this.main.createElement(tag)
+        let element = this.GetIndexStack(this.#main).createElement(tag)
 
         for (let [attr, value] of Object.entries(attributes)) {
             element.setAttribute(attr, value)
@@ -210,15 +235,15 @@ class HTML{
 
     Click(callback, objeto) {
 
-        if(this.main != undefined || this.html != undefined && callback != undefined) {
+        if(this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && callback != undefined) {
                 
             if(callback != undefined) {
                     
-                this.html.addEventListener('click', callback)
+                this.GetIndexStack(this.#html).addEventListener('click', callback)
 
             }else{
 
-                this.html.dispatchEvent(new Event('click'))
+                this.GetIndexStack(this.#html).dispatchEvent(new Event('click'))
 
             }
         
@@ -232,15 +257,15 @@ class HTML{
 
     Change(callback, objeto) {
             
-        if(this.main != undefined || this.html != undefined && callback != undefined) {
+        if(this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && callback != undefined) {
                 
             if(callback != undefined) {
                     
-                this.html.addEventListener('change', callback)
+                this.GetIndexStack(this.#html).addEventListener('change', callback)
 
             }else{
 
-                this.html.dispatchEvent(new Event('change'))
+                this.GetIndexStack(this.#html).dispatchEvent(new Event('change'))
             }
         
         }else if(objeto != undefined && callback != undefined) {
@@ -253,9 +278,9 @@ class HTML{
 
     On(evento, callback, objeto) {
         
-        if(this.html != undefined && callback != undefined && evento != undefined && objeto === undefined) {
+        if(this.GetIndexStack(this.#html) != undefined && callback != undefined && evento != undefined && objeto === undefined) {
                 
-            this.html.addEventListener(evento, callback)
+            this.GetIndexStack(this.#html).addEventListener(evento, callback)
         
         }else if(objeto != undefined && callback != undefined && evento != undefined) {
                     
@@ -265,15 +290,15 @@ class HTML{
 
     Blur(callback, objeto) {
 
-        if(this.main != undefined || this.html != undefined && callback != undefined) {
+        if(this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && callback != undefined) {
 
             if(callback != undefined) {
                     
-                this.html.addEventListener('blur', callback)
+                this.GetIndexStack(this.#html).addEventListener('blur', callback)
 
             }else{
 
-                this.html.dispatchEvent(new Event('blur'))
+                this.GetIndexStack(this.#html).dispatchEvent(new Event('blur'))
             }
         
         }else if(objeto != undefined && callback != undefined) {
@@ -285,9 +310,9 @@ class HTML{
 
     Hide(objeto) {
 
-        if(this.main != undefined || this.html != undefined) {
+        if(this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) {
                 
-            this.html.style.display = 'none'
+            this.GetIndexStack(this.#html).style.display = 'none'
         
         }else if(objeto != undefined) {
                         
@@ -298,9 +323,9 @@ class HTML{
 
     Show(objeto) {
             
-       if(this.main != undefined || this.html != undefined) {
+       if(this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) {
                 
-            this.html.style.display = 'block'
+            this.GetIndexStack(this.#html).style.display = 'block'
         
         }else if(objeto != undefined) {
                             
@@ -312,9 +337,9 @@ class HTML{
 
     AddClass(classe, objeto) {
                     
-        if((this.main != undefined || this.html != undefined) && classe != undefined && objeto === undefined) {
+        if((this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) && classe != undefined && objeto === undefined) {
                 
-            this.html.classList.add(classe)
+            this.GetIndexStack(this.#html).classList.add(classe)
         
         }else if(objeto !== undefined && classe != undefined) {
                         
@@ -326,9 +351,9 @@ class HTML{
 
     RemoveClass(classe, objeto) {
                             
-        if(this.main != undefined || this.html != undefined) {
+        if(this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) {
                 
-            this.html.classList.remove(classe)
+            this.GetIndexStack(this.#html).classList.remove(classe)
         
         }else if(objeto != undefined && classe != undefined) {
                         
@@ -341,9 +366,9 @@ class HTML{
 
     AppendChild(objeto, elemento) {
 
-        if(!elemento && (this.main != undefined || this.html != undefined)) {
+        if(!elemento && (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined)) {
                 
-            this.html.appendChild(objeto)
+            this.GetIndexStack(this.#html).appendChild(objeto)
         
         }else if(objeto != undefined && elemento != undefined) {
                         
@@ -356,19 +381,19 @@ class HTML{
 
         if(objeto != undefined && valor != undefined) {
                         
-            this.Find(objeto).appendChild(this.main.createTextNode(valor))
+            this.Find(objeto).appendChild(this.GetIndexStack(this.#main).createTextNode(valor))
             
         }else{
 
-            return this.main.createTextNode(valor)
+            return this.GetIndexStack(this.#main).createTextNode(valor)
         }
     }
 
     Prepend(objeto) {
 
-        if (objeto != undefined || this.main != undefined || this.html != undefined) {
+        if (objeto != undefined || this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) {
 
-            this.main.body.prepend(objeto)
+            this.GetIndexStack(this.#main).body.prepend(objeto)
 
         }
 
@@ -376,9 +401,9 @@ class HTML{
 
     Append(objeto) {
 
-        if (objeto != undefined || this.main != undefined || this.html != undefined) {
+        if (objeto != undefined || this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) {
 
-            this.main.body.append(objeto)
+            this.GetIndexStack(this.#main).body.append(objeto)
 
         }
 
@@ -386,9 +411,9 @@ class HTML{
 
     Parent(objeto) {
 
-        if (this.main != undefined || this.html != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined) {
 
-            return this.html.parentNode
+            return this.GetIndexStack(this.#html).parentNode
 
         }else if(objeto != undefined) {
 
@@ -400,9 +425,9 @@ class HTML{
 
     GetContext(objeto) {
 
-        if (this.main != undefined || this.html != undefined && objeto != undefined) {
+        if (this.GetIndexStack(this.#main) != undefined || this.GetIndexStack(this.#html) != undefined && objeto != undefined) {
                 
-                return this.html.getContext(objeto)
+                return this.GetIndexStack(this.#html).getContext(objeto)
     
         }   
     }
