@@ -92,7 +92,7 @@ class LoginPage extends HTML{
 
         for(let campo in this.campos_cadastro){
 
-            this.Find("#cadastrar").appendChild(this.campos_cadastro[campo].div.html)
+            this.Find("#cadastrar").appendChild(this.campos_cadastro[campo].div.GetHtml())
         }
 
         this.btn = this.CreateElement("a", { class:"btn mt-4" }, "Cadastrar")

@@ -30,13 +30,13 @@ class Checkbox extends HTML {
         this.Atributo('type', this.type)
         this.div = this.CreateElement('div', { class: `input-checkbox ${this.classe}` })
 
-        this.PositionLabel(this.label.html)
+        this.PositionLabel(this.label.GetHtml())
 
-        this.div.appendChild(this.label.html)
+        this.div.appendChild(this.label.GetHtml())
         this.div.appendChild(this.GetHtml())
   
 
-        this.div.html = this.div
+        this.div.GetHtml() = this.div
 
         if (this.callback) {
             

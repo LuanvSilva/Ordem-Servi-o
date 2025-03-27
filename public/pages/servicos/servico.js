@@ -67,7 +67,7 @@ class ServicoPage extends HTML{
             await self.modal.Show()
         })
         this.button_cadastrar.Load()
-        this.Find("#botao_add").appendChild(this.button_cadastrar.html)
+        this.Find("#botao_add").appendChild(this.button_cadastrar.GetHtml())
         
         this.table = new Table('item')
         this.table.Load()
@@ -78,7 +78,7 @@ class ServicoPage extends HTML{
             await self.SetValuesCampos(params)
         })
 
-        this.Find("#table").appendChild(this.table.html)
+        this.Find("#table").appendChild(this.table.GetHtml())
     }
 
     async MontaModalServico(button_excluir){
@@ -131,7 +131,7 @@ class ServicoPage extends HTML{
                 campo.attrs
             )
             
-            html_campos.appendChild(this.campos[campo.key].div.html)
+            html_campos.appendChild(this.campos[campo.key].div.GetHtml())
         }
     
         return html_campos
@@ -190,7 +190,7 @@ class ServicoPage extends HTML{
     AddFooter(){
         // const footer = new Footer()
         // footer.Load()
-        // this.Find("#footer").appendChild(footer.html)
+        // this.Find("#footer").appendChild(footer.GetHtml())
     }
 }
 

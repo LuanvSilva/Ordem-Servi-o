@@ -33,7 +33,7 @@ class MetodosClientesPage extends HTML {
                 campo.type, campo.label, campo.label, "col-md-3 mt-3", null, { id: campo.key, name: campo.key }
             )
 
-             div_row.appendChild(this.campos[campo.key].div.html)
+             div_row.appendChild(this.campos[campo.key].div.GetHtml())
         }
 
         return div_row

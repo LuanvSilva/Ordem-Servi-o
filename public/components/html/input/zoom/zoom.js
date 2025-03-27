@@ -94,7 +94,7 @@ class Zoom extends HTML{
                 this.campos_input[campo].Change(self.campos_retorno[campo].callback)
             }
 
-            this.div_campos.appendChild(this.campos_input[campo].div.html)
+            this.div_campos.appendChild(this.campos_input[campo].div.GetHtml())
         }
     }
 
@@ -110,7 +110,7 @@ class Zoom extends HTML{
                 self.modal.Show()
             })
 
-            this.div_buttom.appendChild(this.botao_zoom.html)
+            this.div_buttom.appendChild(this.botao_zoom.GetHtml())
 
             if(this.botao_borracha){
 
@@ -121,7 +121,7 @@ class Zoom extends HTML{
                     await self.LimpaCampos()
                 })
 
-                this.div_buttom.appendChild(this.botao_borracha.html)
+                this.div_buttom.appendChild(this.botao_borracha.GetHtml())
             }
 
             this.div_campos.appendChild(this.div_buttom)
@@ -140,7 +140,7 @@ class Zoom extends HTML{
             self.modal.Hide()
         })
 
-        this.div_table.appendChild(this.table.html)
+        this.div_table.appendChild(this.table.GetHtml())
     }
 
     MontaModal(){
@@ -160,7 +160,7 @@ class Zoom extends HTML{
                 existingModal.remove()
             }
             
-            document.querySelector("body").append(this.modal.html)
+            document.querySelector("body").append(this.modal.GetHtml())
     }
 
     async LimpaCampos(){

@@ -43,7 +43,7 @@ class Modal extends HTML {
             
         let btn = new Button(label, tipo, col, callback)
         btn.Load()
-        this.footer.appendChild(btn.html)
+        this.footer.appendChild(btn.GetHtml())
     }
 
     async Load() {

@@ -73,7 +73,7 @@ class MultiSelect extends HTML {
         this.Atributo("placeholder", self.placeholder)
 
         const container = this.CreateElement('div', { class: 'multiselect-container ' + this.classe })
-        container.appendChild(this.label.html)
+        container.appendChild(this.label.GetHtml())
         container.appendChild(this.GetHtml())
 
         this.dropdownElement = this.CreateElement('div', { class: 'dropdown-menu' })
@@ -83,7 +83,7 @@ class MultiSelect extends HTML {
         container.appendChild(this.dropdownElement)
         this.GetHtml().div = container
         this.div = {}
-        this.div.html = container
+        this.div.GetHtml() = container
 
         this.On('click', () => this.dropdownElement.classList.toggle('show'))
         

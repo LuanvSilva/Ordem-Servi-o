@@ -49,8 +49,8 @@ class ClientePage extends MetodosClientesPage {
             await self.SetValCampos(params)
         })
 
-        this.Find("#table").appendChild(this.table.html)
-        this.Find("#botao_add").appendChild(this.button_cadastrar.html)
+        this.Find("#table").appendChild(this.table.GetHtml())
+        this.Find("#botao_add").appendChild(this.button_cadastrar.GetHtml())
     }
 
     async Filter(){
@@ -68,10 +68,10 @@ class ClientePage extends MetodosClientesPage {
 
         for (let campo in this.campos_filtros) {
 
-            this.Find("#filtros").appendChild(this.campos_filtros[campo].div.html)
+            this.Find("#filtros").appendChild(this.campos_filtros[campo].div.GetHtml())
         }
 
-        this.Find("#botao_search").appendChild(button_serach.html)
+        this.Find("#botao_search").appendChild(button_serach.GetHtml())
 
     }
 
@@ -109,7 +109,7 @@ class ClientePage extends MetodosClientesPage {
             existingModal.remove()
         }
         
-       document.querySelector("body").append(this.modal.html)
+       document.querySelector("body").append(this.modal.GetHtml())
 
     }
 
@@ -126,7 +126,7 @@ class ClientePage extends MetodosClientesPage {
 
         // let footer = new Footer()
         // footer.Load()
-        // this.Find("#footer").appendChild(footer.html)
+        // this.Find("#footer").appendChild(footer.GetHtml())
     }
 
     

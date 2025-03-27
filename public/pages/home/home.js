@@ -47,7 +47,7 @@ class HomePage extends MetodosHomePage{
         const table = new Table()
         await table.Load()
         table.AddRowClickListener(async (params) => console.log(params))
-        this.Find("#table").appendChild(table.html)
+        this.Find("#table").appendChild(table.GetHtml())
 
     }
 
@@ -56,24 +56,24 @@ class HomePage extends MetodosHomePage{
         const card_solicitacao = new CardMenu("Solicitações","Solicitações da semana" ,"fa fa-rocket f-left", "blue", "col-md-3")
         await card_solicitacao.Load()
 
-        this.Find("#campos_busca").appendChild(card_solicitacao.html)
+        this.Find("#campos_busca").appendChild(card_solicitacao.GetHtml())
 
         card_solicitacao.SetVal("100", "50")
 
         const card_requisicao = new CardMenu("Requisições","Requisições da semana" ,"fa fa-rocket f-left", "green", "col-md-3")
         await card_requisicao.Load()
 
-        this.Find("#campos_busca").appendChild(card_requisicao.html)
+        this.Find("#campos_busca").appendChild(card_requisicao.GetHtml())
 
         const card_cliente = new CardMenu("Clientes","Clientes da semana" ,"fa fa-rocket f-left", "purple", "col-md-3")
         await card_cliente.Load()
 
-        this.Find("#campos_busca").appendChild(card_cliente.html)
+        this.Find("#campos_busca").appendChild(card_cliente.GetHtml())
 
         const card_fornecedor = new CardMenu("Fornecedores","Fornecedores da semana" ,"fa fa-rocket f-left", "red", "col-md-3")
         await card_fornecedor.Load()
 
-        this.Find("#campos_busca").appendChild(card_fornecedor.html)
+        this.Find("#campos_busca").appendChild(card_fornecedor.GetHtml())
 
 
     

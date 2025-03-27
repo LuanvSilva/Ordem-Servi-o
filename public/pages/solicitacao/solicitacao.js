@@ -58,7 +58,7 @@ class SolicitacaoPage extends HTML {
         this.Find("#filtros").appendChild(await this.GetCamposHTML(this.campos_solicitacao.filtros))
             
 
-        this.Find("#botao_search").appendChild(button_search.html)
+        this.Find("#botao_search").appendChild(button_search.GetHtml())
 
     }
 
@@ -81,8 +81,8 @@ class SolicitacaoPage extends HTML {
             await self.SetValuesCampos(params)
         })
 
-        this.Find("#table").appendChild(this.table.html)
-        this.Find("#botao_add").appendChild(this.button_cadastrar.html)
+        this.Find("#table").appendChild(this.table.GetHtml())
+        this.Find("#botao_add").appendChild(this.button_cadastrar.GetHtml())
     }
 
     async MontaModalSolicitacao(editar){
@@ -170,7 +170,7 @@ class SolicitacaoPage extends HTML {
                 campo.attrs
             )
             
-            html_campos.appendChild(this.campos[campo.key].div.html)
+            html_campos.appendChild(this.campos[campo.key].div.GetHtml())
         }
     
         return html_campos

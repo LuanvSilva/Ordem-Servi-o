@@ -45,7 +45,7 @@ class Solicitacao extends HTML{
             input.Load()
             input.Id(campo)
             input.Name(campo)
-            this.modal.BodyAppendChild(input.div.html)
+            this.modal.BodyAppendChild(input.div.GetHtml())
         })
 
         this.modal.Show()

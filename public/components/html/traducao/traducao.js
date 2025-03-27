@@ -35,7 +35,7 @@ class Traducao{
                 button.Id(estrutura.id)
                 button.Name(estrutura.id)
                 this.AddObjeto(estrutura, button)
-                return button.div.html
+                return button.div.GetHtml()
 
             case "text":
 
@@ -47,7 +47,7 @@ class Traducao{
                 text.Obrigatorio(estrutura.obrigatorio)
                 text.Disabled(estrutura.disabled)
                 this.AddObjeto(estrutura, text)
-                return text.div.html
+                return text.div.GetHtml()
             
             case "textarea":
                     
@@ -59,7 +59,7 @@ class Traducao{
                 textarea.Obrigatorio(estrutura.obrigatorio)
                 textarea.Disabled(estrutura.disabled)
                 this.AddObjeto(estrutura, textarea)
-                return textarea.div.html
+                return textarea.div.GetHtml()
             
             case "number":
                     
@@ -71,7 +71,7 @@ class Traducao{
                 number.Obrigatorio(estrutura.obrigatorio)
                 number.Disabled(estrutura.disabled)
                 this.AddObjeto(estrutura, number)
-                return number.div.html
+                return number.div.GetHtml()
 
             case "cpfcnpj":
                         
@@ -83,7 +83,7 @@ class Traducao{
                 cpfcnpj.Obrigatorio(estrutura.obrigatorio)
                 cpfcnpj.Disabled(estrutura.disabled)
                 this.AddObjeto(estrutura, cpfcnpj)
-                return cpfcnpj.div.html
+                return cpfcnpj.div.GetHtml()
 
             case "telefone":
                             
@@ -95,7 +95,7 @@ class Traducao{
                 telefone.Obrigatorio(estrutura.obrigatorio)
                 telefone.Disabled(estrutura.disabled)
                 this.AddObjeto(estrutura, telefone)
-                return telefone.div.html
+                return telefone.div.GetHtml()
 
             case "cep":
                                 
@@ -107,7 +107,7 @@ class Traducao{
                 cep.Obrigatorio(estrutura.obrigatorio)
                 cep.Disabled(estrutura.disabled)
                 this.AddObjeto(estrutura, cep)
-                return cep.div.html
+                return cep.div.GetHtml()
                 
             default:
                 break;

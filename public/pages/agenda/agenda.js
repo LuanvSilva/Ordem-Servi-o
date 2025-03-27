@@ -26,7 +26,7 @@ class AgendaPage extends HTML {
 
     const calendario = new CalendarioSemanal()
     await calendario.Load()
-    this.Find("#agendamento").appendChild(calendario.html)
+    this.Find("#agendamento").appendChild(calendario.GetHtml())
   }
 
   AddFooter() {
