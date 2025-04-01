@@ -49,8 +49,9 @@ class Autenticacao{
                 this.SetResponse(response.data, true, Constantes.MENSAGEM.LOGIN_SUCESSO, null, Constantes.URL_PAGES.HOME)
             )
         } catch (error) {
-            return res.status(error.status).json( this.SetResponse({}, false, Constantes.MENSAGEM.ERRO_LOGIN, error.message, Constantes.URL_PAGES.LOGIN)
-)
+          return res.status(statusCode).json(
+            this.SetResponse({}, false, Constantes.MENSAGEM.ERRO_LOGIN, error.message, Constantes.URL_PAGES.LOGIN)
+        )
         }
     })
 

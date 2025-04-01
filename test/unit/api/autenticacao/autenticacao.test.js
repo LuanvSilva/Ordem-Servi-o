@@ -13,7 +13,7 @@ class AuthTests {
 
     const response = await request(this.app)
       .post('/api/v1/auth/logar')
-      .send({ login: 'adminteste@teste.com', password: 'Admin2024@' })
+      .send({ login: 'adminteste', password: 'Admin2024@' })
 
     console.log(response.body.message)
     expect(response.status).toBe(200)
