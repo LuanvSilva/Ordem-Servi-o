@@ -55,9 +55,7 @@ class SolicitacaoPage extends HTML {
 
         button_search.Load() 
  
-        this.Find("#filtros").appendChild(await this.GetCamposHTML(this.campos_solicitacao.filtros))
-            
-
+        this.Find("#filtros").appendChild(await self.input_loader.GetCamposHTML(this.campos_solicitacao.filtros))
         this.Find("#botao_search").appendChild(button_search.GetHtml())
 
     }
@@ -89,7 +87,7 @@ class SolicitacaoPage extends HTML {
  
         let self = this
 
-        this.modal = new Modal('large', 'Solicitação', "Salvar", async () => await this.SalvaSolicitacao(editar) )
+        this.modal = new Modal('large', 'Solicitação', "Salvar", async () => await this.SalvaSolicitacao(editar))
         await this.modal.Load()
 
             this.skeleton_container.SetRows([['input', 4], ['input', 4],'textarea']);
@@ -97,7 +95,7 @@ class SolicitacaoPage extends HTML {
 
         this.modal.LoadBody(this.skeleton_container.targetElement)
 
-        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => self.modal.Hide() )
+        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => self.modal.Hide())
         this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
             
             self.modal.Hide()
@@ -107,7 +105,7 @@ class SolicitacaoPage extends HTML {
 
         setTimeout(async () => {
             this.skeleton_container.Destroy()
-            this.modal.LoadBody(await self.GetCamposHTML(this.campos_solicitacao.campos))
+            this.modal.LoadBody(await self.input_loader.GetCamposHTML(this.campos_solicitacao.campos))
         }, 1000)
         
     }
@@ -127,6 +125,8 @@ class SolicitacaoPage extends HTML {
    
     SetValuesCampos(params){
 
+        this.campos = this.input_loader.GetCampos()
+        
         for (const campo in this.campos) {
 
             this.campos[campo].Val(params[campo])
@@ -136,6 +136,7 @@ class SolicitacaoPage extends HTML {
     ReturnValueCampos(){
 
         let params = {}
+        this.campos = this.input_loader.GetCampos()
 
         for (const campo in this.campos) {
 
@@ -143,37 +144,6 @@ class SolicitacaoPage extends HTML {
         }
 
         return params
-    }
-
-    async GetCamposHTML(estrutura_campos){
-    
-        const html_campos = this.bootstrap.Row()
-    
-        for (const campo of estrutura_campos) {
-            
-            if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
-
-                campo.callback = this[campo.callback].bind(this)
-            }
-            
-            this.input_loader.SetAtributes(campo.attrs)
-            
-            this.campos[campo.key] = await this.input_loader.GetComponent(
-                campo.type,
-                campo.modelo,
-                campo.label,
-                campo.placeholder,
-                campo.class,
-                campo.callback,  
-                campo.position,
-                campo.options,
-                campo.attrs
-            )
-            
-            html_campos.appendChild(this.campos[campo.key].div.GetHtml())
-        }
-    
-        return html_campos
     }
 
     async InsertSolicitacao(){

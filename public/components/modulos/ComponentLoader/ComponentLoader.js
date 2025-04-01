@@ -10,8 +10,10 @@ import { DatePicker } from "../../html/input/datepicker/datepicker.js";
 import { Time } from "../../html/input/time/time.js";
 import { MultiSelect } from "../../html/input/multiselect/multiselect.js";
 import { Select } from "../../html/input/select/select.js";
+import { Bootstrap } from "../../html/bootstrap/bootstrap.js";
 
 class ComponentLoader {
+  #campos = []
   constructor() {
     this.components = new WeakMap()
     this.components["Cep"] = Cep
@@ -26,8 +28,21 @@ class ComponentLoader {
     this.components["Time"] = Time
     this.components["MultiSelect"] = MultiSelect
     this.components["Select"] = Select
+    this.bootstrap = new Bootstrap()
 
-  } 
+  }
+
+  SetCampos(campos) {
+
+    this.#campos = campos
+
+  }
+
+  GetCampos() {
+
+    return this.#campos
+
+  }
 
   SetAtributes(atributes) {
 
@@ -46,7 +61,7 @@ class ComponentLoader {
     if (params.type) component.Atributo('type', params.type)
     if (params.callback) component.SetCallback(params.callback)
     if (params.placeholder) component.Placeholder(params.placeholder)
-    if( params.options) component.SetOption(params.options)
+    if (params.options) component.SetOption(params.options)
   }
 
   async GetComponent(componentName, ...args) {
@@ -55,15 +70,46 @@ class ComponentLoader {
 
     if (this.components[componentName]) {
 
-        const componentInstance = new this.components[componentName](...args)
-        await componentInstance.Load()
-        await this.SetAtributesComponent(componentInstance, this.atributes)
-  
-        return componentInstance
+      const componentInstance = new this.components[componentName](...args)
+      await componentInstance.Load()
+      await this.SetAtributesComponent(componentInstance, this.atributes)
+
+      return componentInstance
 
     } else {
-        throw new Error(`Componente ${componentName} não encontrado.`)
+      throw new Error(`Componente ${componentName} não encontrado.`)
     }
+  }
+
+  async GetCamposHTML(estrutura_campos) {
+
+    const html_campos = this.bootstrap.Row()
+
+    for (const campo of estrutura_campos) {
+
+      if (campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
+
+        campo.callback = this[campo.callback].bind(this)
+      }
+
+      this.SetAtributes(campo.attrs)
+
+      this.#campos[campo.key] = await this.GetComponent(
+        campo.type,
+        campo.modelo,
+        campo.label,
+        campo.placeholder,
+        campo.class,
+        campo.callback,
+        campo.position,
+        campo.options,
+        campo.attrs
+      )
+
+      html_campos.appendChild(this.#campos[campo.key].div.GetHtml())
+    }
+
+    return html_campos
   }
 }
 

@@ -86,7 +86,13 @@ class Constantes {
 
     static get URL_INTEGRACAO_GEMINI() {
         return {
-            URL_BASE: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+            URL_BASE: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+        }
+    }
+
+    static get URL_BASE_TRANSLATE() {
+        return {
+            GET_TRANSLATE: "/api/v1/translate/getTranslate",
         }
     }
 

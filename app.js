@@ -41,6 +41,7 @@ class App {
         this.express.use('/api/v1/modelos', jwtCheck.check, await routes.RoutesModelosTable())
         this.express.use('/api/v1/solicitacao', jwtCheck.check, await routes.RoutesSolicitacaoMain())
         this.express.use('/api/v1/item', jwtCheck.check, await routes.RoutesItemMain())
+        this.express.use('/api/v1/translate', jwtCheck.check, await routes.RoutesTranslateMain())
     }
 
     startServer() {

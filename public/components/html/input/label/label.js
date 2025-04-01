@@ -24,7 +24,7 @@ class Label extends HTML {
 
         }
 
-        this.AddClass("label-carwash")
+        this.Atributo("class",`label-carwash translate`)
 
         return this.GetHtml()
 

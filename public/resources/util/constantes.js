@@ -56,6 +56,12 @@ class Constantes {
         }
     }
 
+    static get URL_BASE_TRANSLATE() {
+        return {
+            GET_TRANSLATE: `${this.URL_BASE}/api/v1/translate/getTranslate`,
+        }
+    }
+
     static get VALIDA() {
         return {
             EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,

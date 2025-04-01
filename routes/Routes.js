@@ -5,6 +5,7 @@ import TableRoute from './table/table.js';
 import MultiSelectRoute from './multiselect/multiselectRoute.js';
 import Solicitacao from './solicitacao/Solicitacao.js';
 import Item from './item/Item.js';
+import translateRouter from './translate/translate.js';
 
 class Routes {
     constructor(path, __dirname) {
@@ -17,6 +18,7 @@ class Routes {
         this.rotas_multiselect = new MultiSelectRoute()
         this.solicitacao = new Solicitacao()
         this.item = new Item()
+        this.translate = new translateRouter()
     }
 
     SetResponse(data, success, message, error, url) {
@@ -46,6 +48,11 @@ class Routes {
     async RoutesItemMain() {
         
         return await this.item.RoutesMain(this.app)
+    }
+
+    async RoutesTranslateMain() {
+
+        return await this.translate.RoutesMain(this.app)
     }
 
     RoutesLoginMain() {

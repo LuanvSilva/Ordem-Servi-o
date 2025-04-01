@@ -8,9 +8,10 @@ import { ComponentLoader } from "../../components/modulos/ComponentLoader/Compon
 import { Bootstrap } from '../../components/html/bootstrap/bootstrap.js'
 import { Footer } from "../../components/html/footer/footer.js"
 import { Constantes } from '../../resources/util/constantes.js'
+import { TranslationManager } from '../../components/modulos/translationManager/translation_manager.js'
 
-class ServicoPage extends HTML{
-    constructor(){
+class ServicoPage extends HTML {
+    constructor() {
         super()
         this.title = 'Serviços'
         this.campos = []
@@ -18,103 +19,116 @@ class ServicoPage extends HTML{
         this.noty = new Noty()
         this.bootstrap = new Bootstrap()
         this.input_loader = new ComponentLoader()
+    
+        this.translationManager = new TranslationManager()
+        this.translationManager.ConfigurarIdiomaPadrao()
     }
 
-     async Open(){
-        
+    async Open() {
         this.AddHeader()
         await this.AddMain()
-        this.AddFooter()
+        //this.AddFooter()
+        this.AddLanguageSwitcher()
+        this.translationManager.ScanElements()
     }
 
-    AddHeader(){
-
-        this.Find("#header").innerHTML += this.title
+    AddHeader() {
+        this.Find("#header").innerHTML += `<span class="translate">${this.title}</span>`
     }
 
-    async AddMain(){
-
-        let self = this
-        this.Filtros()
-        this.LoadTableServico()
+    async AddMain() {
+        await this.Filtros()
+        await this.LoadTableServico()
     }
 
-    async GetCamposToJSON(){
-
-        this.campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())    
+    async GetCamposToJSON() {
+        this.campos_servicos = await fetch('./campos_servicos.json').then(response => response.json())
     }
 
-    async Filtros(){
-
-        let self = this
+    async Filtros() {
         await this.GetCamposToJSON()
 
         const button_serach = new Button('<i class="fa-solid fa-magnifying-glass"></i>', 'primary', 'col-md-1 mb-3', async () => {
-            await self.BuscarServicos()
+            await this.BuscarServicos()
         })
 
         button_serach.Load()
-        this.Find("#botao_search").appendChild(await this.GetCamposHTML(this.campos_servicos.filtros))
-
+        this.Find("#botao_search").appendChild(button_serach.GetHtml())
+        
+        const filtrosContainer = await this.GetCamposHTML(this.campos_servicos.filtros)
+        this.AppendChild(filtrosContainer, "#filtros")
+        await this.translationManager.TraduzirContainer(filtrosContainer)
     }
 
-    LoadTableServico(servicos){
+    async LoadTableServico(servicos) {
+        const self = this
 
-        let self = this
-
-        this.button_cadastrar = new Button('Cadastrar Novo', 'success', 'col-md-2 mb-3 mt-3', async () => {
+        this.button_cadastrar = new Button('<span class="translate">Cadastrar Novo</span>', 'success', 'col-md-2 mb-3 mt-3', async () => {
             await self.MontaModalServico(false)
             await self.modal.Show()
         })
+        
         this.button_cadastrar.Load()
         this.Find("#botao_add").appendChild(this.button_cadastrar.GetHtml())
         
         this.table = new Table('item')
         this.table.Load()
+        await self.MontaModalServico(true)
         this.table.AddRowClickListener(async (params) => {
-
-            await self.MontaModalServico(true)
             await self.modal.Show()
             await self.SetValuesCampos(params)
         })
-
+        
         this.Find("#table").appendChild(this.table.GetHtml())
+        
+        this.translationManager.TraduzirContainer(this.button_cadastrar.GetHtml())
     }
 
-    async MontaModalServico(button_excluir){
-
-        let self = this
-        this.modal = new Modal('large', 'Serviço')
+    async MontaModalServico(button_excluir) {
+        const self = this
+        this.modal = new Modal('large', '<span class="translate">Serviço</span>')
         this.modal.Load()
-        this.modal.LoadBody(await this.GetCamposHTML(this.campos_servicos.campos))
         
-        this.modal.AddButton('Fechar', 'secondary ', 'col-md-2', async () => {
+        const modalBody = await this.GetCamposHTML(this.campos_servicos.campos)
+        this.modal.LoadBody(modalBody)
+        
+        this.modal.AddButton('<span class="translate">Fechar</span>', 'secondary ', 'col-md-2', async () => {
             self.modal.Hide()
         })
 
-        if(button_excluir){
-
-            this.modal.AddButton('Excluir', 'danger ', 'col-md-2', async () => {
+        if(button_excluir) {
+            this.modal.AddButton('<span class="translate">Excluir</span>', 'danger ', 'col-md-2', async () => {
                 self.modal.Hide()
                 await self.ExcluirServico()
-                await self.noty.Noty('success', 'Serviço excluido com sucesso!')
+                
+                let mensagem = 'Serviço excluído com sucesso!'
+                if (this.translationManager.GetIdioma() !== 'pt') {
+                    mensagem = await this.translationManager.TraduceText(mensagem)
+                }
+                
+                await self.noty.Noty('success', mensagem)
             })
         }
 
-        this.modal.AddButton('Salvar', 'success ', 'col-md-2', async () => {
+        this.modal.AddButton('<span class="translate">Salvar</span>', 'success ', 'col-md-2', async () => {
             await self.SalvarServico()
         })
+        
+        await this.translationManager.TraduzirContainer(this.modal.GetHtml())
     }
   
-    async GetCamposHTML(estrutura_campos){
-    
+    async GetCamposHTML(estrutura_campos) {
         const html_campos = this.bootstrap.Row()
     
         for (const campo of estrutura_campos) {
-            
             if(campo.callback && typeof campo.callback === 'string' && this[campo.callback]) {
-
                 campo.callback = this[campo.callback].bind(this)
+            }
+            
+        
+            if (campo.placeholder) {
+                campo.attrs = campo.attrs || {}
+                campo.attrs['data-translate'] = 'true'
             }
             
             this.input_loader.SetAtributes(campo.attrs)
@@ -137,11 +151,6 @@ class ServicoPage extends HTML{
         return html_campos
     }
 
-    OnTipoChange(params){
-
-        console.log(this.campos['tipo'].Val())
-    }
-
     SetValuesCampos(params){
 
         for (const campo in this.campos) {
@@ -162,36 +171,92 @@ class ServicoPage extends HTML{
         return params
     }
 
+    AddLanguageSwitcher() {
+        const languageContainer = document.createElement('div')
+        languageContainer.className = 'language-switcher'
+        languageContainer.style.position = 'fixed'
+        languageContainer.style.top = '10px'
+        languageContainer.style.right = '10px'
+        languageContainer.style.zIndex = '1000'
+        
+        const languages = [
+            { code: 'pt', name: 'Português' },
+            { code: 'en', name: 'English' },
+            { code: 'es', name: 'Español' },
+            { code: 'fr', name: 'Français' }
+        ]
+        
+        languages.forEach(lang => {
+            const button = document.createElement('button')
+            button.innerText = lang.code.toUpperCase()
+            button.className = 'btn btn-sm ' + 
+                (lang.code === this.translationManager.GetIdioma() ? 'btn-primary' : 'btn-outline-primary')
+            button.style.marginLeft = '5px'
+            
+            button.addEventListener('click', async () => {
+                this.translationManager.SetIdioma(lang.code)
+                this.translationManager.SalvarIdioma()
+                
+                // Atualizar aparência dos botões
+                languageContainer.querySelectorAll('button').forEach(btn => {
+                    btn.className = 'btn btn-sm ' + 
+                        (btn.innerText.toLowerCase() === this.translationManager.GetIdioma() ? 
+                         'btn-primary' : 'btn-outline-primary')
+                })
+                
+                // Traduzir ou restaurar os textos dependendo do idioma
+                await this.translationManager.TraduzirElementosRegistrados()
+            })
+            
+            languageContainer.appendChild(button)
+        })
+        
+        document.body.appendChild(languageContainer)
+    }
 
-    async SalvarServico(){
 
+    async SalvarServico() {
         let params = this.ReturnValueCampos()
 
-        let response = await fetch(Constantes.URL_BASE_ITENS.CADASTRAR, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(params)
-        }).then(response => response.json())
+        try {
+            let response = await fetch(Constantes.URL_BASE_ITENS.CADASTRAR, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            }).then(response => response.json())
 
-        if(response.success){
-
-            this.noty.Noty('success', response.message)
-            this.modal.Hide()
-
-        }else{
-
-            this.noty.Noty('error', error)
+            if(response.success) {
+                // Traduzir mensagem de sucesso se necessário
+                let mensagem = response.message || 'Serviço salvo com sucesso!'
+                if (this.translationManager.GetIdioma() !== 'pt') {
+                    mensagem = await this.translationManager.TraduceText(mensagem)
+                }
+                
+                this.noty.Noty('success', mensagem)
+                this.modal.Hide()
+            } else {
+                // Traduzir mensagem de erro
+                let mensagemErro = response.error || 'Erro ao salvar o serviço'
+                if (this.translationManager.GetIdioma() !== 'pt') {
+                    mensagemErro = await this.translationManager.TraduceText(mensagemErro)
+                }
+                
+                this.noty.Noty('error', mensagemErro)
+            }
+        } catch (error) {
+            this.noty.Noty('error', error.message)
         }
-    
     }
-  
+
+    
     AddFooter(){
         // const footer = new Footer()
         // footer.Load()
         // this.Find("#footer").appendChild(footer.GetHtml())
     }
+
 }
 
 export { ServicoPage }

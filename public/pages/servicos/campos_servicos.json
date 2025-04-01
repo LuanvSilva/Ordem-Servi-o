@@ -45,7 +45,7 @@
             "label":"Tipo",
             "placeholder":"Tipo",
             "class":"col-md-4 mt-3",
-            "callback": "OnTipoChange",
+            "callback": false,
             "attrs": {"id":"tipoId", "name":"tipoId"},
             "options": [
                 {
