@@ -1,32 +1,46 @@
-# Sistema de Gerenciamento de Ordens de Serviço
+# Sistema de Gerenciamento de Serviços
 
-## Breve Descrição
-Este sistema foi desenvolvido para gerenciar ordens de serviço, oferecendo funcionalidades como agendamento, cadastro de itens e validação de dados. É uma aplicação web que utiliza JavaScript modular para criar uma experiência de usuário interativa e eficiente.
+## Breve descrição
+Um sistema web completo para gerenciamento de Serviços, desenvolvido em Node.js com Express no backend e JavaScript modular no frontend. Esta solução permite o controle de agendamentos, itens de serviço, clientes e solicitações através de uma interface intuitiva e segura.
 
 ## Sobre o Projeto
-O Sistema de Gerenciamento de Ordens de Serviço é uma solução completa para empresas que precisam organizar suas atividades de prestação de serviços. Ele permite controlar agendamentos em um calendário semanal, gerenciar itens de serviço e realizar validações de dados importantes como CPF, CNPJ, CEP e outros.
+O Sistema de Gerenciamento de Serviços foi desenvolvido para atender às necessidades de empresas de prestação de serviços que precisam de uma solução eficiente para registrar, acompanhar e gerenciar suas Serviços.
+
+A motivação para a criação deste sistema surgiu da necessidade de substituir processos manuais ou sistemas fragmentados por uma solução integrada, que oferecesse um fluxo contínuo desde o cadastro do cliente até a conclusão e faturamento do serviço.
+
+Com foco na usabilidade e segurança, o sistema implementa autenticação JWT e componentes reutilizáveis para garantir uma experiência consistente tanto para operadores quanto para administradores.
 
 ## Principais Características
 
+### Autenticação e Segurança
+- Sistema de login com JWT (JSON Web Tokens)
+- Gerenciamento de sessões
+- Rotas protegidas para acesso apenas a usuários autenticados
+
+### Gestão de Clientes
+- Cadastro completo de informações de clientes
+- Validação de dados como CPF/CNPJ, e-mail e telefone
+- Histórico de atendimentos por cliente
+
 ### Agendamento
-- Visualização de calendário semanal
+- Visualização de calendário semanal interativo
+- Organização visual de compromissos por dias e horários
 - Gerenciamento de eventos e compromissos
-- Organização visual por dias e horários
 
 ### Gerenciamento de Itens
-- Cadastro completo de produtos e serviços
-- Campos para código, descrição, unidade, valor, tipo e categoria
-- Status de ativação e observações
+- Cadastro de produtos e serviços com códigos, descrições e valores
+- Categorização e tipificação de itens
+- Controle de status de ativação
 
-### Componentes Reutilizáveis
+### Solicitações
+- Fluxo completo de solicitações de serviço
+- Acompanhamento de status de solicitações
+- Vinculação de itens e clientes às solicitações
+
+### Componentes de Interface Reutilizáveis
 - Sistema de carregamento dinâmico de componentes
-- Vários tipos de entrada de dados: texto, email, moeda, CPF/CNPJ, CEP, telefone, etc.
-- Componentes modulares e extensíveis
-
-### Validação de Dados
-- Validação de formatos de email, senha, CPF, CNPJ, telefone e CEP
-- Verificação de preenchimento de campos obrigatórios
-- Suporte para diferentes formatos de dados
+- Diversos tipos de entrada de dados (texto, e-mail, moeda, CPF/CNPJ, etc.)
+- Interface responsiva e moderna
 
 ## Documentação
 
@@ -35,99 +49,176 @@ O Sistema de Gerenciamento de Ordens de Serviço é uma solução completa para 
 Ordem Serviço/
 ├── controller/          # Controladores da aplicação
 │   └── item/            # Controlador de itens
-├── public/              # Arquivos públicos
-│   └── components/      # Componentes da interface
-│       ├── html/        # Componentes HTML
-│       │   ├── agendamento/  # Componente de agendamento
-│       │   └── input/   # Componentes de entrada
-│       └── modulos/     # Módulos reutilizáveis
-├── use_case/           # Casos de uso da aplicação
-│   └── item/           # Caso de uso para itens
-└── util/              # Utilitários
+├── middleware/          # Middlewares do Express
+│   └── jwtcheck.js      # Verificação de tokens JWT
+├── public/              # Arquivos públicos (frontend)
+│   ├── components/      # Componentes da interface
+│   │   ├── html/        # Componentes HTML reutilizáveis
+│   │   │   ├── agendamento/  # Componente de agendamento
+│   │   │   └── input/   # Componentes de entrada
+│   │   └── modulos/     # Módulos reutilizáveis
+├── routes/              # Definição das rotas da API
+├── use_case/            # Casos de uso da aplicação
+│   └── item/            # Caso de uso para itens
+├── util/                # Utilitários
+├── app.js               # Configuração do aplicativo Express
+└── server.js            # Ponto de entrada da aplicação
 ```
 
-### Principais Classes
+### Principais Módulos
 
-#### ComponentLoader
-Carregador dinâmico de componentes que gerencia a instanciação e configuração dos diversos componentes de interface.
+#### Backend
+- **Express.js**: Framework web para Node.js
+- **JWT**: Autenticação baseada em tokens
+- **Session**: Gerenciamento de sessões de usuário
 
-#### CalendarioSemanal
-Componente para visualização e gerenciamento de agendamentos em formato de calendário semanal.
+#### Frontend
+- **ComponentLoader**: Sistema de carregamento dinâmico de componentes de UI
+- **CalendarioSemanal**: Componente para visualização e gerenciamento de agendamentos
+- **Validator**: Classe utilitária para validação de diversos formatos de dados
 
-#### itemController
-Controlador para operações CRUD de itens, com validação de dados e comunicação com o caso de uso.
+### API Endpoints
 
-#### Validator
-Classe utilitária com métodos para validação de diversos formatos de dados.
+| Rota                   | Descrição                               |
+|------------------------|----------------------------------------|
+| `/`                    | Rotas de autenticação                  |
+| `/pages/login`         | Páginas relacionadas ao login          |
+| `/pages`               | Páginas protegidas da aplicação        |
+| `/api/v1/client`       | API para gerenciamento de clientes     |
+| `/api/v1/modelos`      | API para modelos de tabelas            |
+| `/api/v1/solicitacao`  | API para solicitações de serviço       |
+| `/api/v1/item`         | API para gerenciamento de itens        |
+| `/api/v1/translate`    | API para tradução de textos            |
 
 ## Guia de Início Rápido
 
 ### Pré-requisitos
-- Servidor web com suporte a JavaScript
-- Navegador moderno com suporte a ES6+
+- Node.js (v14.x ou superior)
+- NPM ou Yarn
+- Banco de dados (conforme configurado no projeto)
 
 ### Instalação
+
 1. Clone o repositório:
    ```
    git clone [URL_DO_REPOSITORIO]
    ```
-2. Configure o servidor web para apontar para o diretório raiz do projeto
-3. Acesse a aplicação através do navegador
+
+2. Instale as dependências:
+   ```
+   npm install
+   ```
+
+3. Configure as variáveis de ambiente:
+   - Crie um arquivo `.env` na raiz do projeto
+   - Defina as seguintes variáveis:
+     ```
+     PORT=3000
+     SECRET=sua_chave_secreta_jwt
+     DB_CONNECTION_STRING=sua_string_de_conexao_bd
+     ```
+
+4. Inicie o servidor de desenvolvimento:
+   ```
+   npm start
+   ```
+
+5. Acesse a aplicação em `http://localhost:3000`
 
 ### Exemplos de Uso
 
-#### Criar um novo item:
+#### Autenticação:
 ```javascript
-const itemCtrl = new itemController(token, empresa);
-const novoItem = {
-  codigo: '001',
-  descricao: 'Manutenção',
-  unidade: { id: 1 },
-  valor: 100.00,
-  tipo: { id: 2 },
-  categoria: { id: 3 },
-  ativo: true,
-  observacao: 'Observações sobre o item'
-};
-const resultado = await itemCtrl.PostItem({ body: novoItem }, response);
+// Requisição de login
+const response = await fetch('/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ username: 'usuario', password: 'senha' })
+});
+const { token } = await response.json();
 ```
 
-#### Carregar um componente:
+#### Criando um novo item:
 ```javascript
-const loader = new ComponentLoader();
-loader.SetAtributes({ 
-  id: 'meuInput', 
-  name: 'nome', 
-  required: true 
+const token = localStorage.getItem('token');
+const response = await fetch('/api/v1/item', {
+  method: 'POST',
+  headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  body: JSON.stringify({
+    codigo: '001',
+    descricao: 'Manutenção Preventiva',
+    unidade: { id: 1 },
+    valor: 150.00,
+    tipo: { id: 2 },
+    categoria: { id: 3 },
+    ativo: true,
+    observacao: 'Serviço de manutenção padrão'
+  })
 });
-const inputNome = await loader.GetComponent('Text');
 ```
 
 ## Arquitetura da Solução
 
-O sistema segue uma arquitetura em camadas com separação clara de responsabilidades:
+O sistema segue uma arquitetura em camadas com padrão MVC estendido:
 
-1. **Camada de Apresentação**: 
-   - Componentes HTML modulares
-   - Interface de usuário interativa
+### Camadas da Aplicação
+
+1. **Camada de Apresentação (Frontend)**:
+   - Componentes HTML modulares em JavaScript puro
    - Sistema de carregamento dinâmico de componentes
+   - Interface interativa com validação no cliente
 
-2. **Camada de Controle**:
+2. **Camada de API (Middleware)**:
+   - Express.js como servidor HTTP
+   - JWT para autenticação e autorização
+   - Middleware para validação de requisições
+
+3. **Camada de Controle**:
    - Controladores para cada entidade do sistema
-   - Gerenciamento de requisições e respostas
-   - Validação inicial dos dados
+   - Validação de entrada de dados
+   - Orquestração do fluxo de dados
 
-3. **Camada de Negócios**:
+4. **Camada de Negócios**:
    - Casos de uso que implementam as regras de negócio
-   - Lógica de processamento independente da interface
+   - Separação clara de responsabilidades
+   - Lógica independente da interface
 
-4. **Camada de Utilidades**:
+5. **Camada de Utilidades**:
    - Validadores
-   - Constantes
-   - Funções auxiliares reutilizáveis
+   - Funções auxiliares
+   - Constantes do sistema
 
-O sistema utiliza módulos JavaScript (ES6) para garantir uma estrutura organizada e facilitar a manutenção. A comunicação entre as camadas é feita através de interfaces bem definidas, possibilitando a substituição de implementações sem afetar o restante do sistema.
+### Fluxo de Dados
+
+```
+[Cliente] → [API (Express)] → [Controller] → [Use Case] → [Model] ↔ [Banco de Dados]
+   ↑                                ↑
+   └────────────────────────────────┘
+         Resposta (JSON/HTML)
+```
+
+### Segurança
+
+O sistema implementa múltiplas camadas de segurança:
+
+- Autenticação via JWT com tempo de expiração
+- Verificação de tokens em todas as rotas protegidas
+- Sessões para gerenciamento de estado do usuário
+- Validação de dados em múltiplas camadas
+
+### Tecnologias Utilizadas
+
+- **Backend**: Node.js, Express.js
+- **Autenticação**: JWT, Express-session
+- **Frontend**: JavaScript modular (ES6+), HTML5, CSS3
+- **Ferramentas de Desenvolvimento**: NPM/Yarn, Babel (se aplicável)
+- **Banco de Dados**: Postgres
 
 ---
 
-Desenvolvido com ❤️ para gerenciamento eficiente de ordens de serviço.
+Desenvolvido para gerenciamento eficiente de Serviços.
+
+© 2025 | Todos os direitos reservados
