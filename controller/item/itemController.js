@@ -6,7 +6,7 @@ class itemController{
     }
 
     GetCampodFormulario(){
-        return ['codigo', 'descricao', 'unidade', 'valor', 'tipo', 'categoria', 'ativo', 'observacao']
+        return ['itemCodigo', 'itemDescricao', 'unidadeId', 'valor', 'tipoId', 'categoriaId', 'ativo', 'observacao']
     }
 
     async PostItem(req, res){
@@ -16,12 +16,12 @@ class itemController{
         }
 
         const values = new Object()
-        values.codigo = req.body.codigo
-        values.descricao = req.body.descricao
-        values.unidadeId = req.body.unidade.id
+        values.codigo = req.body.itemCodigo
+        values.descricao = req.body.itemDescricao
+        values.unidadeId = req.body.unidadeId.id
         values.valor = req.body.valor
-        values.tipoId = req.body.tipo.id
-        values.categoriaId = req.body.categoria.id
+        values.tipoId = req.body.tipoId.id
+        values.categoriaId = req.body.categoriaId.id
         values.ativo = req.body.ativo
         values.observacao = req.body.observacao
         values.dataHoraCadastro = new Date().toISOString()

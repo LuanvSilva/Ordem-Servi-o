@@ -1,5 +1,4 @@
 import { HTML } from '../../components/html/html.js'
-import { Text } from '../../components/html/input/text/text.js'
 import { Table } from '../../components/html/table/table.js'
 import { Modal } from '../../components/html/modal/modal.js'
 import { Noty } from '../../components/html/noty/noty.js'
@@ -20,16 +19,16 @@ class ServicoPage extends HTML {
         this.bootstrap = new Bootstrap()
         this.input_loader = new ComponentLoader()
     
-        this.translationManager = new TranslationManager()
-        this.translationManager.ConfigurarIdiomaPadrao()
+       // this.translationManager = new TranslationManager()
+        //this.translationManager.ConfigurarIdiomaPadrao()
     }
 
     async Open() {
         this.AddHeader()
         await this.AddMain()
         //this.AddFooter()
-        this.AddLanguageSwitcher()
-        this.translationManager.ScanElements()
+        //this.AddLanguageSwitcher()
+        //this.translationManager.ScanElements()
     }
 
     AddHeader() {
@@ -57,7 +56,7 @@ class ServicoPage extends HTML {
         
         const filtrosContainer = await this.GetCamposHTML(this.campos_servicos.filtros)
         this.AppendChild(filtrosContainer, "#filtros")
-        await this.translationManager.TraduzirContainer(filtrosContainer)
+        //await this.translationManager.TraduzirContainer(filtrosContainer)
     }
 
     async LoadTableServico(servicos) {
@@ -81,7 +80,7 @@ class ServicoPage extends HTML {
         
         this.Find("#table").appendChild(this.table.GetHtml())
         
-        this.translationManager.TraduzirContainer(this.button_cadastrar.GetHtml())
+        //this.translationManager.TraduzirContainer(this.button_cadastrar.GetHtml())
     }
 
     async MontaModalServico(button_excluir) {
@@ -102,9 +101,9 @@ class ServicoPage extends HTML {
                 await self.ExcluirServico()
                 
                 let mensagem = 'Serviço excluído com sucesso!'
-                if (this.translationManager.GetIdioma() !== 'pt') {
-                    mensagem = await this.translationManager.TraduceText(mensagem)
-                }
+                // if (this.translationManager.GetIdioma() !== 'pt') {
+                //     mensagem = await this.translationManager.TraduceText(mensagem)
+                // }
                 
                 await self.noty.Noty('success', mensagem)
             })
@@ -114,7 +113,7 @@ class ServicoPage extends HTML {
             await self.SalvarServico()
         })
         
-        await this.translationManager.TraduzirContainer(this.modal.GetHtml())
+        //await this.translationManager.TraduzirContainer(this.modal.GetHtml())
     }
   
     async GetCamposHTML(estrutura_campos) {
@@ -171,49 +170,6 @@ class ServicoPage extends HTML {
         return params
     }
 
-    AddLanguageSwitcher() {
-        const languageContainer = document.createElement('div')
-        languageContainer.className = 'language-switcher'
-        languageContainer.style.position = 'fixed'
-        languageContainer.style.top = '10px'
-        languageContainer.style.right = '10px'
-        languageContainer.style.zIndex = '1000'
-        
-        const languages = [
-            { code: 'pt', name: 'Português' },
-            { code: 'en', name: 'English' },
-            { code: 'es', name: 'Español' },
-            { code: 'fr', name: 'Français' }
-        ]
-        
-        languages.forEach(lang => {
-            const button = document.createElement('button')
-            button.innerText = lang.code.toUpperCase()
-            button.className = 'btn btn-sm ' + 
-                (lang.code === this.translationManager.GetIdioma() ? 'btn-primary' : 'btn-outline-primary')
-            button.style.marginLeft = '5px'
-            
-            button.addEventListener('click', async () => {
-                this.translationManager.SetIdioma(lang.code)
-                this.translationManager.SalvarIdioma()
-                
-                // Atualizar aparência dos botões
-                languageContainer.querySelectorAll('button').forEach(btn => {
-                    btn.className = 'btn btn-sm ' + 
-                        (btn.innerText.toLowerCase() === this.translationManager.GetIdioma() ? 
-                         'btn-primary' : 'btn-outline-primary')
-                })
-                
-                // Traduzir ou restaurar os textos dependendo do idioma
-                await this.translationManager.TraduzirElementosRegistrados()
-            })
-            
-            languageContainer.appendChild(button)
-        })
-        
-        document.body.appendChild(languageContainer)
-    }
-
 
     async SalvarServico() {
         let params = this.ReturnValueCampos()
@@ -230,18 +186,18 @@ class ServicoPage extends HTML {
             if(response.success) {
                 // Traduzir mensagem de sucesso se necessário
                 let mensagem = response.message || 'Serviço salvo com sucesso!'
-                if (this.translationManager.GetIdioma() !== 'pt') {
-                    mensagem = await this.translationManager.TraduceText(mensagem)
-                }
+                // if (this.translationManager.GetIdioma() !== 'pt') {
+                //     mensagem = await this.translationManager.TraduceText(mensagem)
+                // }
                 
                 this.noty.Noty('success', mensagem)
                 this.modal.Hide()
             } else {
                 // Traduzir mensagem de erro
                 let mensagemErro = response.error || 'Erro ao salvar o serviço'
-                if (this.translationManager.GetIdioma() !== 'pt') {
-                    mensagemErro = await this.translationManager.TraduceText(mensagemErro)
-                }
+                // if (this.translationManager.GetIdioma() !== 'pt') {
+                //     mensagemErro = await this.translationManager.TraduceText(mensagemErro)
+                // }
                 
                 this.noty.Noty('error', mensagemErro)
             }
@@ -256,6 +212,50 @@ class ServicoPage extends HTML {
         // footer.Load()
         // this.Find("#footer").appendChild(footer.GetHtml())
     }
+
+
+       // AddLanguageSwitcher() {
+    //     const languageContainer = document.createElement('div')
+    //     languageContainer.className = 'language-switcher'
+    //     languageContainer.style.position = 'fixed'
+    //     languageContainer.style.top = '10px'
+    //     languageContainer.style.right = '10px'
+    //     languageContainer.style.zIndex = '1000'
+        
+    //     const languages = [
+    //         { code: 'pt', name: 'Português' },
+    //         { code: 'en', name: 'English' },
+    //         { code: 'es', name: 'Español' },
+    //         { code: 'fr', name: 'Français' }
+    //     ]
+        
+    //     languages.forEach(lang => {
+    //         const button = document.createElement('button')
+    //         button.innerText = lang.code.toUpperCase()
+    //         button.className = 'btn btn-sm ' + 
+    //             (lang.code === this.translationManager.GetIdioma() ? 'btn-primary' : 'btn-outline-primary')
+    //         button.style.marginLeft = '5px'
+            
+    //         button.addEventListener('click', async () => {
+    //             this.translationManager.SetIdioma(lang.code)
+    //             this.translationManager.SalvarIdioma()
+                
+    //             // Atualizar aparência dos botões
+    //             languageContainer.querySelectorAll('button').forEach(btn => {
+    //                 btn.className = 'btn btn-sm ' + 
+    //                     (btn.innerText.toLowerCase() === this.translationManager.GetIdioma() ? 
+    //                      'btn-primary' : 'btn-outline-primary')
+    //             })
+                
+    //             // Traduzir ou restaurar os textos dependendo do idioma
+    //             await this.translationManager.TraduzirElementosRegistrados()
+    //         })
+            
+    //         languageContainer.appendChild(button)
+    //     })
+        
+    //     document.body.appendChild(languageContainer)
+    // }
 
 }
 

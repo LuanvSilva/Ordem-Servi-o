@@ -64,11 +64,11 @@ class Constantes {
         return {
             GET_CLIENTES: `${this.URL_API}/api/v1/table/cliente`,
             GET_UNIDADE: `${this.URL_API}/api/v1/table/unidade`,
-            GET_SERVICO: `${this.URL_API}/api/v1/table/servico`,
+            GET_SERVICO: `${this.URL_API}/api/v1/table/getServices`,
             GET_STATUS: `${this.URL_API}/api/v1/table/status`,
             GET_CATEGORIA: `${this.URL_API}/api/v1/table/categoria`,
             GET_TIPO_DO_ITEM: `${this.URL_API}/api/v1/table/tipoItem`,
-            GET_ITEM: `${this.URL_API}/api/v1/table/item`,
+            GET_ITEM: `${this.URL_API}/api/v1/table/getItem`,
         }
     }
     

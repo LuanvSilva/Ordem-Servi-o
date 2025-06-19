@@ -13,16 +13,16 @@
             "attrs": { "id":"clientes", "name":"clientes"}
         },
         {
-            "key":"servicos",
+            "key":"servico",
             "type":"Select",
-            "modelo":"servicos",
+            "modelo":"servico",
             "texto_inicial":"Selecione o Serviço",
             "label":"Serviço",
             "placeholder":"Serviços",
             "class":"col-md-4 mt-3",
             "callback": false,
             "options": [],
-            "attrs": { "id":"servicos", "name":"servicos"}
+            "attrs": { "id":"servico", "name":"servico"}
         },
         {
             "key":"Item",

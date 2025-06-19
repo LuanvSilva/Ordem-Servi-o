@@ -26,6 +26,8 @@ class MultiSelectController {
                 return Constantes.URL_GET_MODELOS_TABLE.GET_TIPO_DO_ITEM;
             case 'servico':
                 return Constantes.URL_GET_MODELOS_TABLE.GET_SERVICO;
+            case 'item':
+                return Constantes.URL_GET_MODELOS_TABLE.GET_ITEM;
             default:
                 return null;
         }
